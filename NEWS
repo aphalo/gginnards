@@ -1,0 +1,8 @@
+gginnards 0.0.1 (2018-06-06)
+============================
+
+Methods and functions originally part of 'ggpmisc' but removed in the update
+to 'ggpmisc' 0.3.0. The justification for this is that the functions now in
+this package do not require packages used in the rest of 'ggpmisc'. As these
+methods and fucntions are meant mainly to be used for debugging, having other
+packages loaded is unwise.
