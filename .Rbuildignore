@@ -2,9 +2,8 @@
 ^\.Rproj\.user$
 vignettes/figure
 inst-not
-test
+devel-tests
 ^docs$
 ^tests$
-^_pkgdown.yml$
 ^CONDUCT\.md$
 ^_pkgdown\.yml$

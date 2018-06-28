@@ -1,7 +1,8 @@
 .Rproj.user
 .Rhistory
 .RData
-vignettes/figure/
+vignettes/figure1/
+vignettes/figure2/
 vignettes/*.html
 vignettes/*.R
 inst/doc

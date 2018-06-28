@@ -25,6 +25,10 @@ reference:
     - stat_debug_group
     - stat_debug_panel
   - title: Manipulation of layers
-    desc: Delete and modify stacking order of layers.
+    desc: Delete, insert and modify stacking order of layers.
     contents:
     - delete_layers
+  - title: Manipulation of embedded data
+    desc: Automatically delete unused variables.
+    contents:
+    - drop_vars

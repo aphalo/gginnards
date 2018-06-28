@@ -14,7 +14,7 @@ vignette: >
 
 ```{r, include=FALSE, echo=FALSE}
 library(knitr)
-opts_chunk$set(fig.path = 'figure/debug-pos-', fig.align = 'center', 
+opts_chunk$set(fig.path = 'figure1/', fig.align = 'center', 
                fig.show = 'hold', fig.width = 7, fig.height = 4)
 options(warnPartialMatchArgs = FALSE)
 ```
@@ -49,24 +49,80 @@ old_theme <- theme_set(theme_bw())
 
 ## Introduction
 
-The motivation for writing these stats and geoms is that at the moment it is in
-many cases not possible to set breakpoints inside the code of stats and geoms.
-This can make it tedious to see how these functions work, as one may need to add
-`print` statements to their source code to achieve this. I wrote these functions
-as tools to help in the development of this package itself, and as a way of
-learning myself how data are passed around within the different components of a
-`ggplot` object when it is printed.
+Package 'ggplot2' defines its own class system, and function `ggplot()` can be
+considered as a constructor.
 
-The stats described in this vignette are very simple and print a summary of 
-their `data` input to the console. In addition they also return a data frame
-containing labels suitable for plotting with geom "text" or geom "label".
-However, starting from version 0.2.7 of the package the default geom is "null".
-The values are listed to the console at the time when the `ggplot` object is
-printed.
+```{r}
+class(ggplot())
+```
 
-As shown here, no other _geom_ or _stat_ is required, however in the remaining
-examples we include `geom_point()` to make the data on the plot visible.
+If we pass no arguments an empty plot is constructed.
 
+```{r}
+ggplot()
+```
+
+The structure of bjects of classes `"gg"` `"ggplot"` can be explored with R's 
+method `str()` as any other structured R objects. These allows us to see the
+different _slots_ of these special type of lists.
+
+```{r}
+str(ggplot())
+```
+
+If we pass an argument to parameter `data` the data is copied into the
+list slot with name `data`. As we also map the data to aesthetics, this
+mapping is stored in slot `maaping`. 
+
+```{r}
+str(ggplot(data = my.data, aes(x, y, colour = group)))
+```
+
+A `summary()` method that produces a more compact output is available in recent
+versions of 'ggplot2'. However, it does not reveal the internal structure of
+the objects.
+
+```{r}
+summary(ggplot(data = my.data, aes(x, y, colour = group)) +
+          geom_point())
+```
+
+How does mapping work? _Geometries_ (geoms) and _statistics_ (stats) do not "see"
+the original variable names, instead the `data` passed to them is named according
+to the _aesthetics_ user variables are mapped to. Geoms and stats work in
+tandem, with geoms doing the actual plotting and stats summarizing or 
+transforming the data. It can be instructive to be able to see what data is
+received as input by a geom or stat, and what data is returned by a stat.
+
+Both geoms and stats can have either panel- or group functions. Panel functions
+receive as input the subset of the data that corresponds to a whole panel,
+mapped to the aesthetics and with factors indicating the grouping (set by
+the user by mapping to a discrete scale). Group functions receive as input
+the subset of data correspoding to a single group based on the mapping.
+
+The motivation for writing the "debug" stats and geoms included in package
+'gginnards' is that at the moment it is in many cases not possible to set
+breakpoints inside the code of stats and geoms, because frequently nameless
+panel and group functions are stored in list-like objects used to store 
+the definitions of geoms and stats.
+
+This can make it tedious to analyze how these functions work, as one may need to
+add `print` statements to their source code to see the data. I wrote the "debug"
+stats and geoms as tools to help in the development of my packages 'ggpmisc' and
+'ggspectra', and as a way of learning myself how data are passed around within
+the different components of a `ggplot` object when it is printed.
+
+The stats described in this vignette are very simple and print a summary of
+their `data` input by default to the console, but the function used to dispaly
+the data can be passed as an argument, adding flexibility. The debug stats, in
+addition return a data frame containing labels suitable for plotting with geom
+"text" or geom "label". However, as default geom "null" is used, they do not
+alter the plot itself unless a different geom is explicitly passed as argument.
+
+Because of the way 'ggplot2' works, the values are listed to the console at 
+the time when the `ggplot` object is printed. As shown here, no other geom or 
+stat is required, however in the remaining examples we add `geom_point()` 
+to make the data also visible in the plot.
 
 ```{r}
 ggplot(my.data, aes(x, y)) + stat_debug_group()

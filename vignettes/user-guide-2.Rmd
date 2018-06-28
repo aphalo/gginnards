@@ -14,35 +14,9 @@ vignette: >
 
 ```{r, include=FALSE, echo=FALSE}
 library(knitr)
-opts_chunk$set(fig.path = 'figure/debug-pos-', fig.align = 'center', 
+opts_chunk$set(fig.path = 'figure2/', fig.align = 'center', 
                fig.show = 'hold', fig.width = 7, fig.height = 4)
 options(warnPartialMatchArgs = FALSE)
-```
-
-## Preliminaries
-
-```{r}
-library(ggplot2)
-library(gginnards)
-library(tibble)
-```
-
-We generate some artificial data.
-
-```{r}
-set.seed(4321)
-# generate artificial data
-my.data <- data.frame(
-  group = factor(rep(letters[1:4], each = 30)),
-  panel = factor(rep(LETTERS[1:2], each = 60)),
-  y = rnorm(40)
-)
-```
-
-We change the default theme to an uncluttered one.
-
-```{r}
-old_theme <- theme_set(theme_bw())
 ```
 
 ## Introduction
@@ -52,6 +26,9 @@ as one can simply change the order in which layers are added to a ggplot.
 However, if one uses high level methods or functions that automatically produce
 a full plot using 'ggplot2' internally, one may need to add, move or delete
 layers so as to profit from such canned methods and retain enough flexibility.
+
+Some time ago I needed to manipulate the layers of a `ggplot`, and found a matching question in [matching question in Stackoverflow](\url{https://stackoverflow.com/questions/13407236/remove-a-layer-from-a-ggplot2-chart}). I used the answers found in Stackoverflow as the starting point for
+writing the functions described in this vignette.
 
 In a `ggplot` object, layers reside in a list, and their positions in the list
 determine the plotting order when generating the graphical output. The Grammar
@@ -63,7 +40,7 @@ expectations of the grammar. These functions are, as told above, to be used only
 in exceptional cases. This notwithstanding, they are rather easy to use. The
 user interface is consistent across all of them. Moreover, they are designed to
 return objects that are identical to objects created using the normal syntax
-rules of the Grammar of Graphics**.
+rules of the Grammar of Graphics.
 
 Function | Use                     
 -------- | -------------------------------------
@@ -77,14 +54,39 @@ Function | Use
 `top_layer()`    | obtain position of top layer
 `bottom_layer()`    | obtain position of bottom layer
 
-Although their definitions do not rely on code internal to 'ggplot2', they 
-rely on the internal structure of objects belonging to class `gg` and `ggplot`.
-Consequently, long-term backwards compatibility cannot be guaranteed, or even
-expected.
+Although their definitions do not rely on code internal to 'ggplot2', they rely
+on the internal structure of objects belonging to class `gg` and `ggplot`.
+Consequently, long-term backwards and forward compatibility cannot be
+guaranteed, or even expected.
 
-## Examples
+## Preliminaries
 
-### Preliminaries
+```{r}
+library(ggplot2)
+library(gginnards)
+library(tibble)
+library(magrittr)
+library(stringr)
+```
+
+We generate some artificial data.
+
+```{r}
+set.seed(4321)
+# generate artificial data
+my.data <- data.frame(
+  group = factor(rep(letters[1:4], each = 30)),
+  panel = factor(rep(LETTERS[1:2], each = 60)),
+  y = rnorm(40),
+  unused = "garbage"
+)
+```
+
+We change the default theme to an uncluttered one.
+
+```{r}
+old_theme <- theme_set(theme_bw())
+```
 
 We generate a plot to be used later to demonstrate the use of the functions.
 
@@ -96,6 +98,8 @@ p <- ggplot(my.data, aes(group, y)) +
 p
 ```
 
+## Exploring how ggplots are stored
+
 To display textual information about a `gg` object we use method `summary()`,
 while methods `print()` and `plot()` will display the actual plot.
 
@@ -103,7 +107,16 @@ while methods `print()` and `plot()` will display the actual plot.
 summary(p)
 ```
 
-Layers in a plot are stored in a list. The output of `summary()` is compact.
+Layers in a ggplot object are stored in a list as nameless members. This means
+that they have to be accessed using numerical indexes, and that we need to use
+some indirect way of finding the indexes correspiónding to the layers of
+interest.
+
+```{r}
+names(p$layers)
+```
+
+The output of `summary()` is compact.
 
 ```{r}
 summary(p$layers)
@@ -116,22 +129,13 @@ the information in a layer.
 print(p$layers)
 ```
 
-To see all the fields, one needs to use `str()`, which we use here for a single layer.
+To see all the fields, we need to use `str()`, which we use here for a single layer.
 
 ```{r}
 str(p$layers[[1]])
 ```
 
-```{r}
-summary(theme_bw())
-```
-
-
-```{r}
-str(theme_bw())
-```
-
-### Manipulation of plot layers
+## Manipulation of plot layers
 
 We start by using `which_layers()` as it produces simply a vector of indexes into
 the list of layers. The third statement is useless here, but demonstrates how
@@ -145,7 +149,7 @@ which_layers(p, idx = 1L)
 
 We can also easily extract matching layers with `extract_layers()`. Here one layer
 is returned, and displayed using the default `print()` method. Method `str()`
-can be used as shown above.
+can also be used as shown above.
 
 ```{r}
 extract_layers(p, "GeomPoint")
@@ -178,7 +182,7 @@ list of layers not being moved.
 move_layers(p, "GeomPoint", position = "top")
 ```
 
-Same operation but using a relative position. A positive value for `shift` is 
+The equivalent operation using a relative position. A positive value for `shift` is 
 interpreted as an upward displacement and a negative one as downwards 
 displacement. 
 
@@ -217,6 +221,102 @@ p1
 delete_layers(p1, "GeomText")
 ```
 
+## Other manipulations
 
+We very briefly mention in this section how to manipulate other elements of
+of `ggplot` objects. The output from the examples in this section is not
+included is this vignette.
+
+For replacing other elements in `ggplot` objects we can in general use methods
+defined in 'ggplot2'.
+
+### Replacing scales, coordinates, whole themes and data.
+
+Other elements that are normally _added_ and _replaced_ in plot with operator 
+`+`, such as scales. To the default data stored in a `ggplot` object operator 
+`%+%` is used. 
+
+### Editing theme elements
+
+Method `summary()` is available for themes.
+
+```{r,eval=FALSE}
+summary(theme_bw())
+```
+
+However, to see the actual values stored, we need to use `str()`.
+
+```{r, eval=FALSE}
+str(theme_bw())
+```
+
+Themes can be modified using `theme()`. See the 'ggplot2' documentation for details.
+
+### Removing unused data
+
+When the data frame passed as data contains many columns and rows, it is stored
+in whole, even the data columns not mapped to any aesthetic. In many cases this
+does not matter, but in the case of big datasets, the use of RAM can rapidly add
+up, and in addition the printing of each plot can slow down significantly.
+
+To simplify such objects we need to find which variables are mapped to aesthetics
+and which are not. Here is a naive attempt at handling the possibiliy of mappings
+to expressions involving computations and multiple variables per mapping, and
+facets.
+
+```{r}
+mapped.vars <- 
+  gsub("[~*\\%^]", " ", as.character(p$mapping)) %>%
+  str_split(boundary("word")) %>%
+  unlist() %>%
+  c(names(p$facet$params$facets))
+```
+
+We need also to find which variables are present in the data.
+
+```{r}
+data.vars <- names(p$data)
+```
+
+Find which variables in data are not used, and delete them from the data.
+
+```{r}
+unused.vars <- setdiff(data.vars, c(mapped.vars))
+keep.idxs <- which(!data.vars %in% unused.vars)
+```
+
+```{r}
+p1 <- p
+p1$data <- p$data[ , keep.idxs]
+```
+For a data set this small, removing a single column saves little space.
+
+```{r}
+object.size(my.data)
+object.size(p)
+object.size(p1)
+```
+
+The plot has not changed.
+
+```{r}
+p1
+```
+
+We can assemble everything into a function for convenience. Such a  
+function, based on a rough and barely tested piece of code is included in the 
+package as `drop_vars()`.
+
+```{r}
+drop_vars(p)
+```
+
+In principle, one could have expected R not to make a copy of the data in 
+memory for each `ggplot` object, however, the ggplot code seems to modify the 
+argument passed to `data` triggering a real copy operation. In any case during
+printing and when saved to disk, even as part of the environment, avoiding to
+carry along unused data can be beneficial. Of course, removing unused data
+means that it will not be available if we want to add more layers to the same 
+saved ggplot object after dropping unused variables.
 
 
