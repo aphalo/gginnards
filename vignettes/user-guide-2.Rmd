@@ -257,12 +257,20 @@ Themes can be modified using `theme()`. See the 'ggplot2' documentation for deta
 When the data frame passed as data contains many columns and rows, it is stored
 in whole, even the data columns not mapped to any aesthetic. In many cases this
 does not matter, but in the case of big datasets, the use of RAM can rapidly add
-up, and in addition the printing of each plot can slow down significantly.
+up, and in addition the printing of each plot can slow down significantly. The reason for storing the whole data set is that it is always possible to add
+layers and consequently only the user can know which variables can be removed
+or not.
+
+One obvious way out is for the user the select the required columns and pass
+only these to the 'ggplot' constructor. A less efficient alternative, but
+possibly easier to use for some users, is for users to drop the unused
+variables when they consider that a plot is ready. We show here how to do this.
 
 To simplify such objects we need to find which variables are mapped to aesthetics
 and which are not. Here is a naive attempt at handling the possibiliy of mappings
 to expressions involving computations and multiple variables per mapping, and
-facets.
+facets. This is naive in that it ignores mapping within layers and variables
+used for faceting.
 
 ```{r}
 mapped.vars <- 
@@ -289,6 +297,7 @@ keep.idxs <- which(!data.vars %in% unused.vars)
 p1 <- p
 p1$data <- p$data[ , keep.idxs]
 ```
+
 For a data set this small, removing a single column saves little space.
 
 ```{r}
@@ -296,27 +305,31 @@ object.size(my.data)
 object.size(p)
 object.size(p1)
 ```
-
+```{r}
+names(my.data)
+names(p$data)
+names(p1$data)
+```
 The plot has not changed.
 
 ```{r}
 p1
 ```
 
-We can assemble everything into a function for convenience. Such a  
-function, based on a rough and barely tested piece of code is included in the 
-package as `drop_vars()`.
+We can assemble all the code into a function for convenience, and expand the code
+to also recognize mappings within layers and variables used in faceting. Such a  
+function, only cursorily tested is included in the 
+package as `drop_vars()`. Given its design the most likely failure mode is
+keeping too many variables rather than removing too many.
 
 ```{r}
 drop_vars(p)
 ```
 
-In principle, one could have expected R not to make a copy of the data in 
-memory for each `ggplot` object, however, the ggplot code seems to modify the 
-argument passed to `data` triggering a real copy operation. In any case during
-printing and when saved to disk, even as part of the environment, avoiding to
-carry along unused data can be beneficial. Of course, removing unused data
-means that it will not be available if we want to add more layers to the same 
-saved ggplot object after dropping unused variables.
-
-
+In principle, one could have expected R not to make a copy of the data in memory
+for each `ggplot` object, however, the 'ggplot2' code seems to modify the
+argument passed to its `data` parameter triggering a real copy operation. In any
+case during printing and when saved to disk, even as part of the environment,
+avoiding to carry along unused data can be beneficial. Of course, removing
+unused data means that it will not be available if we want to add more layers to
+the same saved ggplot object after dropping unused variables.
