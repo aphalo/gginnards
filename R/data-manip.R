@@ -49,7 +49,7 @@ drop_vars <- function(p, keep.vars = character(), guess.vars = TRUE) {
     mappings <- c(mappings,
                   names(p$facet$params$facets), # facet wrap
                   names(p$facet$params$rows),   # facet grid
-                  names(p$facet$params$cols))   # facet grid)
+                  names(p$facet$params$cols))   # facet grid
     mapped.vars <-
       gsub("[~*\\%^]", " ", mappings) %>%
       stringr::str_split(pattern = stringr::boundary("word")) %>%
@@ -60,6 +60,6 @@ drop_vars <- function(p, keep.vars = character(), guess.vars = TRUE) {
   data.vars <- names(p$data)
   unused.vars <- setdiff(data.vars, union(mapped.vars, keep.vars))
   keep.idxs <- which(!data.vars %in% unused.vars)
-  p$data <- p$data[ , keep.idxs]
+  p$data <- dplyr::select(p$data, keep.idxs)
   p
 }

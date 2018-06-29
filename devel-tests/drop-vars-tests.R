@@ -1,6 +1,8 @@
 library(ggplot2)
 library(gginnards)
 
+class(mpg)
+
 mpg
 
 p1 <- ggplot(mpg, aes(class, cty)) +
