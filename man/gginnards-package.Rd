@@ -9,7 +9,9 @@
 Extensions to 'ggplot2' providing low-level debug tools: statistics
 and geometries reporting data passed to compute_group() and compute_panel()
 functions and to geometries. Layer manipulation: funtions for deletion,
-insertion, extraction and reordering of layers of ggplot objects.
+insertion, extraction and reordering of layers of ggplot objects. Data
+manipulation: function for deletion of unused variables from the
+data object embbeded in ggplot objects.
 }
 \details{
 The new facilities for cleanly defining new stats and geoms added to

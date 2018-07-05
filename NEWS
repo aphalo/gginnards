@@ -1,8 +1,10 @@
-gginnards 0.0.1 (2018-06-29)
+gginnards 0.0.1 (2018-07-05)
 ============================
 
 Methods and functions originally part of 'ggpmisc' but removed in the update
 to 'ggpmisc' 0.3.0 are included in this new package.
-Add new function drop_vars() to automatically drop from the data object embedded
-in "gg" objects the variables neither mapped to aesthetics nor used for facetting.
+
+* Add new function drop_vars() to automatically drop from the data object
+embedded in "gg" "ggplot" objects the variables neither mapped to aesthetics nor
+used for faceting.
 

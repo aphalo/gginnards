@@ -1,5 +1,5 @@
 ---
-title: "User Guide: 2 Manipulation of plot layers"
+title: "User Guide: 2 Manipulation of ggplots"
 subtitle: "'gginnards' `r packageVersion('gginnards')`"
 author: "Pedro J. Aphalo"
 date: "`r packageDate('gginnards')`"
@@ -22,17 +22,24 @@ options(warnPartialMatchArgs = FALSE)
 ## Introduction
 
 The functions described here are not expected to be useful in everyday plotting
-as one can simply change the order in which layers are added to a ggplot.
-However, if one uses high level methods or functions that automatically produce
-a full plot using 'ggplot2' internally, one may need to add, move or delete
-layers so as to profit from such canned methods and retain enough flexibility.
+as when using the _grammar of graphics_ one can simply change the order in which
+layers are added to a ggplot, or remove unused variables from the data before
+passing it as argument to the `ggplot()` constructor.
 
-Some time ago I needed to manipulate the layers of a `ggplot`, and found a matching question in [matching question in Stackoverflow](\url{https://stackoverflow.com/questions/13407236/remove-a-layer-from-a-ggplot2-chart}). I used the answers found in Stackoverflow as the starting point for
-writing the functions described in this vignette.
+However, if one uses high level methods like `autoplot()` or other functions
+that automatically produce a full plot using 'ggplot2' internally, one may need
+to add, move or delete layers so as to profit from such canned methods and
+retain enough flexibility.
+
+Some time ago I needed to manipulate the layers of a `ggplot`, and found a
+matching question in [matching question in
+Stackoverflow](\url{https://stackoverflow.com/questions/13407236/remove-a-layer-from-a-ggplot2-chart}).
+I used the answers found in Stackoverflow as the starting point for writing the
+functions described in the first part of this vignette.
 
 In a `ggplot` object, layers reside in a list, and their positions in the list
-determine the plotting order when generating the graphical output. The Grammar
-of Graphics treats the list of layers as a _stack_ using only _push_ operations.
+determine the plotting order when generating the graphical output. The _grammar
+of graphics_ treats the list of layers as a _stack_ using only _push_ operations.
 In other words, always the most recently added layer resides at the end of the
 list, and over-plots all layers previously added. The functions described in
 this vignette allow overriding the **normal** syntax at the cost of breaking the
@@ -40,7 +47,8 @@ expectations of the grammar. These functions are, as told above, to be used only
 in exceptional cases. This notwithstanding, they are rather easy to use. The
 user interface is consistent across all of them. Moreover, they are designed to
 return objects that are identical to objects created using the normal syntax
-rules of the Grammar of Graphics.
+rules of the _grammar of graphics_. The table below list the names and purpose
+of these functions.
 
 Function | Use                     
 -------- | -------------------------------------
@@ -109,7 +117,7 @@ summary(p)
 
 Layers in a ggplot object are stored in a list as nameless members. This means
 that they have to be accessed using numerical indexes, and that we need to use
-some indirect way of finding the indexes correspiónding to the layers of
+some indirect way of finding the indexes corresponding to the layers of
 interest.
 
 ```{r}
@@ -254,23 +262,26 @@ Themes can be modified using `theme()`. See the 'ggplot2' documentation for deta
 
 ### Removing unused data
 
-When the data frame passed as data contains many columns and rows, it is stored
-in whole, even the data columns not mapped to any aesthetic. In many cases this
-does not matter, but in the case of big datasets, the use of RAM can rapidly add
-up, and in addition the printing of each plot can slow down significantly. The reason for storing the whole data set is that it is always possible to add
-layers and consequently only the user can know which variables can be removed
-or not.
+The argument passed through `data` to `ggplot()` or a layer is stored
+in whole in the `ggplot` object, even the data columns not mapped to any 
+aesthetic. In most cases this does not matter, but in the case of huge datasets, 
+the use of RAM can add up, and occasionally printing of each plot can slow down. 
+The reason for storing the whole data set is that it is always possible to add
+layers and consequently only the user can know which variables can be removed or
+not.
 
-One obvious way out is for the user the select the required columns and pass
-only these to the 'ggplot' constructor. A less efficient alternative, but
+One obvious way of not storing unused data in `ggplot` objects is for the user 
+to select the required variables and pass
+only these to the `ggplot()` constructor or layers. A less efficient alternative, but
 possibly easier to use for some users, is for users to drop the unused
-variables when they consider that a plot is ready. We show here how to do this.
+variables when they consider that a plot is ready. We show here how to do this,
+with a function that started as a self-imposed exercise.
 
-To simplify such objects we need to find which variables are mapped to aesthetics
-and which are not. Here is a naive attempt at handling the possibiliy of mappings
-to expressions involving computations and multiple variables per mapping, and
-facets. This is naive in that it ignores mapping within layers and variables
-used for faceting.
+To simplify the embedded data objects we need to find which variables are mapped
+to aesthetics and which are not. Here is a naive attempt at handling the
+possibility of mappings to expressions involving computations and multiple
+variables per mapping, and facets. This is naive in that it ignores mapping
+within layers and variables used for faceting.
 
 ```{r}
 mapped.vars <- 
@@ -286,7 +297,7 @@ We need also to find which variables are present in the data.
 data.vars <- names(p$data)
 ```
 
-Find which variables in data are not used, and delete them from the data.
+Next we identify which variables in `data` are not used, and delete them.
 
 ```{r}
 unused.vars <- setdiff(data.vars, c(mapped.vars))
@@ -298,7 +309,7 @@ p1 <- p
 p1$data <- p$data[ , keep.idxs]
 ```
 
-For a data set this small, removing a single column saves little space.
+For a data set this small, removing a single column saves very little space.
 
 ```{r}
 object.size(my.data)
@@ -326,10 +337,12 @@ keeping too many variables rather than removing too many.
 drop_vars(p)
 ```
 
-In principle, one could have expected R not to make a copy of the data in memory
-for each `ggplot` object, however, the 'ggplot2' code seems to modify the
-argument passed to its `data` parameter triggering a real copy operation. In any
-case during printing and when saved to disk, even as part of the environment,
-avoiding to carry along unused data can be beneficial. Of course, removing
-unused data means that it will not be available if we want to add more layers to
-the same saved ggplot object after dropping unused variables.
+It is yet not clear to me when R does make a copy of the data embedded in a
+`ggplot` object and when not. R's policy is to copy data objects lazily, or
+only when modified. Does the 'ggplot2' code modify the
+argument passed to its `data` parameter triggering a real copy operation or not?
+
+In any case when saving `ggplot` objects to disk avoiding to carry along unused
+data can be beneficial. Of course, removing unused data means that they will not
+be available at a later time if we want to add more layers to the same saved
+ggplot object.

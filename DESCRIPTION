@@ -1,8 +1,8 @@
 Package: gginnards
 Type: Package
 Title: Explore the Innards of 'ggplot'2' Objects
-Version: 0.0.0.9002
-Date: 2018-06-28
+Version: 0.0.1
+Date: 2018-07-05
 Authors@R:
     c(
     person("Pedro J.", "Aphalo", email = "pedro.aphalo@helsinki.fi", role = c("aut", "cre"), comment = c(ORCID = "0000-0003-3385-972X"))    )
@@ -10,14 +10,16 @@ Maintainer: Pedro J. Aphalo <pedro.aphalo@helsinki.fi>
 Description: Extensions to 'ggplot2' providing low-level debug tools: statistics
     and geometries reporting data passed to compute_group() and compute_panel() 
     functions and to geometries. Layer manipulation: funtions for deletion,
-    insertion, extraction and reordering of layers of ggplot objects.
+    insertion, extraction and reordering of layers of ggplot objects. Data
+    manipulation: function for deletion of unused variables from the
+    data object embbeded in ggplot objects.
 License: GPL (>= 2)
 LazyData: TRUE
 LazyLoad: TRUE
 ByteCompile: TRUE
 Depends:
     R (>= 3.3.0),
-    ggplot2 (> 2.2.1)
+    ggplot2 (>= 3.0.0)
 Imports:
     methods,
     grid,
