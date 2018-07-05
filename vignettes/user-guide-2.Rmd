@@ -1,5 +1,5 @@
 ---
-title: "User Guide: 2 Manipulation of ggplots"
+title: "User Guide: 2 Manipulating ggplots"
 subtitle: "'gginnards' `r packageVersion('gginnards')`"
 author: "Pedro J. Aphalo"
 date: "`r Sys.Date()`"
@@ -7,7 +7,7 @@ output:
   rmarkdown::html_vignette:
     toc: yes
 vignette: >
-  %\VignetteIndexEntry{User Guide: 4 Manipulation of plot layers}
+  %\VignetteIndexEntry{User Guide: 2 Manipulating ggplots}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -33,7 +33,7 @@ retain enough flexibility.
 
 Some time ago I needed to manipulate the layers of a `ggplot`, and found a
 matching question in [matching question in
-Stackoverflow](\url{https://stackoverflow.com/questions/13407236/remove-a-layer-from-a-ggplot2-chart}).
+Stackoverflow](https://stackoverflow.com/questions/13407236/remove-a-layer-from-a-ggplot2-chart).
 I used the answers found in Stackoverflow as the starting point for writing the
 functions described in the first part of this vignette.
 
