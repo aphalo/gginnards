@@ -4,14 +4,14 @@
 \name{gginnards-package}
 \alias{gginnards}
 \alias{gginnards-package}
-\title{gginnards: Explore the Innards of 'ggplot'2' Objects}
+\title{gginnards: Explore the Innards of 'ggplot2' Objects}
 \description{
 Extensions to 'ggplot2' providing low-level debug tools: statistics
 and geometries reporting data passed to compute_group() and compute_panel()
-functions and to geometries. Layer manipulation: funtions for deletion,
-insertion, extraction and reordering of layers of ggplot objects. Data
+functions and to geometries. Layer manipulation: functions for deletion,
+insertion, extraction and reordering of layers of "ggplot" objects. Data
 manipulation: function for deletion of unused variables from the
-data object embbeded in ggplot objects.
+data object embedded in "ggplot" objects.
 }
 \details{
 The new facilities for cleanly defining new stats and geoms added to

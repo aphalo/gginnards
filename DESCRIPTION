@@ -1,6 +1,6 @@
 Package: gginnards
 Type: Package
-Title: Explore the Innards of 'ggplot'2' Objects
+Title: Explore the Innards of 'ggplot2' Objects
 Version: 0.0.1
 Date: 2018-07-05
 Authors@R:
@@ -12,7 +12,7 @@ Description: Extensions to 'ggplot2' providing low-level debug tools: statistics
     functions and to geometries. Layer manipulation: functions for deletion,
     insertion, extraction and reordering of layers of "ggplot" objects. Data
     manipulation: function for deletion of unused variables from the
-    data object embedded in ggplot objects.
+    data object embedded in "ggplot" objects.
 License: GPL (>= 2)
 LazyData: TRUE
 LazyLoad: TRUE
