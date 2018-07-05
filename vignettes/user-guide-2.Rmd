@@ -2,7 +2,7 @@
 title: "User Guide: 2 Manipulation of ggplots"
 subtitle: "'gginnards' `r packageVersion('gginnards')`"
 author: "Pedro J. Aphalo"
-date: "`r packageDate('gginnards')`"
+date: "`r Sys.Date()`"
 output: 
   rmarkdown::html_vignette:
     toc: yes
