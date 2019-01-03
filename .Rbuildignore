@@ -5,3 +5,4 @@ devel-tests
 ^docs$
 ^CONDUCT\.md$
 ^_pkgdown\.yml$
+build-binary-from-source\.sh

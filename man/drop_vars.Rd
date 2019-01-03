@@ -2,9 +2,15 @@
 % Please edit documentation in R/data-manip.R
 \name{drop_vars}
 \alias{drop_vars}
+\alias{mapped_vars}
+\alias{data_vars}
 \title{Drop unused variables from data}
 \usage{
 drop_vars(p, keep.vars = character(), guess.vars = TRUE)
+
+mapped_vars(p, invert = FALSE)
+
+data_vars(p)
 }
 \arguments{
 \item{p}{ggplot Plot object with embedded data.}
@@ -13,6 +19,16 @@ drop_vars(p, keep.vars = character(), guess.vars = TRUE)
 
 \item{guess.vars}{logical Flag indicating whether to find used variables
 automatically.}
+
+\item{invert}{logical If TRUE return indices for elements of \code{data} that
+are not mapped to any aesthetic or facet.}
+}
+\value{
+character vector with names of mapped variables in the default
+   data object.
+
+character vector with names of mapped variables in the default
+   data object.
 }
 \description{
 Automatically remove unused variables from the data object embedded in a
@@ -39,15 +55,34 @@ library(ggplot2)
 p <- ggplot(mpg, aes(factor(year), (cty + hwy) / 2)) +
   geom_boxplot() +
   facet_grid(. ~ class)
-p
 
-p.dp <- drop_vars(p)
+mapped_vars(p) # those in use
+mapped_vars(p, invert = TRUE) # those not used
+
+p.dp <- drop_vars(p) # we drop unused vars
+
+# number of columns in the data member
+ncol(p$data)
+ncol(p.dp$data)
+
+# which vars are in the data member
+data_vars(p)
+data_vars(p.dp)
+
+# which variables in data are used in the plot
+mapped_vars(p)
+mapped_vars(p.dp)
+
+# the plots identical
+p
 p.dp
 
-object.size(p)
-object.size(p.dp)
+# structure and size of p
+str(p, max.level = 0)
+str(p.dp, max.level = 0) # smaller in size
 
-names(p$data)
-names(p.dp$data)
+# structure and size of p["data"]
+str(p, components = "data")
+str(p.dp, components = "data") # smaller in size
 
 }

@@ -1,3 +1,10 @@
+gginnards 0.0.2 (2019-01-02)
+============================
+
+* Implement str() method for class "ggplot".
+* Add functions mapped_vars() and data_vars() to list variables in the data
+member of objects of class "ggplot".
+
 gginnards 0.0.1 (2018-07-05)
 ============================
 

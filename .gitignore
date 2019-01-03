@@ -5,3 +5,4 @@ vignettes/figure1/
 vignettes/figure2/
 vignettes/*.html
 vignettes/*.R
+build-binary-from-source.sh

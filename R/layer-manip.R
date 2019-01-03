@@ -87,7 +87,7 @@ delete_layers <- function(x, match_type = NULL, idx = NULL) {
 #' @export
 #'
 append_layers <- function(x, object, position = "top") {
-  stopifnot(is.ggplot(x))
+  stopifnot(ggplot2::is.ggplot(x))
   stopifnot(methods::is(object, "Layer") ||
               is.list(object) && all(sapply(object, methods::is, class2 = "Layer")) ||
               is.list(object) && length(object) == 0L)
@@ -172,7 +172,7 @@ extract_layers <- function(x, match_type = NULL, idx = NULL) {
 #' @export
 #'
 top_layer <- function(x) {
-  stopifnot(is.ggplot(x))
+  stopifnot(ggplot2::is.ggplot(x))
   ifelse(length(x$layers) > 0L, length(x$layers), NA_integer_)
 }
 
@@ -181,7 +181,7 @@ top_layer <- function(x) {
 #' @export
 #'
 bottom_layer <- function(x) {
-  stopifnot(is.ggplot(x))
+  stopifnot(ggplot2::is.ggplot(x))
   ifelse(length(x$layers) > 0L, 1L, NA_integer_)
 }
 
@@ -190,7 +190,7 @@ bottom_layer <- function(x) {
 #' @export
 #'
 num_layers <- function(x) {
-  stopifnot(is.ggplot(x))
+  stopifnot(ggplot2::is.ggplot(x))
   length(x$layers)
 }
 
@@ -208,7 +208,7 @@ num_layers <- function(x) {
 #' @keywords internal
 #'
 edit_layers <- function(x, match_type = NULL, position = 0L, idx = NULL, action) {
-  stopifnot(is.ggplot(x))
+  stopifnot(ggplot2::is.ggplot(x))
   stopifnot(xor(is.null(match_type), is.null(idx) ))
   if (length(position) > 1) {
     warning("'position' is not vectorized, using 'position[1]'")

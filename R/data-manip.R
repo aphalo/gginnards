@@ -28,32 +28,40 @@
 #' p <- ggplot(mpg, aes(factor(year), (cty + hwy) / 2)) +
 #'   geom_boxplot() +
 #'   facet_grid(. ~ class)
-#' p
 #'
-#' p.dp <- drop_vars(p)
+#' mapped_vars(p) # those in use
+#' mapped_vars(p, invert = TRUE) # those not used
+#'
+#' p.dp <- drop_vars(p) # we drop unused vars
+#'
+#' # number of columns in the data member
+#' ncol(p$data)
+#' ncol(p.dp$data)
+#'
+#' # which vars are in the data member
+#' data_vars(p)
+#' data_vars(p.dp)
+#'
+#' # which variables in data are used in the plot
+#' mapped_vars(p)
+#' mapped_vars(p.dp)
+#'
+#' # the plots identical
+#' p
 #' p.dp
 #'
-#' object.size(p)
-#' object.size(p.dp)
+#' # structure and size of p
+#' str(p, max.level = 0)
+#' str(p.dp, max.level = 0) # smaller in size
 #'
-#' names(p$data)
-#' names(p.dp$data)
+#' # structure and size of p["data"]
+#' str(p, components = "data")
+#' str(p.dp, components = "data") # smaller in size
 #'
 drop_vars <- function(p, keep.vars = character(), guess.vars = TRUE) {
+  stopifnot(ggplot2::is.ggplot(p))
   if (guess.vars) {
-    # find all mappings
-    mappings <- as.character(p$mapping)
-    for (l in p$layers) {
-      mappings <- c(mappings, as.character(l$mapping))
-    }
-    mappings <- c(mappings,
-                  names(p$facet$params$facets), # facet wrap
-                  names(p$facet$params$rows),   # facet grid
-                  names(p$facet$params$cols))   # facet grid
-    mapped.vars <-
-      gsub("[~*\\%^]", " ", mappings) %>%
-      stringr::str_split(pattern = stringr::boundary("word")) %>%
-      unlist()
+    mapped.vars <- mapped_vars(p)
   } else {
     mapped.vars <- character()
   }
@@ -62,4 +70,48 @@ drop_vars <- function(p, keep.vars = character(), guess.vars = TRUE) {
   keep.idxs <- which(!data.vars %in% unused.vars)
   p$data <- dplyr::select(p$data, keep.idxs)
   p
+}
+
+#' @rdname drop_vars
+#'
+#' @param invert logical If TRUE return indices for elements of \code{data} that
+#'    are not mapped to any aesthetic or facet.
+#'
+#' @return character vector with names of mapped variables in the default
+#'    data object.
+#'
+#' @export
+#'
+mapped_vars <- function(p, invert = FALSE) {
+  stopifnot(ggplot2::is.ggplot(p))
+  # find all mappings
+  mappings <- as.character(p$mapping)
+  for (l in p$layers) {
+    mappings <- c(mappings, as.character(l$mapping))
+  }
+  mappings <- c(mappings,
+                names(p$facet$params$facets), # facet wrap
+                names(p$facet$params$rows),   # facet grid
+                names(p$facet$params$cols))   # facet grid
+  mapped.vars <-
+    gsub("[~*\\%^]", " ", mappings) %>%
+    stringr::str_split(pattern = stringr::boundary("word")) %>%
+    unlist()
+  if (invert) {
+    setdiff(names(p$data), mapped.vars)
+  } else {
+    intersect(names(p$data), mapped.vars)
+  }
+}
+
+#' @rdname drop_vars
+#'
+#' @return character vector with names of mapped variables in the default
+#'    data object.
+#'
+#' @export
+#'
+data_vars <- function(p) {
+  stopifnot(ggplot2::is.ggplot(p))
+  colnames(p$data)
 }

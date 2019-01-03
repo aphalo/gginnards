@@ -76,3 +76,4 @@ ggplot(my.df, aes(x,y)) + geom_point() + facet_wrap(~group) + stat_debug_panel()
 \seealso{
 Other diagnosis functions: \code{\link{stat_debug_group}}
 }
+\concept{diagnosis functions}
