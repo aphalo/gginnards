@@ -1,4 +1,4 @@
-#' Layer manipulation
+#' Layer manipulation.
 #'
 #' Delete, move or append one or more layers in a ggplot.
 #'

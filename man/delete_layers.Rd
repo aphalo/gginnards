@@ -10,7 +10,7 @@
 \alias{top_layer}
 \alias{bottom_layer}
 \alias{num_layers}
-\title{Layer manipulation}
+\title{Layer manipulation.}
 \usage{
 delete_layers(x, match_type = NULL, idx = NULL)
 

@@ -1,4 +1,4 @@
-#' Explore and manipulate the embedded data
+#' Explore and manipulate the embedded data.
 #'
 #' Automatically remove unused variables from the "default" data object embedded
 #' in a \code{gg} or \code{ggplot} object with \code{drop_vars()}.

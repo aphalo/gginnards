@@ -29,6 +29,10 @@ reference:
     contents:
     - delete_layers
   - title: Manipulation of embedded data
-    desc: Automatically delete unused variables.
+    desc: Automatically delete unused variables, extract attributes, and identify which variables in data are used.
     contents:
     - drop_vars
+  - title: Explore the innards of objects.
+    desc: Specialization of `str()`.
+    contents:
+    - str

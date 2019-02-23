@@ -23,7 +23,6 @@ Depends:
 Imports:
     utils,
     methods,
-    grid,
     rlang (>= 0.3.1),
     stringr (>= 1.4.0),
     magrittr (>= 1.5),

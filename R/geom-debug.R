@@ -78,7 +78,7 @@ GeomNull <-
 
 # Debug geom --------------------------------------------------------------
 
-#' Geom which prints input data to console
+#' Geom which prints input data to console.
 #'
 #' The debug geom is used to print to the console a summary of the data being
 #' received by geoms as input \code{data} data frame.

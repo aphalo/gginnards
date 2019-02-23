@@ -5,7 +5,7 @@
 \alias{mapped_vars}
 \alias{data_vars}
 \alias{data_attributes}
-\title{Explore and manipulate the embedded data}
+\title{Explore and manipulate the embedded data.}
 \usage{
 drop_vars(p, keep.vars = character(), guess.vars = TRUE)
 

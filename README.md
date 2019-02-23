@@ -4,7 +4,7 @@
 [![cran checks](https://cranchecks.info/badges/worst/gginnards)](https://cran.r-project.org/web/checks/check_results_gginnards.html)
 
 Package '**gginnards**' (Explore the innards of 'ggplot2') is a set of
-extensions to R package 'ggplot2' (>= 2.3.0) useful when learning how to
+extensions to R package 'ggplot2' (>= 3.1.0) and tools useful when learning how to
 write extensions and when debugging newly defined stats and geoms.  
 
 Statistics and geometries that echo their data input to the R console and/or 
@@ -17,7 +17,8 @@ position, and reordering of the existing layers.
 
 A function to drop unused variables from the data object embedded in `gg` and
 `ggplot` objects serves as an additional example of a manipulation that may
-be useful when dealing with very large datasets.
+be useful when dealing with very large datasets. Companion functions are
+defined to explore the embedded data.
 
 This package was born when several functions were removed from package 
 'ggpmisc'. These functions are meant mainly to be used for debugging and

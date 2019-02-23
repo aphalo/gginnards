@@ -1,4 +1,4 @@
-#' Show the structure of a ggplot object
+#' Show the structure of a ggplot object.
 #'
 #' A \code{str()} method tailored to objects of class \code{"ggplot"}. It adds
 #' to the output the size of the object, and the ability to subset
@@ -39,6 +39,8 @@
 #' @importFrom utils str
 #'
 #' @export
+#'
+#' @name str
 #'
 #' @examples
 #' library(ggplot2)
