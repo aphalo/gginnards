@@ -1,7 +1,7 @@
 Package: gginnards
 Type: Package
 Title: Explore the Innards of 'ggplot2' Objects
-Version: 0.0.1.9001
+Version: 0.0.2
 Date: 2019-02-23
 Authors@R:
     c(
