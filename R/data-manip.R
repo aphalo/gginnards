@@ -1,23 +1,26 @@
-#' Drop unused variables from data
+#' Explore and manipulate the embedded data
 #'
-#' Automatically remove unused variables from the data object embedded in a
-#' \code{gg} or \code{ggplot} object.
+#' Automatically remove unused variables from the "default" data object embedded
+#' in a \code{gg} or \code{ggplot} object with \code{drop_vars()}.
 #'
 #' @param p ggplot Plot object with embedded data.
 #' @param keep.vars character Names of unused variables to be kept.
 #' @param guess.vars logical Flag indicating whether to find used variables
-#'    automatically.
+#'   automatically.
 #'
 #' @export
 #'
-#' @note This function is under development and not yet thoroughly tested! It is
-#'   a demonstration of how one can manipulate the internals of \code{ggplot}
-#'   objects. This function may stop working after some future update to the
-#'   'ggplot2' package.
+#' @note These functions are under development and not yet thoroughly tested!
+#'   They are a demonstration of how one can manipulate the internals of
+#'   \code{ggplot} objects in 'ggplot2' version 3.1.0. These functions may stop
+#'   working after some future update to the 'ggplot2' package. Although I will
+#'   maintain this package for use in some of my other packages, there is no
+#'   guarantee that I will be able to achieve this transparently.
 #'
-#'   Rather than using this function after creating the \code{ggplot} object it
-#'   may be more efficient to extract the variables of interest and pass a data
-#'   frame containing only these to the \code{ggplot()} constructor.
+#'   Obviously, rather than using function \code{drop_vars()} after creating the
+#'   \code{ggplot} object it is usually more efficient to select the variables of
+#'   interest and pass a data frame containing only these to the \code{ggplot()}
+#'   constructor.
 #'
 #' @section Warning!: The current implementation drops variables only from the
 #'   default data object. Data objects within layers are not modified.
@@ -106,7 +109,7 @@ mapped_vars <- function(p, invert = FALSE) {
 
 #' @rdname drop_vars
 #'
-#' @return character vector with names of mapped variables in the default
+#' @return character vector with names of all variables in the default
 #'    data object.
 #'
 #' @export
@@ -115,3 +118,15 @@ data_vars <- function(p) {
   stopifnot(ggplot2::is.ggplot(p))
   colnames(p$data)
 }
+
+#' @rdname drop_vars
+#'
+#' @return list containing all attributes of the default data object.
+#'
+#' @export
+#'
+data_attributes <- function(p) {
+  stopifnot(ggplot2::is.ggplot(p))
+  attributes(p$data)
+}
+

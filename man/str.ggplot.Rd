@@ -62,8 +62,9 @@ p <- ggplot(mpg, aes(factor(year), (cty + hwy) / 2)) +
 
 p
 
-# structure of p
-str(p, size = FALSE)
+# str(p) vs. summary(p)
+str(p, max.level = 1, size = FALSE)
+summary(p)
 
 # structure of p at 2 levels of nesting
 str(p, max.level = 2)
@@ -79,5 +80,7 @@ str(p, components = "data")
 A \code{summary()} method for class \code{ggplot} is defined by
   package 'ggplot2'. Method \code{summary()} provides a more compact
   description of \code{"ggplot"} objects than method \code{str()}. Here we
-  provide a wrapper on R's \code{str()} with different default arguments.
+  provide a wrapper on R's \code{str()} with different default arguments. A
+  summary does not directly describe how the different components of an R
+  object are stored, while the structure does.
 }

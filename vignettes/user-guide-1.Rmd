@@ -63,7 +63,7 @@ ggplot()
 ```
 
 The structure of objects of classes `"gg"` `"ggplot"` can be explored with R's 
-method `str()` as any other structured R objects. These allows us to see the
+method `str()` as any other structured R object. These allows us to see the
 different _slots_ of these special type of lists.
 
 ```{r}
@@ -131,7 +131,7 @@ ggplot(my.data, aes(x, y, colour = group)) +
 ```
 
 Using as default geom "null" allows to add the debug _stats_ for the side effect
-of console output without altering the the graphic output for the plot when there
+of console output without altering the graphic output for the plot when there
 is at least one other plot layer.
 
 Because of the way 'ggplot2' works, the values are listed to the console at 
@@ -144,7 +144,7 @@ ggplot(my.data, aes(x, y)) +
   stat_debug_group()
 ```
  
-In the absence of facets or groups we get just get the summary from one data 
+In the absence of facets or groups we just get the summary from one data 
 frame.
 
 ```{r}
@@ -176,7 +176,7 @@ ggplot(my.data, aes(x, y, colour = group)) +
   stat_debug_panel()
 ```
 
-The data are similar, except for the column named after the aesthetic, for the aesthetics used for grouping.
+The data are similar, except for the column named after the aesthetic, corresponding to the aesthetics used for grouping.
 
 ```{r}
 ggplot(my.data, aes(x, y, shape = group)) + 
@@ -194,7 +194,7 @@ ggplot(my.data, aes(x, y, colour = group)) +
   geom_debug(summary.fun = head)
 ```
 
-The main use of `geom_debug()` it to display the data returned by _stats_ and received by the _geoms_. Many but not all extensions to 'ggplot2' document all the computed variables returned by the _stats_ they define through `data`. In addition, when debugging a newly defined _stat_ and/or _geom_ being able to easily see the output is particularly useful when a bug prevents graphical output from being displayed. 
+The main use of `geom_debug()` it to display the data returned by _stats_ and received by the _geoms_. Not all extensions to 'ggplot2' document all the computed variables returned by the _stats_ through `data`. In addition, when debugging a newly defined _stat_ being able to easily see the output is particularly useful when a bug prevents graphical output from being displayed. 
 
 ```{r}
 ggplot(my.data, aes(x, y, colour = group)) + 
@@ -292,7 +292,7 @@ ggplot(my.data, aes(x, y)) +
   stat_debug_group(summary.fun = nrow)
 ```
 
-This next chunk showing how to print the whole data frame is not run as its output is more than 100 lines long as the data set contains 100 observations.
+This next chunk showing how to print the whole data frame is not run as its output would be very long as the data set contains 100 observations.
 
 ```{r, eval=FALSE}
 ggplot(my.data, aes(x, y)) + 

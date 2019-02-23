@@ -1,9 +1,12 @@
-gginnards 0.0.2 (2019-01-02)
+gginnards 0.0.2 (2019-02-23)
 ============================
 
-* Implement str() method for class "ggplot".
-* Add functions mapped_vars() and data_vars() to list variables in the data
-member of objects of class "ggplot".
+* Implement str() method for class "ggplot" as a wrapper with tweaked default
+arguments.
+* Add functions mapped_vars() and data_vars() to list variables in the default
+data member of objects of class "gg".
+* Add function data_attributes() to list the attributes of the default data
+member of objects of class "gg".
 
 gginnards 0.0.1 (2018-07-05)
 ============================

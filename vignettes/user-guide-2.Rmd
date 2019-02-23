@@ -32,7 +32,7 @@ to add, move or delete layers so as to profit from such canned methods and
 retain enough flexibility.
 
 Some time ago I needed to manipulate the layers of a `ggplot`, and found a
-matching question in [matching question in
+[matching question in
 Stackoverflow](https://stackoverflow.com/questions/13407236/remove-a-layer-from-a-ggplot2-chart).
 I used the answers found in Stackoverflow as the starting point for writing the
 functions described in the first part of this vignette.
@@ -44,7 +44,7 @@ In other words, always the most recently added layer resides at the end of the
 list, and over-plots all layers previously added. The functions described in
 this vignette allow overriding the **normal** syntax at the cost of breaking the
 expectations of the grammar. These functions are, as told above, to be used only
-in exceptional cases. This notwithstanding, they are rather easy to use. The
+in exceptional cases. This notwithstanding, they are rather easy to use and the
 user interface is consistent across all of them. Moreover, they are designed to
 return objects that are identical to objects created using the normal syntax
 rules of the _grammar of graphics_. The table below list the names and purpose
@@ -77,7 +77,7 @@ library(magrittr)
 library(stringr)
 ```
 
-We generate some artificial data.
+We generate some artificial data and create a data frame with it.
 
 ```{r}
 set.seed(4321)
@@ -88,6 +88,13 @@ my.data <- data.frame(
   y = rnorm(40),
   unused = "garbage"
 )
+```
+
+We add attributes to the data frame with the fake data.
+
+```{r}
+attr(my.data, "my.atr.char") <- "my.atr.value"
+attr(my.data, "my.atr.num") <- 12345678
 ```
 
 We change the default theme to an uncluttered one.
@@ -229,22 +236,27 @@ p1
 delete_layers(p1, "GeomText")
 ```
 
-## Other manipulations
+## Replacing scales, coordinates, whole themes and data.
 
-We very briefly mention in this section how to manipulate other elements of
-of `ggplot` objects. The output from the examples in this section is not
-included is this vignette.
+Elements that are normally _added_ to a ggplot with operator 
+`+`, such as scales, themes, easthetics can be replaced with the `%+%` operator.
+The situation with layers is different as a plot may contain multiple layers
+and layers are nameless. With layers `%+%` is not a replacement operator.
 
-For replacing other elements in `ggplot` objects we can in general use methods
-defined in 'ggplot2'.
+```{r}
+num_layers(p)
+num_layers(p %+% geom_point(colour = "blue"))
+num_layers(p + geom_point(colour = "blue"))
+```
 
-### Replacing scales, coordinates, whole themes and data.
+```{r}
+p1 <- p + theme_bw()
+p1
+p1 + theme_void()
+p1 %+% theme_void()
+```
 
-Other elements that are normally _added_ and _replaced_ in plot with operator 
-`+`, such as scales. To the default data stored in a `ggplot` object operator 
-`%+%` is used. 
-
-### Editing theme elements
+## Editing theme elements
 
 Method `summary()` is available for themes.
 
@@ -252,20 +264,26 @@ Method `summary()` is available for themes.
 summary(theme_bw())
 ```
 
-However, to see the actual values stored, we need to use `str()`.
+However, to see the actual values stored, we need to use `str()`. To avoid exesive
+output we first find the names for the elements of the theme and then look as how
+the default text settings are stored.
 
 ```{r, eval=FALSE}
-str(theme_bw())
+names(theme_bw())
+```
+
+```{r, eval=FALSE}
+str(theme_bw()$text)
 ```
 
 Themes can be modified using `theme()`. See the 'ggplot2' documentation for details.
 
-### Removing unused data
+## Removing unused data
 
 The argument passed through `data` to `ggplot()` or a layer is stored
 in whole in the `ggplot` object, even the data columns not mapped to any 
 aesthetic. In most cases this does not matter, but in the case of huge datasets, 
-the use of RAM can add up, and occasionally printing of each plot can slow down. 
+the use of RAM and disk space can add up, and occasionally printing of each plot can slow down. 
 The reason for storing the whole data set is that it is always possible to add
 layers and consequently only the user can know which variables can be removed or
 not.
@@ -337,12 +355,56 @@ keeping too many variables rather than removing too many.
 drop_vars(p)
 ```
 
-It is yet not clear to me when R does make a copy of the data embedded in a
-`ggplot` object and when not. R's policy is to copy data objects lazily, or
-only when modified. Does the 'ggplot2' code modify the
-argument passed to its `data` parameter triggering a real copy operation or not?
-
-In any case when saving `ggplot` objects to disk avoiding to carry along unused
+When saving `ggplot` objects to disk avoiding to carry along unused
 data can be beneficial. Of course, removing unused data means that they will not
 be available at a later time if we want to add more layers to the same saved
 ggplot object.
+
+It was not clear to me when R does make a copy of the data embedded in a
+`ggplot` object and when not. R's policy is to copy data objects lazily, or
+only when modified. Does the 'ggplot2' code modify the
+argument passed to its `data` parameter triggering a real copy operation or not.
+We can check this with the help of package 'pryr'.
+
+```{r}
+pryr::address(my.data)
+z <- p$data
+pryr::address(z)
+```
+
+In this case, R has not created a copy. So, from the point of view of total
+memory usage, deleting the unused columns in `p` is not always beneficial. If
+the object is saved to disk or `my.data` modified in any way after `p` was
+created a copy of `my.data` will be created at this later time. In this simple
+example we modify the value of an attribute.
+
+```{r}
+attr(my.data, "my.atr.num") <- 1324567
+pryr::address(z)
+pryr::address(my.data)
+```
+
+## Attributes of the embedded data object
+
+'ggplot2' version 3.1.0 preserves most attributes of the object passed as argument
+to the data parameter of the `ggplot()` constructor. The class of the object
+seems to be modified if it is derived from data frame or tibble, but other attributes are retained in the copy stored
+in the `gg` object.
+
+```{r}
+data_attributes(p)
+```
+
+Another interesting question is whether these user attributes are copied when data are passed to geometries and statistics. We can find out with `geom_debug()` that they are not.
+
+```{r}
+p + geom_debug(summary.fun = attributes)
+```
+
+## Coda
+
+The are many other things that we could explore about ggplot objects, but a package 
+to be submitted to CRAN cannot have too many pages of documentation, so we hope
+this package and its documentation can serve as a starting point for further 
+exploration.
+

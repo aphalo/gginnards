@@ -4,13 +4,16 @@
 \alias{drop_vars}
 \alias{mapped_vars}
 \alias{data_vars}
-\title{Drop unused variables from data}
+\alias{data_attributes}
+\title{Explore and manipulate the embedded data}
 \usage{
 drop_vars(p, keep.vars = character(), guess.vars = TRUE)
 
 mapped_vars(p, invert = FALSE)
 
 data_vars(p)
+
+data_attributes(p)
 }
 \arguments{
 \item{p}{ggplot Plot object with embedded data.}
@@ -27,22 +30,27 @@ are not mapped to any aesthetic or facet.}
 character vector with names of mapped variables in the default
    data object.
 
-character vector with names of mapped variables in the default
+character vector with names of all variables in the default
    data object.
+
+list containing all attributes of the default data object.
 }
 \description{
-Automatically remove unused variables from the data object embedded in a
-\code{gg} or \code{ggplot} object.
+Automatically remove unused variables from the "default" data object embedded
+in a \code{gg} or \code{ggplot} object with \code{drop_vars()}.
 }
 \note{
-This function is under development and not yet thoroughly tested! It is
-  a demonstration of how one can manipulate the internals of \code{ggplot}
-  objects. This function may stop working after some future update to the
-  'ggplot2' package.
+These functions are under development and not yet thoroughly tested!
+  They are a demonstration of how one can manipulate the internals of
+  \code{ggplot} objects in 'ggplot2' version 3.1.0. These functions may stop
+  working after some future update to the 'ggplot2' package. Although I will
+  maintain this package for use in some of my other packages, there is no
+  guarantee that I will be able to achieve this transparently.
 
-  Rather than using this function after creating the \code{ggplot} object it
-  may be more efficient to extract the variables of interest and pass a data
-  frame containing only these to the \code{ggplot()} constructor.
+  Obviously, rather than using function \code{drop_vars()} after creating the
+  \code{ggplot} object it is usually more efficient to select the variables of
+  interest and pass a data frame containing only these to the \code{ggplot()}
+  constructor.
 }
 \section{Warning!}{
  The current implementation drops variables only from the
