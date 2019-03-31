@@ -1,7 +1,6 @@
-# gginnards #
+# gginnards
 
-[![cran version](http://www.r-pkg.org/badges/version/gginnards)](https://cran.r-project.org/package=gginnards) 
-[![cran checks](https://cranchecks.info/badges/worst/gginnards)](https://cran.r-project.org/web/checks/check_results_gginnards.html)
+[![cran version](https://www.r-pkg.org/badges/version/gginnards)](https://cran.r-project.org/package=gginnards) 
 
 Package '**gginnards**' (Explore the innards of 'ggplot2') is a set of
 extensions to R package 'ggplot2' (>= 3.1.0) and tools useful when learning how to

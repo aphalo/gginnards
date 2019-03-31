@@ -25,5 +25,6 @@
 #' @import ggplot2
 #' @importFrom magrittr %>%
 #' @importFrom rlang .data
+#' @importFrom tibble as_tibble
 #'
 "_PACKAGE"
