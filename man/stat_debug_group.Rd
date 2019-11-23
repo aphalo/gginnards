@@ -4,10 +4,18 @@
 \alias{stat_debug_group}
 \title{Print to console data received by the compute group function.}
 \usage{
-stat_debug_group(mapping = NULL, data = NULL, geom = "null",
-  summary.fun = tibble::as_tibble, summary.fun.args = list(),
-  position = "identity", na.rm = FALSE, show.legend = FALSE,
-  inherit.aes = TRUE, ...)
+stat_debug_group(
+  mapping = NULL,
+  data = NULL,
+  geom = "null",
+  summary.fun = tibble::as_tibble,
+  summary.fun.args = list(),
+  position = "identity",
+  na.rm = FALSE,
+  show.legend = FALSE,
+  inherit.aes = TRUE,
+  ...
+)
 }
 \arguments{
 \item{mapping}{The aesthetic mapping, usually constructed with
@@ -19,8 +27,8 @@ the plot defaults.}
 
 \item{geom}{The geometric object to use display the data}
 
-\item{summary.fun}{A function used to print the \code{data} object received as
-input.}
+\item{summary.fun}{A function used to print the \code{data} object received
+as input.}
 
 \item{summary.fun.args}{A list.}
 
@@ -65,12 +73,21 @@ library(ggplot2)
 my.df <- data.frame(x = rep(1:10, 2),
                     y = rep(c(1,2), c(10,10)),
                     group = rep(c("A","B"), c(10,10)))
-ggplot(my.df, aes(x,y)) + geom_point() + stat_debug_group()
-ggplot(my.df, aes(x,y, colour = group)) + geom_point() + stat_debug_group()
-ggplot(my.df, aes(x,y)) + geom_point() + facet_wrap(~group) + stat_debug_group()
+
+ggplot(my.df, aes(x,y)) +
+  geom_point() +
+  stat_debug_group()
+ggplot(my.df, aes(x,y, colour = group)) +
+  geom_point() +
+  stat_debug_group()
+ggplot(my.df, aes(x,y)) +
+  geom_point() +
+  facet_wrap(~group) +
+  stat_debug_group()
 
 }
 \seealso{
-Other diagnosis functions: \code{\link{stat_debug_panel}}
+Other diagnosis functions: 
+\code{\link{stat_debug_panel}()}
 }
 \concept{diagnosis functions}

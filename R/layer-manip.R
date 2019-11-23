@@ -209,7 +209,7 @@ num_layers <- function(x) {
 #'
 edit_layers <- function(x, match_type = NULL, position = 0L, idx = NULL, action) {
   stopifnot(ggplot2::is.ggplot(x))
-  stopifnot(xor(is.null(match_type), is.null(idx) ))
+  stopifnot(xor(is.null(match_type), is.null(idx)))
   if (length(position) > 1) {
     warning("'position' is not vectorized, using 'position[1]'")
     position <- position[1]

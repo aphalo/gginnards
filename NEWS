@@ -17,4 +17,3 @@ to 'ggpmisc' 0.3.0 are included in this new package.
 * Add new function drop_vars() to automatically drop from the data object
 embedded in "gg" "ggplot" objects the variables neither mapped to aesthetics nor
 used for faceting.
-

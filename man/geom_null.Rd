@@ -4,9 +4,16 @@
 \alias{geom_null}
 \title{A null geom or 'non-op' geom.}
 \usage{
-geom_null(mapping = NULL, data = NULL, stat = "identity",
-  position = "identity", na.rm = FALSE, show.legend = FALSE,
-  inherit.aes = TRUE, ...)
+geom_null(
+  mapping = NULL,
+  data = NULL,
+  stat = "identity",
+  position = "identity",
+  na.rm = FALSE,
+  show.legend = FALSE,
+  inherit.aes = TRUE,
+  ...
+)
 }
 \arguments{
 \item{mapping}{Set of aesthetic mappings created by \code{\link{aes}} or

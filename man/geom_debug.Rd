@@ -4,10 +4,20 @@
 \alias{geom_debug}
 \title{Geom which prints input data to console.}
 \usage{
-geom_debug(mapping = NULL, data = NULL, stat = "identity",
-  summary.fun = tibble::as_tibble, summary.fun.args = list(),
-  print.fun = print, print.fun.args = list(), position = "identity",
-  na.rm = FALSE, show.legend = FALSE, inherit.aes = TRUE, ...)
+geom_debug(
+  mapping = NULL,
+  data = NULL,
+  stat = "identity",
+  summary.fun = tibble::as_tibble,
+  summary.fun.args = list(),
+  print.fun = print,
+  print.fun.args = list(),
+  position = "identity",
+  na.rm = FALSE,
+  show.legend = FALSE,
+  inherit.aes = TRUE,
+  ...
+)
 }
 \arguments{
 \item{mapping}{Set of aesthetic mappings created by \code{\link{aes}} or

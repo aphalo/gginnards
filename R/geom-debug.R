@@ -68,7 +68,9 @@ GeomNull <-
   ggplot2::ggproto("GeomNull", ggplot2::Geom,
                    required_aes = c("x", "y"),
                    default_aes = ggplot2::aes(),
-                   draw_key = function(...) {grid::nullGrob()},
+                   draw_key = function(...) {
+                     grid::nullGrob()
+                   },
                    draw_panel = function(data, panel_scales, coord,
                                          summary.fun,
                                          summary.fun.args) {
@@ -153,14 +155,14 @@ geom_debug <- function(mapping = NULL, data = NULL, stat = "identity",
 GeomDebug <-
   ggplot2::ggproto("GeomDebug", ggplot2::Geom,
                    required_aes = c("x", "y"),
-                   default_aes = ggplot2::aes(),
-                   draw_key = function(...) {grid::nullGrob()},
+                   draw_key = function(...) {
+                     grid::nullGrob()
+                     },
                    draw_panel = function(data, panel_scales, coord,
                                          summary.fun = tibble::as_tibble,
                                          summary.fun.args = list(),
                                          print.fun = print,
-                                         print.fun.args = list()
-                                         ) {
+                                         print.fun.args = list()) {
                      if (!is.null(summary.fun)) {
                        z <- do.call(summary.fun, c(quote(data), summary.fun.args))
                      } else {

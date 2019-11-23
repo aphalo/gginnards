@@ -5,10 +5,19 @@
 \alias{str.ggplot}
 \title{Show the structure of a ggplot object.}
 \usage{
-\method{str}{ggplot}(object, ..., max.level = 1, components = TRUE,
-  vec.len = 2, list.len = 99, give.attr = FALSE, comp.str = "$ ",
-  nest.lev = 0, indent.str = paste(rep.int(" ", max(0, nest.lev + 1)),
-  collapse = ".."), size = TRUE)
+\method{str}{ggplot}(
+  object,
+  ...,
+  max.level = 1,
+  components = TRUE,
+  vec.len = 2,
+  list.len = 99,
+  give.attr = FALSE,
+  comp.str = "$ ",
+  nest.lev = 0,
+  indent.str = paste(rep.int(" ", max(0, nest.lev + 1)), collapse = ".."),
+  size = TRUE
+)
 }
 \arguments{
 \item{object}{ggplot Plot object with embedded data.}

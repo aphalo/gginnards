@@ -11,8 +11,8 @@
 #' @param data A layer specific dataset - only needed if you want to override
 #'   the plot defaults.
 #' @param geom The geometric object to use display the data
-#' @param summary.fun A function used to print the \code{data} object received as
-#'   input.
+#' @param summary.fun A function used to print the \code{data} object received
+#'   as input.
 #' @param summary.fun.args A list.
 #' @param position The position adjustment to use for overlapping points on this
 #'   layer
@@ -43,9 +43,17 @@
 #' my.df <- data.frame(x = rep(1:10, 2),
 #'                     y = rep(c(1,2), c(10,10)),
 #'                     group = rep(c("A","B"), c(10,10)))
-#' ggplot(my.df, aes(x,y)) + geom_point() + stat_debug_group()
-#' ggplot(my.df, aes(x,y, colour = group)) + geom_point() + stat_debug_group()
-#' ggplot(my.df, aes(x,y)) + geom_point() + facet_wrap(~group) + stat_debug_group()
+#'
+#' ggplot(my.df, aes(x,y)) +
+#'   geom_point() +
+#'   stat_debug_group()
+#' ggplot(my.df, aes(x,y, colour = group)) +
+#'   geom_point() +
+#'   stat_debug_group()
+#' ggplot(my.df, aes(x,y)) +
+#'   geom_point() +
+#'   facet_wrap(~group) +
+#'   stat_debug_group()
 #'
 #' @export
 #' @family diagnosis functions
@@ -91,7 +99,6 @@ StatDebugGroup <-
                                       collapse = ", ", sep = ""),
                    group = paste(unique(data$group), sep = ", "),
                    PANEL = paste(unique(data$PANEL), sep = ", "))
-      #                     print(my.diagnostic)
       my.diagnostic
     },
     default_aes = ggplot2::aes(label = paste("group: ", stat(group), "; ",

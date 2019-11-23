@@ -4,10 +4,18 @@
 \alias{stat_debug_panel}
 \title{Print to console data received by the compute panel function.}
 \usage{
-stat_debug_panel(mapping = NULL, data = NULL, geom = "null",
-  summary.fun = tibble::as_tibble, summary.fun.args = list(),
-  position = "identity", na.rm = FALSE, show.legend = FALSE,
-  inherit.aes = TRUE, ...)
+stat_debug_panel(
+  mapping = NULL,
+  data = NULL,
+  geom = "null",
+  summary.fun = tibble::as_tibble,
+  summary.fun.args = list(),
+  position = "identity",
+  na.rm = FALSE,
+  show.legend = FALSE,
+  inherit.aes = TRUE,
+  ...
+)
 }
 \arguments{
 \item{mapping}{The aesthetic mapping, usually constructed with
@@ -19,8 +27,8 @@ the plot defaults.}
 
 \item{geom}{The geometric object to use display the data}
 
-\item{summary.fun}{A function used to print the \code{data} object received as
-input.}
+\item{summary.fun}{A function used to print the \code{data} object received
+as input.}
 
 \item{summary.fun.args}{A list.}
 
@@ -46,8 +54,8 @@ can include aesthetics whose values you want to set, not map. See
 \description{
 \code{stat_debug} reports all distinct values in \code{group}
   and \code{PANEL}, and \code{nrow}, \code{ncol} and the names of the columns
-  or variables, and the class of x and y for each panel in a ggplot as passed to the
-  \code{compute_panel} function in the \code{ggproto} object.
+  or variables, and the class of x and y for each panel in a ggplot as passed
+  to the \code{compute_panel} function in the \code{ggproto} object.
 }
 \section{Computed variables}{
 
@@ -68,12 +76,20 @@ library(ggplot2)
 my.df <- data.frame(x = rep(1:10, 2),
                     y = rep(c(1,2), c(10,10)),
                     group = rep(c("A","B"), c(10,10)))
-ggplot(my.df, aes(x,y)) + geom_point() + stat_debug_panel()
-ggplot(my.df, aes(x,y, colour = group)) + geom_point() + stat_debug_panel()
-ggplot(my.df, aes(x,y)) + geom_point() + facet_wrap(~group) + stat_debug_panel()
+ggplot(my.df, aes(x,y)) +
+  geom_point() +
+  stat_debug_panel()
+ggplot(my.df, aes(x,y, colour = group)) +
+  geom_point() +
+  stat_debug_panel()
+ggplot(my.df, aes(x,y)) +
+  geom_point() +
+  facet_wrap(~group) +
+  stat_debug_panel()
 
 }
 \seealso{
-Other diagnosis functions: \code{\link{stat_debug_group}}
+Other diagnosis functions: 
+\code{\link{stat_debug_group}()}
 }
 \concept{diagnosis functions}
