@@ -1,0 +1,162 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r readme-01, echo = FALSE}
+knitr::opts_chunk$set(
+  fig.asp = 1/2,
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-"
+)
+```
+
+# gginnards
+
+[![cran version](https://www.r-pkg.org/badges/version/gginnards)](https://cran.r-project.org/package=gginnards) 
+
+## Purpose
+
+Package 'gginnards' (Explore the innards of 'ggplot2') is a set of
+extensions to R package 'ggplot2' and tools specially useful when learning how
+to write extensions and when debugging newly defined stats and geoms.
+
+Occasionally it may be useful to edit `gg` objects. A typical case are packages
+that provide extenssions to 'ggplot2' that construct and return whole `gg` 
+objects instead of new statistics and geometries. In such cases in can be
+useful to programmaticaly edit these `gg` objects. Functions are provided
+for the manipulation of layers within `gg`objects.
+
+As the variables returned in `data` by many statistics depend on input, some
+of these tools can be also useful in everyday plotting with `ggplot2`.
+
+## History
+
+This package was born when several functions were removed from package 
+'ggpmisc'. 
+
+## Geometries
+
+`geom_debug()` by default prints the `data` object received as input to the
+console and generates no graphic output. As it takes as arguments functions, it
+allows great fexibility in how `data` is displayed or saved.
+`geom_debug()` is useful at any time when one needs to check what variables are
+returned by a statistics. Many statistics are well documented and always return
+the same variables. For other statistics even if well documented the returned
+variables in `data` vary depending on grouping and/or the arguments passed to
+them, in which case this geometry can also be useful when debugging scripts.
+
+## Statistics
+
+Statistics that echo their data input to the R console and/or 
+plot aim at easing debugging during development of new geoms and statistics. 
+The should help those learning how ggplot layers work.
+
+## Manipulation of layes
+
+A set of functions facilitates the manipulation of layers in ggplot objects,
+allowing deletion of any existing layer, insertion of new layers at any
+position, and reordering of the existing layers.
+
+## Manipulation of embedded data
+
+A function to drop unused variables from the data object embedded in `gg` and
+`ggplot` objects serves as an additional example of a manipulation that may
+be useful when dealing with very large datasets. Companion functions are
+defined to explore the embedded data.
+
+## Examples
+
+```{r}
+library(gginnards)
+```
+
+We print to the R console `data` as _seen_ as input by geometries and statistics.
+
+```{r}
+ggplot(mtcars, aes(cyl, mpg, color = mpg)) + 
+  geom_point() +
+  geom_debug()
+```
+
+We print to the R console `colnames(data)`.
+
+```{r}
+ggplot(mtcars, aes(cyl, mpg, color = mpg)) + 
+  geom_point() +
+  geom_debug(summary.fun = colnames)
+```
+
+We print to the R console `data` as returned by `stat_summary()` and _seen_ as input by geometries.
+
+```{r}
+ggplot(mtcars, aes(cyl, mpg, colour = factor(cyl))) + 
+  stat_summary(fun.data = "mean_cl_boot") +
+  stat_summary(fun.data = "mean_cl_boot", geom = "debug")
+```
+
+We print to the R console `data` as _seen_ as input by statistics that use a
+_panel function_.
+
+```{r}
+ggplot(mtcars, aes(cyl, mpg, colour = factor(cyl))) + 
+  stat_summary(fun.data = "mean_cl_boot") +
+  stat_debug_panel()
+```
+
+We build object `p` of class `gg` (a ggplot). We query the number of layers and
+the position of layers by the class of the `ggproto` object.
+
+```{r}
+p <- 
+  ggplot(mtcars, aes(cyl, mpg)) + 
+  geom_point(size = 3) +
+  stat_summary(fun.data = "mean_cl_boot", color = "red", size = 2)
+  
+  num_layers(p)
+  which_layers(p, "GeomPoint")
+  which_layers(p, "StatSummary")
+  
+  p
+  move_layers(p, "GeomPoint", position = "top")
+```
+
+## Installation
+
+Installation of the most recent stable version from CRAN:
+
+```{r cran-instalaltion, eval=FALSE}
+install.packages("gginnards")
+```
+
+Installation of the current unstable version from Bitbucket:
+
+```{r bb-instalaltion, eval=FALSE}
+# install.packages("devtools")
+devtools::install_bitbucket("aphalo/gginnards")
+```
+
+## Documentation 
+
+HTML documentation is available at (https://docs.r4photobiology.info/gginnards/), including two vignettes.
+
+News about updates are regularly posted at (https://www.r4photobiology.info/).
+
+## Contributing
+
+Please report bugs and request new features at (https://bitbucket.org/aphalo/gginnards/issues). Pull requests are welcome at (https://bitbucket.org/aphalo/gginnards).
+
+## Citation
+
+If you use this package to produce scientific or commercial publications, please cite according to:
+
+```{r}
+citation("gginnards")
+```
+
+## License
+
+© 2016-2019 Pedro J. Aphalo (pedro.aphalo@helsinki.fi). Released under the GPL, version 2 or greater. This software carries no warranty of any kind.
+
