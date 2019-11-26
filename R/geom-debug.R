@@ -1,15 +1,15 @@
 # Null geom ---------------------------------------------------------------
 
-#' A null geom or 'non-op' geom.
+#' A null geom or 'no-op' geom.
 #'
 #' The null geom can be used to silence graphic output from a stat, such as
-#' stat_debug_group() and stat_debug_panel() defined in this same package. No
-#' visible graphical output is returned. An invisible grid::grid_null() grob
-#' is returned instead.
+#' \code{stat_debug_group()} and \code{stat_debug_panel()} defined in this same
+#' package. No visible graphical output is returned. An invisible
+#' \code{grid::grid_null()} grob is returned instead.
 #'
-#' @param mapping Set of aesthetic mappings created by \code{\link{aes}} or
-#'   \code{\link{aes_}}. If specified and \code{inherit.aes = TRUE} (the
-#'   default), is combined with the default mapping at the top level of the
+#' @param mapping Set of aesthetic mappings created by
+#'   \code{\link[ggplot2]{aes}}. If specified and \code{inherit.aes = TRUE} (the
+#'   default), are combined with the default mapping at the top level of the
 #'   plot. You only need to supply \code{mapping} if there isn't a mapping
 #'   defined for the plot.
 #' @param data A data frame. If specified, overrides the default data frame
@@ -26,20 +26,26 @@
 #' @param inherit.aes If \code{FALSE}, overrides the default aesthetics, rather
 #'   than combining with them. This is most useful for helper functions that
 #'   define both data and aesthetics and shouldn't inherit behaviour from the
-#'   default plot specification, e.g. \code{\link{borders}}.
-#' @param ... other arguments passed on to \code{\link{layer}}. There are three
-#'   types of arguments you can use here:
+#'   default plot specification, e.g. \code{\link[ggplot2]{borders}}.
+#' @param ... other arguments passed on to \code{\link[ggplot2]{layer}}. There
+#'   are three types of arguments you can use here:
 #'
 #'   \itemize{ \item Aesthetics: to set an aesthetic to a fixed value, like
 #'   \code{color = "red"} or \code{size = 3}. \item Other arguments to the
 #'   layer, for example you override the default \code{stat} associated with the
-#'   layer. \item Other arguments passed on to the stat. }
+#'   layer. \item Other arguments passed on to the stat.}
+#'
 #' @note This _geom_ is very unusual in that it does not produce visible graphic
-#'   output. It only returns a \code{grid::grid_null()} grob (graphical object).
+#'   output. It only returns a \code{\link[grid]{grid.null}} grob (graphical
+#'   object). However, it accepts for consistency all the same parameters as
+#'   normal geoms, which have no effect on the graphical output, except for
+#'   \code{show.legend}.
+#'
 #' @export
 #'
-#' @note Although this geom accepts for consistency all the same parameters as
-#'   normal geoms, these have no effect on the output, except for show.legend.
+#' @examples
+#' ggplot(mtcars, aes(cyl, mpg)) +
+#'   geom_null()
 #'
 geom_null <- function(mapping = NULL, data = NULL, stat = "identity",
                       position = "identity", na.rm = FALSE,
@@ -64,6 +70,7 @@ geom_null <- function(mapping = NULL, data = NULL, stat = "identity",
 #' @keywords internal
 #'
 #' @export
+#'
 GeomNull <-
   ggplot2::ggproto("GeomNull", ggplot2::Geom,
                    required_aes = c("x", "y"),
@@ -88,11 +95,11 @@ GeomNull <-
 #' It can be useful when debugging the code of statistics or to learn how the
 #' stats and geoms work in 'ggplot2' (>= 2.0.0).
 #'
-#' @param mapping Set of aesthetic mappings created by \code{\link{aes}} or
-#'   \code{\link{aes_}}. If specified and \code{inherit.aes = TRUE} (the
-#'   default), is combined with the default mapping at the top level of the
-#'   plot. You only need to supply \code{mapping} if there isn't a mapping
-#'   defined for the plot.
+#' @param mapping Set of aesthetic mappings created by
+#'   \code{\link[ggplot2]{aes}} or \code{\link{aes_}}. If specified and
+#'   \code{inherit.aes = TRUE} (the default), is combined with the default
+#'   mapping at the top level of the plot. You only need to supply
+#'   \code{mapping} if there isn't a mapping defined for the plot.
 #' @param data A data frame. If specified, overrides the default data frame
 #'   defined at the top level of the plot.
 #' @param summary.fun A function used to print the \code{data} object received
@@ -115,17 +122,28 @@ GeomNull <-
 #' @param inherit.aes If \code{FALSE}, overrides the default aesthetics, rather
 #'   than combining with them. This is most useful for helper functions that
 #'   define both data and aesthetics and shouldn't inherit behaviour from the
-#'   default plot specification, e.g. \code{\link{borders}}.
-#' @param ... other arguments passed on to \code{\link{layer}}. There are three
-#'   types of arguments you can use here:
+#'   default plot specification, e.g. \code{\link[ggplot2]{borders}}.
+#' @param ... other arguments passed on to \code{\link[ggplot2]{layer}}. There
+#'   are three types of arguments you can use here:
 #'
 #'   \itemize{ \item Aesthetics: to set an aesthetic to a fixed value, like
 #'   \code{color = "red"} or \code{size = 3}. \item Other arguments to the
 #'   layer, for example you override the default \code{stat} associated with the
 #'   layer. \item Other arguments passed on to the stat. }
 #' @note This _geom_ is very unusual in that it does not produce visible graphic
-#'   output. It only returns a \code{grid::grid_null()} grob (graphical object).
+#'   output. It only returns a \code{grid.null()} grob (graphical object).
 #' @export
+#'
+#' @examples
+#' # echo to the R console \code{data} as received by geoms
+#' ggplot(mtcars, aes(cyl, mpg, color = factor(cyl))) +
+#'   geom_point() +
+#'   geom_debug()
+#'
+#' # echo to the R console \code{data} as received by geoms
+#' ggplot(mtcars, aes(cyl, mpg, colour = factor(cyl))) +
+#'   stat_summary(fun.data = "mean_se") +
+#'   stat_summary(fun.data = "mean_se", geom = "debug")
 #'
 geom_debug <- function(mapping = NULL, data = NULL, stat = "identity",
                        summary.fun = tibble::as_tibble,
@@ -164,7 +182,8 @@ GeomDebug <-
                                          print.fun = print,
                                          print.fun.args = list()) {
                      if (!is.null(summary.fun)) {
-                       z <- do.call(summary.fun, c(quote(data), summary.fun.args))
+                       z <- do.call(summary.fun,
+                                    c(quote(data), summary.fun.args))
                      } else {
                        z <- data
                      }
@@ -176,4 +195,3 @@ GeomDebug <-
 
                    }
   )
-

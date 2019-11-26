@@ -2,7 +2,7 @@
 % Please edit documentation in R/geom-debug.R
 \name{geom_null}
 \alias{geom_null}
-\title{A null geom or 'non-op' geom.}
+\title{A null geom or 'no-op' geom.}
 \usage{
 geom_null(
   mapping = NULL,
@@ -16,9 +16,9 @@ geom_null(
 )
 }
 \arguments{
-\item{mapping}{Set of aesthetic mappings created by \code{\link{aes}} or
-\code{\link{aes_}}. If specified and \code{inherit.aes = TRUE} (the
-default), is combined with the default mapping at the top level of the
+\item{mapping}{Set of aesthetic mappings created by
+\code{\link[ggplot2]{aes}}. If specified and \code{inherit.aes = TRUE} (the
+default), are combined with the default mapping at the top level of the
 plot. You only need to supply \code{mapping} if there isn't a mapping
 defined for the plot.}
 
@@ -41,26 +41,31 @@ never includes, and \code{TRUE} always includes.}
 \item{inherit.aes}{If \code{FALSE}, overrides the default aesthetics, rather
 than combining with them. This is most useful for helper functions that
 define both data and aesthetics and shouldn't inherit behaviour from the
-default plot specification, e.g. \code{\link{borders}}.}
+default plot specification, e.g. \code{\link[ggplot2]{borders}}.}
 
-\item{...}{other arguments passed on to \code{\link{layer}}. There are three
-  types of arguments you can use here:
+\item{...}{other arguments passed on to \code{\link[ggplot2]{layer}}. There
+  are three types of arguments you can use here:
 
   \itemize{ \item Aesthetics: to set an aesthetic to a fixed value, like
   \code{color = "red"} or \code{size = 3}. \item Other arguments to the
   layer, for example you override the default \code{stat} associated with the
-  layer. \item Other arguments passed on to the stat. }}
+  layer. \item Other arguments passed on to the stat.}}
 }
 \description{
 The null geom can be used to silence graphic output from a stat, such as
-stat_debug_group() and stat_debug_panel() defined in this same package. No
-visible graphical output is returned. An invisible grid::grid_null() grob
-is returned instead.
+\code{stat_debug_group()} and \code{stat_debug_panel()} defined in this same
+package. No visible graphical output is returned. An invisible
+\code{grid::grid_null()} grob is returned instead.
 }
 \note{
 This _geom_ is very unusual in that it does not produce visible graphic
-  output. It only returns a \code{grid::grid_null()} grob (graphical object).
+  output. It only returns a \code{\link[grid]{grid.null}} grob (graphical
+  object). However, it accepts for consistency all the same parameters as
+  normal geoms, which have no effect on the graphical output, except for
+  \code{show.legend}.
+}
+\examples{
+ggplot(mtcars, aes(cyl, mpg)) +
+  geom_null()
 
-Although this geom accepts for consistency all the same parameters as
-  normal geoms, these have no effect on the output, except for show.legend.
 }

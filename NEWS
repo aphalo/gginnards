@@ -1,7 +1,9 @@
-gginnards 0.0.3 (2019-02-23)
+gginnards 0.0.3 (2019-11-26)
 ============================
 
-*
+* Revise User Guide.
+* Revise documentation adding examples and correcting minor errors.
+* Rewrite README in R markdown adding examples.
 
 gginnards 0.0.2 (2019-02-23)
 ============================

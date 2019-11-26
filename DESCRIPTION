@@ -1,8 +1,8 @@
 Package: gginnards
 Type: Package
 Title: Explore the Innards of 'ggplot2' Objects
-Version: 0.0.2.9000
-Date: 2019-11-24
+Version: 0.0.3
+Date: 2019-11-26
 Authors@R:
     c(
     person("Pedro J.", "Aphalo", email = "pedro.aphalo@helsinki.fi", role = c("aut", "cre"), comment = c(ORCID = "0000-0003-3385-972X"))    )
@@ -23,14 +23,14 @@ Depends:
 Imports:
     utils,
     methods,
-    rlang (>= 0.4.2),
+    rlang (>= 0.4.0),
     stringr (>= 1.4.0),
     magrittr (>= 1.5),
-    tibble (>= 2.1.3)
+    tibble (>= 2.1.0)
 Suggests:
-    dplyr (>= 0.8.3),
-    knitr (>= 1.26),
-    rmarkdown (>= 1.17),
+    dplyr (>= 0.8.1),
+    knitr (>= 1.24),
+    rmarkdown (>= 1.14),
     pryr (>= 0.1.4)
 URL: https://www.r4photobiology.info, https://bitbucket.org/aphalo/gginnards
 BugReports: https://bitbucket.org/aphalo/gginnards/issues

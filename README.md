@@ -14,7 +14,7 @@ learning how to write extensions and when debugging newly defined stats
 and geoms.
 
 Occasionally it may be useful to edit `gg` objects. A typical case are
-packages that provide extenssions to ‘ggplot2’ that construct and return
+packages that provide extensions to ‘ggplot2’ that construct and return
 whole `gg` objects instead of new statistics and geometries. In such
 cases in can be useful to programmaticaly edit these `gg` objects.
 Functions are provided for the manipulation of layers within
@@ -33,7 +33,7 @@ This package was born when several functions were removed from package
 
 `geom_debug()` by default prints the `data` object received as input to
 the console and generates no graphic output. As it takes as arguments
-functions, it allows great fexibility in how `data` is displayed or
+functions, it allows great flexibility in how `data` is displayed or
 saved. `geom_debug()` is useful at any time when one needs to check what
 variables are returned by a statistics. Many statistics are well
 documented and always return the same variables. For other statistics
@@ -47,9 +47,9 @@ Statistics that echo their data input to the R console and/or plot aim
 at easing debugging during development of new geoms and statistics. The
 should help those learning how ggplot layers work.
 
-## Manipulation of layes
+## Manipulation of layers
 
-A set of functions facilitates the manipulation of layers in ggplot
+A set of functions layestates the manipulation of layers in ggplot
 objects, allowing deletion of any existing layer, insertion of new
 layers at any position, and reordering of the existing layers.
 
@@ -71,7 +71,7 @@ We print to the R console `data` as *seen* as input by geometries and
 statistics.
 
 ``` r
-ggplot(mtcars, aes(cyl, mpg, color = mpg)) + 
+ggplot(mtcars, aes(cyl, mpg, color = mpg)) +
   geom_point() +
   geom_debug()
 ```
@@ -96,7 +96,7 @@ ggplot(mtcars, aes(cyl, mpg, color = mpg)) +
 We print to the R console `colnames(data)`.
 
 ``` r
-ggplot(mtcars, aes(cyl, mpg, color = mpg)) + 
+ggplot(mtcars, aes(cyl, mpg, color = mpg)) +
   geom_point() +
   geom_debug(summary.fun = colnames)
 ```
@@ -109,7 +109,7 @@ We print to the R console `data` as returned by `stat_summary()` and
 *seen* as input by geometries.
 
 ``` r
-ggplot(mtcars, aes(cyl, mpg, colour = factor(cyl))) + 
+ggplot(mtcars, aes(cyl, mpg, colour = factor(cyl))) +
   stat_summary(fun.data = "mean_cl_boot") +
   stat_summary(fun.data = "mean_cl_boot", geom = "debug")
 ```
@@ -119,15 +119,15 @@ ggplot(mtcars, aes(cyl, mpg, colour = factor(cyl))) +
     #> # A tibble: 3 x 7
     #>   colour      x group     y  ymin  ymax PANEL
     #>   <chr>   <dbl> <int> <dbl> <dbl> <dbl> <fct>
-    #> 1 #F8766D     4     1  26.7  24.2  29.2 1    
-    #> 2 #00BA38     6     2  19.7  18.7  20.8 1    
-    #> 3 #619CFF     8     3  15.1  13.7  16.3 1
+    #> 1 #F8766D     4     1  26.7  24.1  29.3 1    
+    #> 2 #00BA38     6     2  19.7  18.7  20.7 1    
+    #> 3 #619CFF     8     3  15.1  13.7  16.4 1
 
 We print to the R console `data` as *seen* as input by statistics that
 use a *panel function*.
 
 ``` r
-ggplot(mtcars, aes(cyl, mpg, colour = factor(cyl))) + 
+ggplot(mtcars, aes(cyl, mpg, colour = factor(cyl))) +
   stat_summary(fun.data = "mean_cl_boot") +
   stat_debug_panel()
 ```
@@ -154,18 +154,18 @@ We build object `p` of class `gg` (a ggplot). We query the number of
 layers and the position of layers by the class of the `ggproto` object.
 
 ``` r
-p <- 
-  ggplot(mtcars, aes(cyl, mpg)) + 
+p <-
+  ggplot(mtcars, aes(cyl, mpg)) +
   geom_point(size = 3) +
   stat_summary(fun.data = "mean_cl_boot", color = "red", size = 2)
-  
+
   num_layers(p)
 #> [1] 2
   which_layers(p, "GeomPoint")
 #> [1] 1
   which_layers(p, "StatSummary")
 #> [1] 2
-  
+
   p
 ```
 

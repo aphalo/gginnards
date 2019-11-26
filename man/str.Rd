@@ -61,9 +61,11 @@ A \code{str()} method tailored to objects of class \code{"ggplot"}. It adds
 to the output the size of the object, and the ability to subset
 individual components.
 }
+\note{
+In the case of objects with a nested structure \code{str()} is called
+  recursively and dispatched according to the class of each nested member.
+}
 \examples{
-library(ggplot2)
-
 p <- ggplot(mpg, aes(factor(year), (cty + hwy) / 2)) +
   geom_boxplot() +
   geom_point(color = "red") +
@@ -73,21 +75,27 @@ p <- ggplot(mpg, aes(factor(year), (cty + hwy) / 2)) +
 p
 
 # str(p) vs. summary(p)
-str(p, max.level = 1, size = FALSE)
-summary(p)
+str(p)
+summary(p) # from pacakge 'ggplot2'
 
 # structure of p at 2 levels of nesting
-str(p, max.level = 2)
+str(p, max.level = 2, size = FALSE)
 
 # top level structure and size of p
 str(p, max.level = 0)
 
+# names of ggplot members
+names(p)
+
 # structure and size of p["data"]
-str(p, components = "data")
+str(p, max.level = 2, components = "data")
+
+# structure and size of p["layers"]
+str(p, max.level = 1, components = "layers")
 
 }
 \seealso{
-A \code{summary()} method for class \code{ggplot} is defined by
+A \code{\link{summary}} method for class \code{ggplot} is defined by
   package 'ggplot2'. Method \code{summary()} provides a more compact
   description of \code{"ggplot"} objects than method \code{str()}. Here we
   provide a wrapper on R's \code{str()} with different default arguments. A

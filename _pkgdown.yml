@@ -15,24 +15,24 @@ reference:
     contents:
     - '`gginnards-package`'
   - title: Geoms
-    desc: Geoms, short for geometric objects, describe the type of plot you will produce.
+    desc: Geoms, short for geometric objects, generate output from data. Contrary to "normal" geoms, these geoms do not render data as graphical elements.
     contents:
     - geom_debug
     - geom_null
   - title: Statistics
-    desc: It is often useful to summarize spectral data before plotting, and that is what these transformations do.
+    desc: It is often useful to summarize data before plotting. Contrary to "normal" statistics, the data summaries these statistics return are aimed at debugging.
     contents:
     - stat_debug_group
     - stat_debug_panel
   - title: Manipulation of layers
-    desc: Delete, insert and modify stacking order of layers.
+    desc: Occasionaly it can be useful to edit `gg` objects _breaking_ the usual rules of the _grammar of graphics_ operations such as delete, insert, extract and modify stacking order of layers.
     contents:
     - delete_layers
   - title: Manipulation of embedded data
-    desc: Automatically delete unused variables, extract attributes, and identify which variables in data are used.
+    desc: Automatically delete unused variables, extract attributes, and identify which variables in data are mapped to aestheics or used in a plot.
     contents:
     - drop_vars
   - title: Explore the innards of objects.
-    desc: Specialization of `str()`.
+    desc: Specialization of `str()`. This function complements the `summary()` method from 'ggplot2'.
     contents:
     - str

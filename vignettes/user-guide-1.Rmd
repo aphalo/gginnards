@@ -22,7 +22,6 @@ options(warnPartialMatchArgs = FALSE)
 ## Preliminaries
 
 ```{r}
-library(ggplot2)
 library(gginnards)
 library(tibble)
 ```
@@ -47,7 +46,7 @@ We change the default theme to an uncluttered one.
 old_theme <- theme_set(theme_bw())
 ```
 
-## Introduction
+# ggplot construction
 
 Package 'ggplot2' defines its own class system, and function `ggplot()` can be
 considered as a constructor.
@@ -56,18 +55,33 @@ considered as a constructor.
 class(ggplot())
 ```
 
-If we pass no arguments an empty plot is constructed.
+These objects contain all the information needed to render a plot into
+graphical output, but not the rendered plot itself. They are list-like
+objects with heterogeneous named members.
+
+The structure of objects of class `"ggplot"` can be explored with R's
+method `str()` as is the case for any structured R object. Package 'gginnards'
+defines a a specialization of  `str()` for class `"ggplot"`. Our `str()` allows
+us to see the different _slots_ of these special type of lists. The difference
+with the default `str()` method is in the values of default arguments, and in
+the ability to control which components or members are displayed. 
+
+We will use
+the `str()` to follow the step by step construction of a `"ggplot"` object.
+
+If we pass no arguments to the `ggplot()` constructor an empty plot will be
+rendered if we print it.
 
 ```{r}
-ggplot()
+p0 <- ggplot()
+p0
 ```
 
-The structure of objects of classes `"gg"` `"ggplot"` can be explored with R's 
-method `str()` as any other structured R object. These allows us to see the
-different _slots_ of these special type of lists.
+Object `p` contains members, but `"data"`, `"layers"`, `"mapping"`, `"theme"`
+ and `"labels"` are empty lists.
 
 ```{r}
-str(ggplot())
+str(p0)
 ```
 
 If we pass an argument to parameter `data` the data is copied into the
@@ -75,7 +89,19 @@ list slot with name `data`. As we also map the data to aesthetics, this
 mapping is stored in slot `maaping`. 
 
 ```{r}
-str(ggplot(data = my.data, aes(x, y, colour = group)))
+p1 <- ggplot(data = my.data, aes(x, y, colour = group))
+str(p1)
+```
+
+```{r}
+str(p1, max.level = 2, components = "data")
+```
+
+A geometry adds a layer.
+
+```{r}
+p2 <- p1 + geom_point()
+str(p2)
 ```
 
 A `summary()` method that produces a more compact output is available in recent
@@ -83,9 +109,27 @@ versions of 'ggplot2'. However, it does not reveal the internal structure of
 the objects.
 
 ```{r}
-summary(ggplot(data = my.data, aes(x, y, colour = group)) +
-          geom_point())
+summary(p2)
 ```
+
+```{r}
+str(p2, max.level = 2, components = "mapping")
+```
+
+```{r}
+p3 <- p2 + theme_classic()
+str(p3)
+```
+
+Themes are stored as nested lists. To keep the output short we use 
+`max.level = 2` although using `max.level = 3` would be needed to see all
+nested members.
+
+```{r}
+str(p3, max.level = 2, components = "theme")
+```
+
+# Data mappings in ggplots
 
 How does mapping work? _Geometries_ (geoms) and _statistics_ (stats) do not "see"
 the original variable names, instead the `data` passed to them is named according
@@ -98,32 +142,88 @@ Both geoms and stats can have either panel- or group functions. Panel functions
 receive as input the subset of the data that corresponds to a whole panel,
 mapped to the aesthetics and with factors indicating the grouping (set by
 the user by mapping to a discrete scale). Group functions receive as input
-the subset of data corresponding to a single group based on the mapping.
+the subset of data corresponding to a single group based on the mapping, and
+called once for each group present in a panel.
 
 The motivation for writing the "debug" stats and geoms included in package
 'gginnards' is that at the moment it is in many cases not possible to set
 breakpoints inside the code of stats and geoms, because frequently nameless
-panel and group functions are stored in list-like objects used to store 
-the definitions of geoms and stats.
+panel and group functions are stored within list-like `"ggplot"` objects 
+as seen above.
 
 This can make it tedious to analyse how these functions work, as one may need to
-add `print` statements to their source code to see the data. I wrote the "debug"
+add `print` statements to their definitions to see the data. I wrote the "debug"
 stats and geoms as tools to help in the development of my packages 'ggpmisc' and
 'ggspectra', and as a way of learning myself how data are passed around within
 the different components of a `ggplot` object when it is printed.
 
-# Data input to _stats_ 
+# Data input to geometries
 
-The code of the _stats_ described in this vignette are very simple and print a summary of
-their `data` input by default to the console. However, the default function used to display
-the data can be substituted by a different one passed as an argument, adding flexibility. 
-The debug stats, in addition return a data frame containing labels suitable for "plotting" debug with geom
-"text" or geom "label". 
+Data pass through a statistics before being received by a geometry. However,
+many geometries, like `geom_point()` and `geom_line()` use by default
+`stat_identity()` which simply relays the unmodified data to the geometries.
 
-The 'gginnards' package defines a `"null"` geom, which is used as default 
-by the _debug_ _stats_. Currently this geom is similar to the more recently added 
-`ggplot2::geom_blank()` and is used as default _geom_ in the _stats_ described in this
-user guide.
+The _debug_ geometries and statistics in package 'gginnards' by default do
+not add any graphical element to the plot but instead they make visible the
+`data` as received as their input.
+
+The geometry `geom_debug()` uses `stat_identity()` by default. Here the same
+data as rendered by `geom_point()` is printed as a tibble to the R console.
+We can see that the columns are named according to the aesthetics the variables
+in the user-supplied data have been mapped. In the case of colour, the levels
+of the factor have been replaced by colour definitions. Columns `PANEL` and
+`group` have been also added.
+
+```{r}
+ggplot(mpg, aes(cyl, hwy, colour = factor(cyl))) + 
+  geom_point() +
+  geom_debug()
+```
+
+Below we show how `geom_debug()` can be used together with functions that take
+a data frame as input and return a value that can be printed. We use here 
+`head()` but other functions such `summary()`, `nrow()` and `colnames()` as
+well as user defined functions can be useful when `data` is large. As shown
+here, additional arguments can be passed by name to the function.
+
+```{r}
+ggplot(my.data, aes(x, y, colour = group)) + 
+  geom_point() + 
+  geom_debug(summary.fun = head, summary.fun.args = list(n = 3))
+```
+
+When using a statistic that modifies the data, we can pass `geom_debug()` as
+argument in the call to this statistic. In this way the data printed to the 
+console will be those returned by the statistics and received by the geometry.
+
+```{r}
+ggplot(mpg, aes(cyl, hwy, colour = factor(cyl))) +
+  stat_summary(fun.data = "mean_se") +
+  stat_summary(fun.data = "mean_se", geom = "debug") 
+```
+
+As shown above an important use of `geom_debug()` it to display the data returned by a statistic and received as input by geometries. Not all extensions to 'ggplot2' document all the computed variables returned by statistics. In other cases like in the next example, the values returned will depend on the arguments passed. While in the previous example the statistic returned a data frame with one row per group, here the returned data frame has 160 rows. The data are by default plotted as a line with a confidence band.
+
+```{r}
+ggplot(my.data, aes(x, y, colour = group)) + 
+  geom_point() + 
+  stat_smooth(method = "lm", formula = y ~ poly(x, 2)) +
+  stat_smooth(method = "lm", formula = y ~ poly(x, 2), geom = "debug")
+```
+
+# Data input to geometries
+
+Statistics can be defined to operate on data corresponding to a whole panel or
+separately on data corresponding to each individual group, as created by mapping
+aesthetics to factors. The statistics described below print a summary of their
+`data` input by default to the console. These statistics, in addition return a
+data frame containing text mapped to `labels` suitable for "plotting" with geom
+"text" or geom "label". This text gives a summary of the data.
+
+The 'gginnards' package defines a `"null"` geom, which is used as default by the
+_debug_ statistics. This geom is similar to the more recently added
+`ggplot2::geom_blank()` and is used as default _geom_ in the statistics
+described here.
 
 ```{r}
 ggplot(my.data, aes(x, y, colour = group)) + 
@@ -131,7 +231,7 @@ ggplot(my.data, aes(x, y, colour = group)) +
 ```
 
 Using as default geom "null" allows to add the debug _stats_ for the side effect
-of console output without altering the graphic output for the plot when there
+of console output without altering the rendering of the plot when there
 is at least one other plot layer.
 
 Because of the way 'ggplot2' works, the values are listed to the console at 
@@ -144,8 +244,9 @@ ggplot(my.data, aes(x, y)) +
   stat_debug_group()
 ```
  
-In the absence of facets or groups we just get the summary from one data 
-frame.
+In the absence of facets or groups we get the printout of a single data 
+frame, which is similar to that returned by `geom_debug()`. Without grouping,
+group is set to `-1` for all observations.
 
 ```{r}
 ggplot(my.data, aes(x, y)) + 
@@ -153,14 +254,22 @@ ggplot(my.data, aes(x, y)) +
   stat_debug_group()
 ```
 
+In a plot with no grouping, there is no difference in the `data` input for
+`compute_panel()` and `compute_group()` functions (this applies in general to ggplot
+statistics).
+
 ```{r}
 ggplot(my.data, aes(x, y)) + 
   geom_point() + 
   stat_debug_panel()
 ```
 
-In the case of grouping then one data frame is summarized for each group
-in the ggplot object.
+By mapping the `colour` aesthetic we create a grouping. In the case,
+`compute_group()` is called with the data subsetted by group, and a separate
+data frame is displayed for each call `compute_group()`, corresponding each to a
+level in the mapped factor. In this case `group` takes as values positive 
+consecutive integers. As a factor was mapped to colour, colour is encoded as
+a factor.
 
 ```{r}
 ggplot(my.data, aes(x, y, colour = group)) + 
@@ -176,7 +285,8 @@ ggplot(my.data, aes(x, y, colour = group)) +
   stat_debug_panel()
 ```
 
-The data are similar, except for the column named after the aesthetic, corresponding to the aesthetics used for grouping.
+When we map the same factor to a different aesthetic the data remain similar, 
+except for the column named after the aesthetic, in this case `shape`.
 
 ```{r}
 ggplot(my.data, aes(x, y, shape = group)) + 
@@ -184,51 +294,7 @@ ggplot(my.data, aes(x, y, shape = group)) +
   stat_debug_group()
 ```
 
-# Data returned by _stats_ 
-
-Next we show how `geom_debug()` can be used. Simplest but not most important use is to print to the console the data as passed to geoms as input, but this is not that different from what we saw in the previous section with the debug _stats_.
-
-```{r}
-ggplot(my.data, aes(x, y, colour = group)) + 
-  geom_point() + 
-  geom_debug(summary.fun = head)
-```
-
-The main use of `geom_debug()` it to display the data returned by _stats_ and received by the _geoms_. Not all extensions to 'ggplot2' document all the computed variables returned by the _stats_ through `data`. In addition, when debugging a newly defined _stat_ being able to easily see the output is particularly useful when a bug prevents graphical output from being displayed. 
-
-```{r}
-ggplot(my.data, aes(x, y, colour = group)) + 
-  geom_point() + 
-  stat_smooth(method = "lm", geom = "debug")
-```
-
-```{r}
-ggplot(my.data, aes(group, y, colour = group)) + 
-  geom_point(colour = "black") + 
-  stat_summary(fun.data = "mean_se") +
-  stat_summary(fun.data = "mean_se", geom = "debug")
-```
-
-# Grouping and facets
-
-With grouping, for each _group_ the `compute_group()` function is called with a subset of the data.
-
-```{r}
-ggplot(my.data, aes(x, y, colour = group)) + 
-  geom_point() + 
-  stat_debug_group(summary.fun = head, summary.fun.args = list(n = 3))
-```
-
-In this example with grouping and facets, within each _panel_ the `compute_group()` function is called for each group, in total four times.
-
-```{r}
-ggplot(my.data, aes(x, y, colour = group)) + 
-  geom_point() + 
-  stat_debug_group(summary.fun = nrow) +
-  facet_wrap(~block)
-```
-
-With facets, for each _panel_ the `compute_panel()` function is called with a subset of the data that is not split by groups. For our example, it is called twice.
+Facets based on factors create panels within a plot. Here we create a plot with both facets and grouping. In this case, for each _panel_ the `compute_panel()` function is called once with a subset of the data that corresponds to one panel, but not split by groups. For our example, it is called twice.
 
 ```{r}
 ggplot(my.data, aes(x, y, colour = group)) + 
@@ -237,17 +303,28 @@ ggplot(my.data, aes(x, y, colour = group)) +
   facet_wrap(~block)
 ```
 
+with grouping and facets, within each _panel_ the `compute_group()` function is called for each group, in total four times.
+
+```{r}
+ggplot(my.data, aes(x, y, colour = group)) + 
+  geom_point() + 
+  stat_debug_group() +
+  facet_wrap(~block)
+```
+
 # Controlling the debug output
 
-In the examples above we have demonstrated the use of the _stats_ and _geoms_
+In the examples above we have demonstrated the use of the statistics and geometries
 using default arguments. Here we show examples of generation of other types of
 debug output.
 
 ## Display debug output on the plot
 
-If we use as _geom_ `"label"` or `"text"` a _debug_ summary is added
-to the plot itself, we can use other arguments valid for the _geom_ used,
-in this case `vjust`.
+Differently to `geom_debug()` where the data can only be printed to the console,
+`stat_debug_group()` and `stat_debug_panel()` return data that can be plotted
+using a geometry. If we use as geometries `"label"` or `"text"` a _debug_ summary is added
+to the plot itself, we can also pass other arguments valid for the geometry used,
+in this case `vjust`. 
 
 ```{r}
 ggplot(my.data, aes(x, y, shape = group)) + 
@@ -255,53 +332,27 @@ ggplot(my.data, aes(x, y, shape = group)) +
   stat_debug_group(geom = "label", vjust = c(-0.5,1.5))
 ```
 
-## User summaries for debug output
-
-The default, made explicit.
-
-```{r}
-ggplot(my.data, aes(x, y)) + 
-  geom_point() + 
-  stat_debug_group(summary.fun = as_tibble)
-```
-
-If a different summary function is passed as argument to parameter `summary.fun` it will
-be used instead of the default one.
+This approach is of limited use except for highlighting groups and panels,
+possible when learning or teaching how ggplots are assembled.
 
 ```{r}
-ggplot(my.data, aes(x, y)) + 
+ggplot(my.data, aes(x, y, colour = group)) + 
   geom_point() + 
-  stat_debug_group(summary.fun = summary)
+  stat_debug_panel(geom = "label", aes(label = stat(paste("PANEL: ", PANEL)))) +
+  facet_wrap(~block)
 ```
+
+Of course to see all the returned variables, we can use `geom_debug()`.
 
 ```{r}
-ggplot(my.data, aes(x, y)) + 
+ggplot(my.data, aes(x, y, shape = group)) + 
   geom_point() + 
-  stat_debug_group(summary.fun = head)
+  stat_debug_group(geom = "debug")
 ```
 
-```{r}
-ggplot(my.data, aes(x, y)) + 
-  geom_point() + 
-  stat_debug_group(summary.fun = head, summary.fun.args = list(n = 3))
-```
+# Assign debug output to a variable
 
-```{r}
-ggplot(my.data, aes(x, y)) + 
-  geom_point() + 
-  stat_debug_group(summary.fun = nrow)
-```
-
-This next chunk showing how to print the whole data frame is not run as its output would be very long as the data set contains 100 observations.
-
-```{r, eval=FALSE}
-ggplot(my.data, aes(x, y)) + 
-  geom_point() + 
-  stat_debug_group(summary.fun = function(x) {x})
-```
-## Assign debug output to a variable
-
-In the next example we show how to save the data input of the geom to a variable in the global environment. However, assignment takes place at the time the ggplot object is printed.
+In the next example we show how to save the data input of the geom to a variable in the global environment. However, assignment takes place at the time the ggplot object is printed. An approach like this could be used to capture the data output of statistics in automated code tests.
 
 ```{r}
 pipe_assign <- function(value, name, pos = .GlobalEnv, ...) {
@@ -314,15 +365,10 @@ ggplot(my.data, aes(x, y, colour = group)) +
              summary.fun.args = list(name = "debug_data"),
              print.fun = NULL)
 
-debug_data
+head(debug_data)
 ```
 
 
-```{r}
-ggplot(my.data, aes(x, y, colour = group)) + 
-  geom_point() + 
-  geom_debug(summary.fun = NULL)
-```
 
 
 

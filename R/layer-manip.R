@@ -1,6 +1,6 @@
 #' Layer manipulation.
 #'
-#' Delete, move or append one or more layers in a ggplot.
+#' Delete, move or append one or more layers in a ggplot object.
 #'
 #' @param x an object of class \code{gg} to be operated upon.
 #' @param match_type The name of the ggproto object class for the geom(s),
@@ -89,7 +89,8 @@ delete_layers <- function(x, match_type = NULL, idx = NULL) {
 append_layers <- function(x, object, position = "top") {
   stopifnot(ggplot2::is.ggplot(x))
   stopifnot(methods::is(object, "Layer") ||
-              is.list(object) && all(sapply(object, methods::is, class2 = "Layer")) ||
+              is.list(object) &&
+              all(sapply(object, methods::is, class2 = "Layer")) ||
               is.list(object) && length(object) == 0L)
   z <- x + object
   if (length(z$layers) > length(x$layers) && position != "top") {
@@ -207,7 +208,11 @@ num_layers <- function(x) {
 #'
 #' @keywords internal
 #'
-edit_layers <- function(x, match_type = NULL, position = 0L, idx = NULL, action) {
+edit_layers <- function(x,
+                        match_type = NULL,
+                        position = 0L,
+                        idx = NULL,
+                        action) {
   stopifnot(ggplot2::is.ggplot(x))
   stopifnot(xor(is.null(match_type), is.null(idx)))
   if (length(position) > 1) {
@@ -224,7 +229,8 @@ edit_layers <- function(x, match_type = NULL, position = 0L, idx = NULL, action)
     matched_field <-
       known_fields[sapply(known_fields, grepl, x = tolower(match_type))]
     if (length(matched_field) == 0L) {
-      stop("Argument '", match_type, "' not in supported fields: ", known_fields, ".")
+      stop("Argument '", match_type,
+           "' not in supported fields: ", known_fields, ".")
     }
     # Find layers that match the requested type.
     idx <- sapply(x$layers,

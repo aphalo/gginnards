@@ -20,11 +20,11 @@ geom_debug(
 )
 }
 \arguments{
-\item{mapping}{Set of aesthetic mappings created by \code{\link{aes}} or
-\code{\link{aes_}}. If specified and \code{inherit.aes = TRUE} (the
-default), is combined with the default mapping at the top level of the
-plot. You only need to supply \code{mapping} if there isn't a mapping
-defined for the plot.}
+\item{mapping}{Set of aesthetic mappings created by
+\code{\link[ggplot2]{aes}} or \code{\link{aes_}}. If specified and
+\code{inherit.aes = TRUE} (the default), is combined with the default
+mapping at the top level of the plot. You only need to supply
+\code{mapping} if there isn't a mapping defined for the plot.}
 
 \item{data}{A data frame. If specified, overrides the default data frame
 defined at the top level of the plot.}
@@ -57,10 +57,10 @@ never includes, and \code{TRUE} always includes.}
 \item{inherit.aes}{If \code{FALSE}, overrides the default aesthetics, rather
 than combining with them. This is most useful for helper functions that
 define both data and aesthetics and shouldn't inherit behaviour from the
-default plot specification, e.g. \code{\link{borders}}.}
+default plot specification, e.g. \code{\link[ggplot2]{borders}}.}
 
-\item{...}{other arguments passed on to \code{\link{layer}}. There are three
-  types of arguments you can use here:
+\item{...}{other arguments passed on to \code{\link[ggplot2]{layer}}. There
+  are three types of arguments you can use here:
 
   \itemize{ \item Aesthetics: to set an aesthetic to a fixed value, like
   \code{color = "red"} or \code{size = 3}. \item Other arguments to the
@@ -77,5 +77,17 @@ stats and geoms work in 'ggplot2' (>= 2.0.0).
 }
 \note{
 This _geom_ is very unusual in that it does not produce visible graphic
-  output. It only returns a \code{grid::grid_null()} grob (graphical object).
+  output. It only returns a \code{grid.null()} grob (graphical object).
+}
+\examples{
+# echo to the R console \code{data} as received by geoms
+ggplot(mtcars, aes(cyl, mpg, color = factor(cyl))) +
+  geom_point() +
+  geom_debug()
+
+# echo to the R console \code{data} as received by geoms
+ggplot(mtcars, aes(cyl, mpg, colour = factor(cyl))) +
+  stat_summary(fun.data = "mean_se") +
+  stat_summary(fun.data = "mean_se", geom = "debug")
+
 }

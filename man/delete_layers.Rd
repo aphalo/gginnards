@@ -54,7 +54,7 @@ An edited copy of \code{x} for \code{delete_layers},
   in \code{x} in the case of \code{which_layers}.
 }
 \description{
-Delete, move or append one or more layers in a ggplot.
+Delete, move or append one or more layers in a ggplot object.
 }
 \details{
 These functions must be used with care as they select all layers

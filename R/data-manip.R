@@ -1,7 +1,9 @@
 #' Explore and manipulate the embedded data.
 #'
 #' Automatically remove unused variables from the "default" data object embedded
-#' in a \code{gg} or \code{ggplot} object with \code{drop_vars()}.
+#' in a \code{gg} or \code{ggplot} object with \code{drop_vars()}. Explore data
+#' variables and their use with \code{mapped_vars()}, \code{data_vars()} and
+#' \code{data_attributes()}.
 #'
 #' @param p ggplot Plot object with embedded data.
 #' @param keep.vars character Names of unused variables to be kept.
@@ -12,15 +14,16 @@
 #'
 #' @note These functions are under development and not yet thoroughly tested!
 #'   They are a demonstration of how one can manipulate the internals of
-#'   \code{ggplot} objects in 'ggplot2' version 3.1.0. These functions may stop
-#'   working after some future update to the 'ggplot2' package. Although I will
-#'   maintain this package for use in some of my other packages, there is no
-#'   guarantee that I will be able to achieve this transparently.
+#'   \code{ggplot} objects creayed with 'ggplot2' versions 3.1.0 and later.
+#'   These functions may stop working after some future update to the 'ggplot2'
+#'   package. Although I will maintain this package for use in some of my other
+#'   packages, there is no guarantee that I will be able to achieve this
+#'   transparently.
 #'
 #'   Obviously, rather than using function \code{drop_vars()} after creating the
-#'   \code{ggplot} object it is usually more efficient to select the variables of
-#'   interest and pass a data frame containing only these to the \code{ggplot()}
-#'   constructor.
+#'   \code{ggplot} object it is usually more efficient to select the variables
+#'   of interest and pass a data frame containing only these to the
+#'   \code{ggplot()} constructor.
 #'
 #' @section Warning!: The current implementation drops variables only from the
 #'   default data object. Data objects within layers are not modified.
@@ -129,4 +132,3 @@ data_attributes <- function(p) {
   stopifnot(ggplot2::is.ggplot(p))
   attributes(p$data)
 }
-

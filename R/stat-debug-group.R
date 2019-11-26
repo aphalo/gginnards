@@ -47,9 +47,11 @@
 #' ggplot(my.df, aes(x,y)) +
 #'   geom_point() +
 #'   stat_debug_group()
+#'
 #' ggplot(my.df, aes(x,y, colour = group)) +
 #'   geom_point() +
 #'   stat_debug_group()
+#'
 #' ggplot(my.df, aes(x,y)) +
 #'   geom_point() +
 #'   facet_wrap(~group) +

@@ -39,16 +39,16 @@ functions described in the first part of this vignette.
 
 In a `ggplot` object, layers reside in a list, and their positions in the list
 determine the plotting order when generating the graphical output. The _grammar
-of graphics_ treats the list of layers as a _stack_ using only _push_ operations.
-In other words, always the most recently added layer resides at the end of the
-list, and over-plots all layers previously added. The functions described in
-this vignette allow overriding the **normal** syntax at the cost of breaking the
-expectations of the grammar. These functions are, as told above, to be used only
-in exceptional cases. This notwithstanding, they are rather easy to use and the
-user interface is consistent across all of them. Moreover, they are designed to
-return objects that are identical to objects created using the normal syntax
-rules of the _grammar of graphics_. The table below list the names and purpose
-of these functions.
+of graphics_ treats the list of layers as a _stack_ using only _push_
+operations. In other words, always the most recently added layer resides at the
+end of the list, and during rendering over-plots all layers previously added.
+The functions described in this vignette allow overriding the **normal** syntax
+at the cost of breaking the expectations of the grammar. These functions are, as
+told above, to be used only in exceptional cases. This notwithstanding, they are
+rather easy to use and the user interface is consistent across all of them.
+Moreover, they are designed to return objects that are identical to objects
+created using the normal syntax rules of the _grammar of graphics_. The table
+below list the names and purpose of these functions.
 
 Function | Use                     
 -------- | -------------------------------------
@@ -77,7 +77,7 @@ library(magrittr)
 library(stringr)
 ```
 
-We generate some artificial data and create a data frame with it.
+We generate some artificial data and create a data frame with them.
 
 ```{r}
 set.seed(4321)
@@ -108,15 +108,16 @@ We generate a plot to be used later to demonstrate the use of the functions.
 ```{r}
 p <- ggplot(my.data, aes(group, y)) + 
   geom_point() +
-  stat_summary(fun.data = mean_se, colour = "red", size = 1.3) +
+  stat_summary(fun.data = mean_se, colour = "cornflowerblue", size = 1.3) +
   facet_wrap(~panel, scales = "free_x", labeller = label_both)
 p
 ```
 
 ## Exploring how ggplots are stored
 
-To display textual information about a `gg` object we use method `summary()`,
-while methods `print()` and `plot()` will display the actual plot.
+To display summary textual information about a `gg` object we use method
+`summary()` from package 'ggplot2', while methods `print()` and `plot()` will
+display the actual plot.
 
 ```{r}
 summary(p)
@@ -144,7 +145,8 @@ the information in a layer.
 print(p$layers)
 ```
 
-To see all the fields, we need to use `str()`, which we use here for a single layer.
+To see all the fields, we need to use `str()`, which we use here for a single
+layer.
 
 ```{r}
 str(p$layers[[1]])
@@ -152,27 +154,30 @@ str(p$layers[[1]])
 
 ## Manipulation of plot layers
 
-We start by using `which_layers()` as it produces simply a vector of indexes into
-the list of layers. The third statement is useless here, but demonstrates how
-layers are selected in all the functions described in this document.
+We start by using `which_layers()` as it produces simply a vector of indexes
+into the list of layers. The third statement is useless here, but demonstrates
+how layers are selected in all the functions described in this document. We can
+see that each layer, as described in the first volume of this User Guide,
+contains one geometry and one statistic.
 
 ```{r}
 which_layers(p, "GeomPoint")
+which_layers(p, "StatIdentity")
+which_layers(p, "GeomPointrange")
 which_layers(p, "StatSummary")
 which_layers(p, idx = 1L)
 ```
 
-We can also easily extract matching layers with `extract_layers()`. Here one layer
-is returned, and displayed using the default `print()` method. Method `str()`
-can also be used as shown above.
+We can also easily extract matching layers with `extract_layers()`. Here one
+layer is returned, and displayed using the default `print()` method. Method
+`str()` can also be used as shown above.
 
 ```{r}
 extract_layers(p, "GeomPoint")
 ```
 
-With `delete_layers()` we can remove layers from a plot, selecting them using 
-the match to a class, as shown here, or by a positional index. This was shown
-above for `which_layers()`.
+With `delete_layers()` we can remove layers from a plot, selecting them using
+the match to a class, as shown here, or by a positional index as shown next.
 
 ```{r}
 delete_layers(p, "GeomPoint")
@@ -197,9 +202,9 @@ list of layers not being moved.
 move_layers(p, "GeomPoint", position = "top")
 ```
 
-The equivalent operation using a relative position. A positive value for `shift` is 
-interpreted as an upward displacement and a negative one as downwards 
-displacement. 
+The equivalent operation using a relative position. A positive value for `shift`
+is interpreted as an upward displacement and a negative one as downwards
+displacement.
 
 ```{r}
 shift_layers(p, "GeomPoint", shift = +1)
@@ -224,7 +229,8 @@ append_layers(p, object = geom_line(colour = "orange", size = 1),
               position = which_layers(p, "GeomPoint"))
 ```
 
-Annotations add layers, so they can be manipulated in the same way as other layers.
+Annotations add layers, so they can be manipulated in the same way as other
+layers.
 
 ```{r}
 p1 <- p + 
@@ -239,7 +245,7 @@ delete_layers(p1, "GeomText")
 ## Replacing scales, coordinates, whole themes and data.
 
 Elements that are normally _added_ to a ggplot with operator 
-`+`, such as scales, themes, easthetics can be replaced with the `%+%` operator.
+`+`, such as scales, themes, aesthetics can be replaced with the `%+%` operator.
 The situation with layers is different as a plot may contain multiple layers
 and layers are nameless. With layers `%+%` is not a replacement operator.
 
@@ -264,9 +270,9 @@ Method `summary()` is available for themes.
 summary(theme_bw())
 ```
 
-However, to see the actual values stored, we need to use `str()`. To avoid exesive
-output we first find the names for the elements of the theme and then look as how
-the default text settings are stored.
+However, to see the actual values stored, we need to use `str()`. To avoid
+excessive output we first find the names for the elements of the theme and then
+look as how the default text settings are stored.
 
 ```{r, eval=FALSE}
 names(theme_bw())
@@ -276,24 +282,25 @@ names(theme_bw())
 str(theme_bw()$text)
 ```
 
-Themes can be modified using `theme()`. See the 'ggplot2' documentation for details.
+Themes can be modified using `theme()`. See the 'ggplot2' documentation for
+details.
 
 ## Removing unused data
 
-The argument passed through `data` to `ggplot()` or a layer is stored
-in whole in the `ggplot` object, even the data columns not mapped to any 
-aesthetic. In most cases this does not matter, but in the case of huge datasets, 
-the use of RAM and disk space can add up, and occasionally printing of each plot can slow down. 
-The reason for storing the whole data set is that it is always possible to add
-layers and consequently only the user can know which variables can be removed or
-not.
+The argument passed through `data` to `ggplot()` or a layer is stored in whole
+in the `ggplot` object, even the data columns not mapped to any aesthetic. In
+most cases this does not matter, but in the case of huge datasets, the use of
+RAM and disk space can add up, and occasionally printing of each plot can slow
+down. The reason for storing the whole data set is that it is always possible to
+add layers with the grammar of graphics to an existing plot and consequently
+only the user can know which variables can be removed or not.
 
-One obvious way of not storing unused data in `ggplot` objects is for the user 
-to select the required variables and pass
-only these to the `ggplot()` constructor or layers. A less efficient alternative, but
-possibly easier to use for some users, is for users to drop the unused
-variables when they consider that a plot is ready. We show here how to do this,
-with a function that started as a self-imposed exercise.
+One obvious way of not storing unused data in `ggplot` objects is for the user
+to select the required variables and pass only these to the `ggplot()`
+constructor or layers. A less efficient alternative, but possibly easier to use
+for some users, is for users to drop the unused variables when they consider
+that a plot is ready. We show here how to do this, with a function that started
+as a self-imposed exercise.
 
 To simplify the embedded data objects we need to find which variables are mapped
 to aesthetics and which are not. Here is a naive attempt at handling the
@@ -345,11 +352,11 @@ The plot has not changed.
 p1
 ```
 
-We can assemble all the code into a function for convenience, and expand the code
-to also recognize mappings within layers and variables used in faceting. Such a  
-function, only cursorily tested is included in the 
-package as `drop_vars()`. Given its design the most likely failure mode is
-keeping too many variables rather than removing too many.
+We can assemble all the code into a function for convenience, and expand the
+code to also recognize mappings within layers and variables used in faceting.
+Such a function, only cursorily tested is included in the package as
+`drop_vars()`. Given its design the most likely failure mode is keeping too many
+variables rather than removing too many.
 
 ```{r}
 drop_vars(p)
@@ -386,16 +393,18 @@ pryr::address(my.data)
 
 ## Attributes of the embedded data object
 
-'ggplot2' version 3.1.0 preserves most attributes of the object passed as argument
-to the data parameter of the `ggplot()` constructor. The class of the object
-seems to be modified if it is derived from data frame or tibble, but other attributes are retained in the copy stored
-in the `gg` object.
+'ggplot2' version 3.1.0 and later preserves most attributes of the object passed
+as argument to the data parameter of the `ggplot()` constructor. The class of
+the object seems to be modified if it is derived from data frame or tibble, but
+other attributes are retained in the copy stored in the `gg` object.
 
 ```{r}
 data_attributes(p)
 ```
 
-Another interesting question is whether these user attributes are copied when data are passed to geometries and statistics. We can find out with `geom_debug()` that they are not.
+Another interesting question is whether these user attributes are copied when
+data are passed to geometries and statistics. We can find out with
+`geom_debug()` that they are not.
 
 ```{r}
 p + geom_debug(summary.fun = attributes)
@@ -403,8 +412,8 @@ p + geom_debug(summary.fun = attributes)
 
 ## Coda
 
-The are many other things that we could explore about ggplot objects, but a package 
-to be submitted to CRAN cannot have too many pages of documentation, so we hope
-this package and its documentation can serve as a starting point for further 
-exploration.
+The are many other things that we could explore about ggplot objects, but a
+package to be submitted to CRAN cannot have too many pages of documentation, so
+we hope this package and its documentation can serve as a starting point for
+further exploration.
 

@@ -29,12 +29,15 @@
 #'   elements of each data vector. By default each level of list recursion is
 #'   indicated and attributes enclosed in angle brackets.
 #'
-#' @seealso A \code{summary()} method for class \code{ggplot} is defined by
+#' @seealso A \code{\link{summary}} method for class \code{ggplot} is defined by
 #'   package 'ggplot2'. Method \code{summary()} provides a more compact
 #'   description of \code{"ggplot"} objects than method \code{str()}. Here we
 #'   provide a wrapper on R's \code{str()} with different default arguments. A
 #'   summary does not directly describe how the different components of an R
 #'   object are stored, while the structure does.
+#'
+#' @note In the case of objects with a nested structure \code{str()} is called
+#'   recursively and dispatched according to the class of each nested member.
 #'
 #' @importFrom utils str
 #'
@@ -43,8 +46,6 @@
 #' @name str
 #'
 #' @examples
-#' library(ggplot2)
-#'
 #' p <- ggplot(mpg, aes(factor(year), (cty + hwy) / 2)) +
 #'   geom_boxplot() +
 #'   geom_point(color = "red") +
@@ -54,20 +55,27 @@
 #' p
 #'
 #' # str(p) vs. summary(p)
-#' str(p, max.level = 1, size = FALSE)
-#' summary(p)
+#' str(p)
+#' summary(p) # from pacakge 'ggplot2'
 #'
 #' # structure of p at 2 levels of nesting
-#' str(p, max.level = 2)
+#' str(p, max.level = 2, size = FALSE)
 #'
 #' # top level structure and size of p
 #' str(p, max.level = 0)
 #'
+#' # names of ggplot members
+#' names(p)
+#'
 #' # structure and size of p["data"]
-#' str(p, components = "data")
+#' str(p, max.level = 2, components = "data")
+#'
+#' # structure and size of p["layers"]
+#' str(p, max.level = 1, components = "layers")
 #'
 str.ggplot <- function(object, ...,
-                       max.level = 1, components = TRUE,
+                       max.level = 1,
+                       components = TRUE,
                        vec.len = 2, list.len = 99,
                        give.attr = FALSE,
                        comp.str = "$ ",
@@ -92,4 +100,3 @@ str.ggplot <- function(object, ...,
       )
   invisible()
 }
-

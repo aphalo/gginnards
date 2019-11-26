@@ -20,7 +20,7 @@ The new facilities for cleanly defining new stats and geoms added to
   'ggplot2' that I was developing. I share them through this package in the
   hope that they will help other users of 'ggplot2' understand how this
   this vry popular graphics package works internally. The vignettes provide
-  examples of how to use this tools both for debugging and learning how
+  examples of how to use these tools both for debugging and learning how
   ggplots are stored.
 
 Extensions provided:
@@ -32,6 +32,28 @@ ggplot object.
 \item Functions for exploring and manipulating the data embedded in
 ggplot objects, including dropping unused variables.
 }
+}
+\examples{
+# echo to the R console \code{data} as received by geoms
+ggplot(mtcars, aes(cyl, mpg, color = factor(cyl))) +
+  geom_point() +
+  geom_debug()
+
+# echo to the R console \code{data} as received by geoms
+ggplot(mtcars, aes(cyl, mpg, colour = factor(cyl))) +
+  stat_summary(fun.data = "mean_se") +
+  stat_summary(fun.data = "mean_se", geom = "debug")
+
+# echo to the R console \code{data} received by \code{compute_panel()}
+ggplot(mtcars, aes(cyl, mpg, color = factor(cyl))) +
+  geom_point() +
+  stat_debug_panel()
+
+# echo to the R console \code{data} received by \code{compute_group()}
+ggplot(mtcars, aes(cyl, mpg, color = factor(cyl))) +
+  geom_point() +
+  stat_debug_group()
+
 }
 \references{
 Package 'tidyverse' web site at \url{https://www.tidyverse.org/}\cr
