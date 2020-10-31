@@ -8,7 +8,7 @@ home:
   - text: More on 'ggplot2'
     href: https://r4ds.had.co.nz/data-visualisation.html
   - text: Other extensions
-    href: https://www.ggplot2-exts.org/gallery/
+    href: https://exts.ggplot2.tidyverse.org/
 
 reference:
   - title: Package overview
