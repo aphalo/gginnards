@@ -1,24 +1,22 @@
 Package: gginnards
 Type: Package
 Title: Explore the Innards of 'ggplot2' Objects
-Version: 0.0.3
-Date: 2019-11-26
+Version: 0.0.3.9000
+Date: 2021-01-02
 Authors@R:
     c(
     person("Pedro J.", "Aphalo", email = "pedro.aphalo@helsinki.fi", role = c("aut", "cre"), comment = c(ORCID = "0000-0003-3385-972X"))    )
 Maintainer: Pedro J. Aphalo <pedro.aphalo@helsinki.fi>
 Description: Extensions to 'ggplot2' providing low-level debug tools: statistics
-    and geometries reporting data passed to compute_group() and compute_panel() 
-    functions and to geometries. Layer manipulation: functions for deletion,
-    insertion, extraction and reordering of layers of "ggplot" objects. Data
-    manipulation: function for deletion of unused variables from the
-    data object embedded in "ggplot" objects.
+    and geometries echoing their data argument. Layer manipulation: deletion,
+    insertion, extraction and reordering of layers. Deletion of unused variables 
+    from the data object embedded in "ggplot" objects.
 License: GPL (>= 2)
 LazyData: TRUE
 LazyLoad: TRUE
 ByteCompile: TRUE
 Depends:
-    R (>= 3.5.0),
+    R (>= 3.6.0),
     ggplot2 (>= 3.2.1)
 Imports:
     utils,
@@ -32,8 +30,8 @@ Suggests:
     knitr (>= 1.24),
     rmarkdown (>= 1.14),
     pryr (>= 0.1.4)
-URL: https://www.r4photobiology.info, https://bitbucket.org/aphalo/gginnards
-BugReports: https://bitbucket.org/aphalo/gginnards/issues
+URL: https://www.r4photobiology.info, https://github.com/aphalo/gginnards
+BugReports: https://github.com/aphalo/gginnards/issues
 Encoding: UTF-8
-RoxygenNote: 7.0.1
+RoxygenNote: 7.1.1
 VignetteBuilder: knitr

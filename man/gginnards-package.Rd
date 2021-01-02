@@ -7,11 +7,9 @@
 \title{gginnards: Explore the Innards of 'ggplot2' Objects}
 \description{
 Extensions to 'ggplot2' providing low-level debug tools: statistics
-    and geometries reporting data passed to compute_group() and compute_panel() 
-    functions and to geometries. Layer manipulation: functions for deletion,
-    insertion, extraction and reordering of layers of "ggplot" objects. Data
-    manipulation: function for deletion of unused variables from the
-    data object embedded in "ggplot" objects.
+    and geometries echoing their data argument. Layer manipulation: deletion,
+    insertion, extraction and reordering of layers. Deletion of unused variables 
+    from the data object embedded in "ggplot" objects.
 }
 \details{
 The new facilities for cleanly defining new stats and geoms added to
@@ -64,8 +62,8 @@ Package 'ggplot2' source code at \url{https://github.com/tidyverse/ggplot2}
 Useful links:
 \itemize{
   \item \url{https://www.r4photobiology.info}
-  \item \url{https://bitbucket.org/aphalo/gginnards}
-  \item Report bugs at \url{https://bitbucket.org/aphalo/gginnards/issues}
+  \item \url{https://github.com/aphalo/gginnards}
+  \item Report bugs at \url{https://github.com/aphalo/gginnards/issues}
 }
 
 }

@@ -1,14 +1,5 @@
 destination: ../gginnards-docs
-
-home:
-  strip_header: true
-  links:
-  - text: Photobiology packages
-    href: https://www.r4photobiology.info/
-  - text: More on 'ggplot2'
-    href: https://r4ds.had.co.nz/data-visualisation.html
-  - text: Other extensions
-    href: https://exts.ggplot2.tidyverse.org/
+url: https://docs.r4photobiology.info/gginnards/
 
 reference:
   - title: Package overview
@@ -36,3 +27,42 @@ reference:
     desc: Specialization of `str()`. This function complements the `summary()` method from 'ggplot2'.
     contents:
     - str
+
+navbar:
+  structure:
+    left:
+    - home
+    - intro
+    - reference
+    - articles
+    - tutorials
+    - news
+    right: github
+  components:
+    home:
+      icon: fas fa-home fa-lg
+      href: index.html
+    reference:
+      text: Reference
+      href: reference/index.html
+    github:
+      icon: fab fa-github fa-lg
+      href: https://github.com/aphalo/gginnards/
+    articles:
+      text: User Guide
+      menu:
+      - text: '1 Debugging ggplots'
+        href: articles/user-guide-1.html
+      - text: '2 Manipulating ggplots'
+        href: articles/user-guide-2.html
+    tutorials:
+      text: Resources
+      menu:
+      - text: Blog on R by Pedro J. Aphalo
+        href: https://www.r4photobiology.info/
+      - text: Package 'ggpmisc'
+        href: https://docs.r4photobiology.info/ggpmisc/
+      - text: Resources about 'ggplot2'
+        href: https://ggplot2.tidyverse.org/
+      - text: Other 'ggplot2' extensions
+        href: https://exts.ggplot2.tidyverse.org/

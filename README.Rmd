@@ -13,7 +13,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-# gginnards #
+# gginnards <img src="man/figures/logo-gginnards.png" align="right" width="150" />
 
 [![cran version](https://www.r-pkg.org/badges/version/gginnards)](https://cran.r-project.org/package=gginnards)
 
@@ -146,7 +146,7 @@ News about updates are regularly posted at (https://www.r4photobiology.info/).
 
 ## Contributing
 
-Please report bugs and request new features at (https://bitbucket.org/aphalo/gginnards/issues). Pull requests are welcome at (https://bitbucket.org/aphalo/gginnards).
+Please report bugs and request new features at (https://github.com/aphalo/gginnards/issues). Pull requests are welcome at (https://github.com/aphalo/gginnards).
 
 ## Citation
 
@@ -158,5 +158,5 @@ citation("gginnards")
 
 ## License
 
-© 2016-2019 Pedro J. Aphalo (pedro.aphalo@helsinki.fi). Released under the GPL, version 2 or greater. This software carries no warranty of any kind.
+© 2016-2021 Pedro J. Aphalo (pedro.aphalo@helsinki.fi). Released under the GPL, version 2 or greater. This software carries no warranty of any kind.
 
