@@ -4,3 +4,4 @@ devel-tests
 ^README\.Rmd$
 ^_pkgdown\.yml$
 build-binary-from-source\.sh
+^\.github$
