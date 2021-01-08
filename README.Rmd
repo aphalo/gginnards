@@ -16,6 +16,7 @@ knitr::opts_chunk$set(
 # gginnards <img src="man/figures/logo-gginnards.png" align="right" width="150" />
 
 [![cran version](https://www.r-pkg.org/badges/version/gginnards)](https://cran.r-project.org/package=gginnards)
+[![R build status](https://github.com/aphalo/gginnards/workflows/R-CMD-check/badge.svg)](https://github.com/aphalo/gginnards/actions)
 
 ## Purpose
 
@@ -131,11 +132,11 @@ Installation of the most recent stable version from CRAN:
 install.packages("gginnards")
 ```
 
-Installation of the current unstable version from Bitbucket:
+Installation of the current unstable version from GitHub:
 
 ```{r bb-instalaltion, eval=FALSE}
 # install.packages("devtools")
-devtools::install_bitbucket("aphalo/gginnards")
+devtools::install_github("aphalo/gginnards")
 ```
 
 ## Documentation

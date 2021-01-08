@@ -1,12 +1,14 @@
 ---
-editor_options: 
-  markdown: 
+editor_options:
+  markdown:
     wrap: 72
 ---
 
 # gginnards 0.0.4
 
 -   Revise documentation.
+-   **Move git repository from Bitbucket to Github.**
+-   Set up Github action for CRAN-checks on Windows, OS X and Ubuntu.
 
 # gginnards 0.0.3
 

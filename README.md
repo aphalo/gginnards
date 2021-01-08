@@ -5,6 +5,8 @@
 
 [![cran
 version](https://www.r-pkg.org/badges/version/gginnards)](https://cran.r-project.org/package=gginnards)
+[![R build
+status](https://github.com/aphalo/gginnards/workflows/R-CMD-check/badge.svg)](https://github.com/aphalo/gginnards/actions)
 
 ## Purpose
 
@@ -119,9 +121,9 @@ ggplot(mtcars, aes(cyl, mpg, colour = factor(cyl))) +
     #> # A tibble: 3 x 8
     #>   colour      x group     y  ymin  ymax PANEL flipped_aes
     #>   <chr>   <dbl> <int> <dbl> <dbl> <dbl> <fct> <lgl>      
-    #> 1 #F8766D     4     1  26.7  24.2  29.1 1     FALSE      
+    #> 1 #F8766D     4     1  26.7  24.3  29.2 1     FALSE      
     #> 2 #00BA38     6     2  19.7  18.7  20.7 1     FALSE      
-    #> 3 #619CFF     8     3  15.1  13.8  16.4 1     FALSE
+    #> 3 #619CFF     8     3  15.1  13.7  16.4 1     FALSE
 
 We print to the R console `data` as *seen* as input by statistics that
 use a *panel function*.
@@ -185,11 +187,11 @@ Installation of the most recent stable version from CRAN:
 install.packages("gginnards")
 ```
 
-Installation of the current unstable version from Bitbucket:
+Installation of the current unstable version from GitHub:
 
 ``` r
 # install.packages("devtools")
-devtools::install_bitbucket("aphalo/gginnards")
+devtools::install_github("aphalo/gginnards")
 ```
 
 ## Documentation
