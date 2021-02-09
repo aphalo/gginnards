@@ -65,7 +65,16 @@ This _geom_ is very unusual in that it does not produce visible graphic
   \code{show.legend}.
 }
 \examples{
+ggplot(mtcars) +
+  geom_null()
+
 ggplot(mtcars, aes(cyl, mpg)) +
+  geom_null()
+
+# shape data
+nc <- sf::st_read(system.file("shape/nc.shp", package = "sf"), quiet = TRUE)
+
+ggplot(data = nc) +
   geom_null()
 
 }

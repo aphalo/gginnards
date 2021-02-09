@@ -64,8 +64,21 @@
 #' str(p, components = "data")
 #' str(p.dp, components = "data") # smaller in size
 #'
+#' # shape data
+#' nc <- sf::st_read(system.file("shape/nc.shp", package = "sf"), quiet = TRUE)
+#'
+#' p.sf <- ggplot(data = nc) +
+#'           geom_sf()
+#' p.sf
+#' mapped_vars(p.sf)
+#' drop_vars(p.sf)
+#'
 drop_vars <- function(p, keep.vars = character(), guess.vars = TRUE) {
   stopifnot(ggplot2::is.ggplot(p))
+  if (inherits(p$data, "sf")) {
+    message("'drop_vars()' does not yet support shape file 'sf' data.")
+    return(p)
+  }
   if (guess.vars) {
     mapped.vars <- mapped_vars(p)
   } else {

@@ -6,6 +6,8 @@ editor_options:
 
 # gginnards 0.0.4
 
+-   Track updates to 'ggplot2', adding support and examples for
+    `geom_sf()` plot layers.
 -   Revise documentation.
 -   **Move git repository from Bitbucket to Github.**
 -   Set up Github action for CRAN-checks on Windows, OS X and Ubuntu.

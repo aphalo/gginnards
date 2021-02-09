@@ -44,7 +44,16 @@
 #' @export
 #'
 #' @examples
+#' ggplot(mtcars) +
+#'   geom_null()
+#'
 #' ggplot(mtcars, aes(cyl, mpg)) +
+#'   geom_null()
+#'
+#' # shape data
+#' nc <- sf::st_read(system.file("shape/nc.shp", package = "sf"), quiet = TRUE)
+#'
+#' ggplot(data = nc) +
 #'   geom_null()
 #'
 geom_null <- function(mapping = NULL, data = NULL, stat = "identity",
@@ -73,7 +82,6 @@ geom_null <- function(mapping = NULL, data = NULL, stat = "identity",
 #'
 GeomNull <-
   ggplot2::ggproto("GeomNull", ggplot2::Geom,
-                   required_aes = c("x", "y"),
                    default_aes = ggplot2::aes(),
                    draw_key = function(...) {
                      grid::nullGrob()
@@ -145,6 +153,13 @@ GeomNull <-
 #'   stat_summary(fun.data = "mean_se") +
 #'   stat_summary(fun.data = "mean_se", geom = "debug")
 #'
+#' # shape data is not passed to geometries or statistics
+#' nc <- sf::st_read(system.file("shape/nc.shp", package = "sf"), quiet = TRUE)
+#'
+#' ggplot(data = nc) +
+#'   geom_sf(color = "darkblue", fill = "white") +
+#'   geom_debug()
+#'
 geom_debug <- function(mapping = NULL, data = NULL, stat = "identity",
                        summary.fun = tibble::as_tibble,
                        summary.fun.args = list(),
@@ -172,7 +187,6 @@ geom_debug <- function(mapping = NULL, data = NULL, stat = "identity",
 #' @export
 GeomDebug <-
   ggplot2::ggproto("GeomDebug", ggplot2::Geom,
-                   required_aes = c("x", "y"),
                    draw_key = function(...) {
                      grid::nullGrob()
                      },

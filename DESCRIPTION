@@ -1,8 +1,8 @@
 Package: gginnards
 Type: Package
 Title: Explore the Innards of 'ggplot2' Objects
-Version: 0.0.3.9000
-Date: 2021-01-05
+Version: 0.0.4
+Date: 2021-02-09
 Authors@R:
     c(
     person("Pedro J.", "Aphalo", email = "pedro.aphalo@helsinki.fi", role = c("aut", "cre"), comment = c(ORCID = "0000-0003-3385-972X"))    )
@@ -26,6 +26,7 @@ Imports:
     magrittr (>= 1.5),
     tibble (>= 2.1.0)
 Suggests:
+    sf (>= 0.9),
     dplyr (>= 0.8.1),
     knitr (>= 1.24),
     rmarkdown (>= 1.14),

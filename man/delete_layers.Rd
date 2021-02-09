@@ -92,8 +92,8 @@ df <- data.frame(
   y = rnorm(30)
 )
 p <- ggplot(df, aes(gp, y)) +
-     geom_point() +
-     stat_summary(fun.data = "mean_se", colour = "red")
+       geom_point() +
+       stat_summary(fun.data = "mean_se", colour = "red")
 p
 delete_layers(p, "GeomPoint")
 delete_layers(p, "StatSummary")
@@ -104,6 +104,7 @@ move_layers(p, "GeomPointrange", position = 1L)
 append_layers(p, geom_line(colour = "orange"), position = "bottom")
 append_layers(p, geom_line(colour = "orange"), position = 1L)
 extract_layers(p, "GeomPoint")
+ggplot(df, aes(gp, y)) + extract_layers(p, "GeomPoint")
 which_layers(p, "GeomPoint")
 num_layers(p)
 top_layer(p)
@@ -111,6 +112,35 @@ bottom_layer(p)
 num_layers(ggplot())
 top_layer(ggplot())
 bottom_layer(ggplot())
+
+nc <- sf::st_read(system.file("shape/nc.shp", package = "sf"), quiet = TRUE)
+nc_3857 <- sf::st_transform(nc, 3857)
+
+p.sf1 <- ggplot() +
+          geom_sf(data = nc)
+p.sf1
+num_layers(p.sf1)
+top_layer(p.sf1)
+
+append_layers(p.sf1,
+              geom_sf(data = nc_3857, colour = "red", fill = NA),
+              position = "top")
+
+p.sf2 <- ggplot() +
+          geom_sf(data = nc) +
+          geom_sf(data = nc_3857, colour = "red", fill = NA)
+p.sf2
+num_layers(p.sf2)
+top_layer(p.sf2)
+delete_layers(p.sf2, idx = 2L)
+
+extract_layers(p.sf2, "GeomSf")
+extract_layers(p.sf2, "StatSf")
+extract_layers(p.sf2, idx = 1L)
+p.sf1 + extract_layers(p.sf2, idx = 2L)
+
+# beware that Coords are not extracted!
+ggplot() + extract_layers(p.sf2, idx = 2L) + coord_sf()
 
 }
 \references{

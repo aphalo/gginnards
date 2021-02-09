@@ -90,4 +90,11 @@ ggplot(mtcars, aes(cyl, mpg, colour = factor(cyl))) +
   stat_summary(fun.data = "mean_se") +
   stat_summary(fun.data = "mean_se", geom = "debug")
 
+# shape data is not passed to geometries or statistics
+nc <- sf::st_read(system.file("shape/nc.shp", package = "sf"), quiet = TRUE)
+
+ggplot(data = nc) +
+  geom_sf(color = "darkblue", fill = "white") +
+  geom_debug()
+
 }
