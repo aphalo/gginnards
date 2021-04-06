@@ -121,9 +121,9 @@ ggplot(mtcars, aes(cyl, mpg, colour = factor(cyl))) +
     #> # A tibble: 3 x 8
     #>   colour      x group     y  ymin  ymax PANEL flipped_aes
     #>   <chr>   <dbl> <int> <dbl> <dbl> <dbl> <fct> <lgl>      
-    #> 1 #F8766D     4     1  26.7  24.3  29.2 1     FALSE      
-    #> 2 #00BA38     6     2  19.7  18.7  20.7 1     FALSE      
-    #> 3 #619CFF     8     3  15.1  13.7  16.4 1     FALSE
+    #> 1 #F8766D     4     1  26.7  24.1  29.2 1     FALSE      
+    #> 2 #00BA38     6     2  19.7  18.8  20.7 1     FALSE      
+    #> 3 #619CFF     8     3  15.1  13.9  16.4 1     FALSE
 
 We print to the R console `data` as *seen* as input by statistics that
 use a *panel function*.
@@ -219,18 +219,17 @@ citation("gginnards")
 #> 
 #> To cite package 'gginnards' in publications use:
 #> 
-#>   Pedro J. Aphalo (2019). gginnards: Explore the Innards of 'ggplot2'
-#>   Objects. R package version 0.0.3.
-#>   https://CRAN.R-project.org/package=gginnards
+#>   Pedro J. Aphalo (2021). gginnards: Explore the Innards of 'ggplot2'
+#>   Objects. https://www.r4photobiology.info,
+#>   https://github.com/aphalo/gginnards.
 #> 
 #> A BibTeX entry for LaTeX users is
 #> 
 #>   @Manual{,
 #>     title = {gginnards: Explore the Innards of 'ggplot2' Objects},
 #>     author = {Pedro J. Aphalo},
-#>     year = {2019},
-#>     note = {R package version 0.0.3},
-#>     url = {https://CRAN.R-project.org/package=gginnards},
+#>     year = {2021},
+#>     note = {https://www.r4photobiology.info, https://github.com/aphalo/gginnards},
 #>   }
 ```
 
