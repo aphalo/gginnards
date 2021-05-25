@@ -4,6 +4,19 @@ editor_options:
     wrap: 72
 ---
 
+# gginnards 0.1.0
+
+-   Add `geom_debug_npc()` as a synonym for `geom_debug()` to allow
+    debugging of *geoms* supporting npc coordinates as defined in
+    package 'ggpp'.
+-   Revise `stat_debug_group()` and `stat_debug_panel()` simplifying the
+    output and code. In particular avoid setting default aesthetics and
+    change default for `geom` to `"debug"`.
+-   Revise `geom_debug()` setting `NULL` as default for `summary.fun`
+    and gains two new parameters to allow using a different summary
+    function than that passed as argument to the *statistic*.
+-   Revise part 1 of the User Guide.
+
 # gginnards 0.0.4
 
 -   Track updates to 'ggplot2', adding support and examples for

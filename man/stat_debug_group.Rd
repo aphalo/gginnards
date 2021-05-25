@@ -7,8 +7,8 @@
 stat_debug_group(
   mapping = NULL,
   data = NULL,
-  geom = "null",
-  summary.fun = tibble::as_tibble,
+  geom = "debug",
+  summary.fun = print,
   summary.fun.args = list(),
   position = "identity",
   na.rm = FALSE,

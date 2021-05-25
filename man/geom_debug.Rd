@@ -2,14 +2,34 @@
 % Please edit documentation in R/geom-debug.R
 \name{geom_debug}
 \alias{geom_debug}
+\alias{geom_debug_npc}
 \title{Geom which prints input data to console.}
 \usage{
 geom_debug(
   mapping = NULL,
   data = NULL,
   stat = "identity",
-  summary.fun = tibble::as_tibble,
+  summary.fun = NULL,
+  geom.summary.fun = summary.fun,
   summary.fun.args = list(),
+  geom.summary.fun.args = summary.fun.args,
+  print.fun = print,
+  print.fun.args = list(),
+  position = "identity",
+  na.rm = FALSE,
+  show.legend = FALSE,
+  inherit.aes = TRUE,
+  ...
+)
+
+geom_debug_npc(
+  mapping = NULL,
+  data = NULL,
+  stat = "identity",
+  summary.fun = NULL,
+  geom.summary.fun = summary.fun,
+  summary.fun.args = list(),
+  geom.summary.fun.args = summary.fun.args,
   print.fun = print,
   print.fun.args = list(),
   position = "identity",
@@ -32,11 +52,11 @@ defined at the top level of the plot.}
 \item{stat}{The statistical transformation to use on the data for this layer,
 as a string.}
 
-\item{summary.fun}{A function used to print the \code{data} object received
-as input.}
+\item{summary.fun, geom.summary.fun}{A function used to print the \code{data}
+object received as input.}
 
-\item{summary.fun.args}{A list of additional arguments to be passed to
-\code{summary.fun}.}
+\item{summary.fun.args, geom.summary.fun.args}{A list of additional arguments
+to be passed to \code{summary.fun}.}
 
 \item{print.fun}{A function used to print the value returned by
 \code{summary.fun}.}
@@ -67,6 +87,13 @@ default plot specification, e.g. \code{\link[ggplot2]{borders}}.}
   layer, for example you override the default \code{stat} associated with the
   layer. \item Other arguments passed on to the stat. }}
 }
+\value{
+This _geom_ is very unusual in that it does not produce visible graphic
+  output. It only returns a \code{grid.null()} grob (graphical object). It
+  passes its input as argument to the first parameter of the function
+  passed as argument to `geom.summary.function`. This by default is the
+  argument passed to `summary.fun`.
+}
 \description{
 The debug geom is used to print to the console a summary of the data being
 received by geoms as input \code{data} data frame.
@@ -74,10 +101,6 @@ received by geoms as input \code{data} data frame.
 \details{
 It can be useful when debugging the code of statistics or to learn how the
 stats and geoms work in 'ggplot2' (>= 2.0.0).
-}
-\note{
-This _geom_ is very unusual in that it does not produce visible graphic
-  output. It only returns a \code{grid.null()} grob (graphical object).
 }
 \examples{
 # echo to the R console \code{data} as received by geoms

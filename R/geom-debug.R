@@ -110,10 +110,10 @@ GeomNull <-
 #'   \code{mapping} if there isn't a mapping defined for the plot.
 #' @param data A data frame. If specified, overrides the default data frame
 #'   defined at the top level of the plot.
-#' @param summary.fun A function used to print the \code{data} object received
-#'   as input.
-#' @param summary.fun.args A list of additional arguments to be passed to
-#'   \code{summary.fun}.
+#' @param summary.fun,geom.summary.fun A function used to print the \code{data}
+#'   object received as input.
+#' @param summary.fun.args,geom.summary.fun.args A list of additional arguments
+#'   to be passed to \code{summary.fun}.
 #' @param print.fun A function used to print the value returned by
 #'   \code{summary.fun}.
 #' @param print.fun.args A list of additional arguments to be passed to
@@ -138,8 +138,12 @@ GeomNull <-
 #'   \code{color = "red"} or \code{size = 3}. \item Other arguments to the
 #'   layer, for example you override the default \code{stat} associated with the
 #'   layer. \item Other arguments passed on to the stat. }
-#' @note This _geom_ is very unusual in that it does not produce visible graphic
-#'   output. It only returns a \code{grid.null()} grob (graphical object).
+#' @return This _geom_ is very unusual in that it does not produce visible graphic
+#'   output. It only returns a \code{grid.null()} grob (graphical object). It
+#'   passes its input as argument to the first parameter of the function
+#'   passed as argument to `geom.summary.function`. This by default is the
+#'   argument passed to `summary.fun`.
+#'
 #' @export
 #'
 #' @examples
@@ -161,8 +165,10 @@ GeomNull <-
 #'   geom_debug()
 #'
 geom_debug <- function(mapping = NULL, data = NULL, stat = "identity",
-                       summary.fun = tibble::as_tibble,
+                       summary.fun = NULL,
+                       geom.summary.fun = summary.fun,
                        summary.fun.args = list(),
+                       geom.summary.fun.args = summary.fun.args,
                        print.fun = print,
                        print.fun.args = list(),
                        position = "identity", na.rm = FALSE,
@@ -173,13 +179,17 @@ geom_debug <- function(mapping = NULL, data = NULL, stat = "identity",
     geom = GeomDebug, mapping = mapping,  data = data, stat = stat,
     position = position, show.legend = show.legend, inherit.aes = inherit.aes,
     params = list(na.rm = na.rm,
-                  summary.fun = summary.fun,
-                  summary.fun.args = summary.fun.args,
+                  summary.fun = geom.summary.fun,
+                  summary.fun.args = geom.summary.fun.args,
                   print.fun = print.fun,
                   print.fun.args = print.fun.args,
                   ...)
   )
 }
+
+#' @rdname geom_debug
+#' @export
+geom_debug_npc <- geom_debug
 
 #' @rdname gginnards-ggproto
 #' @format NULL
@@ -191,7 +201,7 @@ GeomDebug <-
                      grid::nullGrob()
                      },
                    draw_panel = function(data, panel_scales, coord,
-                                         summary.fun = tibble::as_tibble,
+                                         summary.fun = NULL,
                                          summary.fun.args = list(),
                                          print.fun = print,
                                          print.fun.args = list()) {
@@ -202,10 +212,13 @@ GeomDebug <-
                        z <- data
                      }
                      if (!is.null(print.fun)) {
+                       if (!is.null(summary.fun)) {
+                         cat("Summary of input 'data' to 'draw_panel()':\n")
+                       } else {
+                         cat("Input 'data' to 'draw_panel()':\n")
+                       }
                        do.call(print.fun, c(quote(z), print.fun.args))
                      }
-
                    grid::nullGrob()
-
                    }
   )

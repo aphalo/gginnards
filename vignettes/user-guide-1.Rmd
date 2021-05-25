@@ -16,7 +16,7 @@ vignette: >
 library(knitr)
 opts_chunk$set(fig.align = 'center', 
                fig.show = 'hold', fig.width = 7, fig.height = 4)
-options(warnPartialMatchArgs = FALSE)
+options(warnPartialMatchArgs = FALSE, max.print = 30)
 ```
 
 ## Preliminaries
@@ -226,7 +226,7 @@ _debug_ statistics. This geom is similar to the more recently added
 described here.
 
 ```{r}
-ggplot(my.data, aes(x, y, colour = group)) + 
+ggplot(my.data, aes(x, y)) + 
   geom_null()
 ```
 
@@ -251,7 +251,7 @@ group is set to `-1` for all observations.
 ```{r}
 ggplot(my.data, aes(x, y)) + 
   geom_point() + 
-  stat_debug_group()
+  stat_debug_group(geom = "debug")
 ```
 
 In a plot with no grouping, there is no difference in the `data` input for
@@ -318,36 +318,33 @@ In the examples above we have demonstrated the use of the statistics and geometr
 using default arguments. Here we show examples of generation of other types of
 debug output.
 
-## Display debug output on the plot
-
-Differently to `geom_debug()` where the data can only be printed to the console,
-`stat_debug_group()` and `stat_debug_panel()` return data that can be plotted
-using a geometry. If we use as geometries `"label"` or `"text"` a _debug_ summary is added
-to the plot itself, we can also pass other arguments valid for the geometry used,
-in this case `vjust`. 
-
-```{r}
-ggplot(my.data, aes(x, y, shape = group)) + 
-  geom_point() + 
-  stat_debug_group(geom = "label", vjust = c(-0.5,1.5))
-```
-
-This approach is of limited use except for highlighting groups and panels,
-possible when learning or teaching how ggplots are assembled.
-
-```{r}
-ggplot(my.data, aes(x, y, colour = group)) + 
-  geom_point() + 
-  stat_debug_panel(geom = "label", aes(label = stat(paste("PANEL: ", PANEL)))) +
-  facet_wrap(~block)
-```
-
-Of course to see all the returned variables, we can use `geom_debug()`.
+`stat_debug_group()` and `stat_debug_panel()` return summary data that can be 
+inspected using a geometry in addition to printing the data received as argument. 
+If we use `geom_debug()` a summary are printed to the console. With two groups,
+we get two summaries when we use `stat_debug_group()`.
 
 ```{r}
 ggplot(my.data, aes(x, y, shape = group)) + 
   geom_point() + 
   stat_debug_group(geom = "debug")
+```
+
+If we use `stat_debug_panel()` we get a single summary.
+
+```{r}
+ggplot(my.data, aes(x, y, shape = group)) + 
+  geom_point() + 
+  stat_debug_panel(geom = "debug")
+```
+
+In principle one can use other _geoms_ to annotate the plot with the debug summary.
+
+```{r}
+ggplot(my.data, aes(x, y, colour = group)) + 
+  geom_point() + 
+  stat_debug_group(geom = "text",
+                   mapping = aes(label = sprintf("group = %i", 
+                                                 after_stat(group))))
 ```
 
 # Assign debug output to a variable

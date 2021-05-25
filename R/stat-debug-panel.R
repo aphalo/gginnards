@@ -64,13 +64,24 @@
 #' @family diagnosis functions
 #'
 stat_debug_panel <-
-  function(mapping = NULL, data = NULL, geom = "null",
-           summary.fun = tibble::as_tibble, summary.fun.args = list(),
-           position = "identity", na.rm = FALSE, show.legend = FALSE,
-           inherit.aes = TRUE, ...) {
+  function(mapping = NULL,
+           data = NULL,
+           geom = "debug",
+           summary.fun = print,
+           summary.fun.args = list(),
+           position = "identity",
+           na.rm = FALSE,
+           show.legend = FALSE,
+           inherit.aes = TRUE,
+           ...) {
     ggplot2::layer(
-    stat = StatDebugPanel, data = data, mapping = mapping, geom = geom,
-    position = position, show.legend = show.legend, inherit.aes = inherit.aes,
+    stat = StatDebugPanel,
+    data = data,
+    mapping = mapping,
+    geom = geom,
+    position = position,
+    show.legend = show.legend,
+    inherit.aes = inherit.aes,
     params = list(na.rm = na.rm,
                   summary.fun = summary.fun,
                   summary.fun.args = summary.fun.args,
@@ -92,29 +103,17 @@ StatDebugPanel <-
         if (!is.null(summary.fun)) {
           data.summary <-  do.call(summary.fun,
                                    c(quote(data), summary.fun.args))
-          print("Input 'data' to 'compute_panel()':")
+          cat("Input 'data' to 'compute_panel()':\n")
           print(data.summary)
         }
-        my.diagnostic <-
-          data.frame(x = mean(range(data$x)),
-                     y = mean(range(data$y)),
-                     nrow = nrow(data),
-                     ncol = ncol(data),
-                     colnames = paste(colnames(data), collapse = ", "),
-                     colclasses = paste("x: ", class(data$x),
-                                        "; y: ",  class(data$y),
-                                        collapse = ", ", sep = ""),
-                     group = paste(unique(data$group), collapse = ", "),
-                     PANEL = paste(unique(data$PANEL), collapse = ", "))
-        my.diagnostic
+        tibble::tibble(x = mean(range(data$x)),
+                       y = mean(range(data$y)),
+                       nrow = nrow(data),
+                       ncol = ncol(data),
+                       colnames = list(colnames(data)),
+                       class.x = class(data$x),
+                       class.y = class(data$y),
+                       groups = list(unique(data$group)))
       },
-    default_aes = ggplot2::aes(label = paste("groups: ", stat(group), "; ",
-                                             "PANEL: ", stat(PANEL), "\n",
-                                             "nrow: ", stat(nrow), "; ",
-                                             "ncol: ", stat(ncol), "\n",
-                                             "cols: ", stat(colnames), "\n",
-                                             "classes: ", stat(colclasses),
-                                             sep = "")
-    ),
     required_aes = c("x", "y")
   )
