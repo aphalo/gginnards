@@ -10,11 +10,10 @@ editor_options:
     debugging of *geoms* supporting npc coordinates as defined in
     package 'ggpp'.
 -   Revise `stat_debug_group()` and `stat_debug_panel()` simplifying the
-    output and code. In particular avoid setting default aesthetics and
-    change default for `geom` to `"debug"`.
--   Revise `geom_debug()` setting `NULL` as default for `summary.fun`
-    and gains two new parameters to allow using a different summary
-    function than that passed as argument to the *statistic*.
+    output to the console. In particular avoid setting default
+    aesthetics, change default for `geom` to `"debug"` and used `head()`
+    as default for summaries .
+-   Revise `geom_debug()` setting `head()` as default for `summary.fun`.
 -   Revise part 1 of the User Guide.
 
 # gginnards 0.0.4
