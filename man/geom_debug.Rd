@@ -10,7 +10,7 @@ geom_debug(
   data = NULL,
   stat = "identity",
   summary.fun = NULL,
-  geom.summary.fun = summary.fun,
+  geom.summary.fun = head,
   summary.fun.args = list(),
   geom.summary.fun.args = summary.fun.args,
   print.fun = print,
@@ -27,7 +27,7 @@ geom_debug_npc(
   data = NULL,
   stat = "identity",
   summary.fun = NULL,
-  geom.summary.fun = summary.fun,
+  geom.summary.fun = head,
   summary.fun.args = list(),
   geom.summary.fun.args = summary.fun.args,
   print.fun = print,
@@ -107,6 +107,10 @@ stats and geoms work in 'ggplot2' (>= 2.0.0).
 ggplot(mtcars, aes(cyl, mpg, color = factor(cyl))) +
   geom_point() +
   geom_debug()
+
+ggplot(mtcars, aes(cyl, mpg, color = factor(cyl))) +
+  geom_point() +
+  geom_debug(summary.fun = head, summary.fun.args = list(n = 3))
 
 # echo to the R console \code{data} as received by geoms
 ggplot(mtcars, aes(cyl, mpg, colour = factor(cyl))) +

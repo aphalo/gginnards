@@ -144,6 +144,7 @@ GeomNull <-
 #'   passed as argument to `geom.summary.function`. This by default is the
 #'   argument passed to `summary.fun`.
 #'
+#' @importFrom utils head
 #' @export
 #'
 #' @examples
@@ -151,6 +152,10 @@ GeomNull <-
 #' ggplot(mtcars, aes(cyl, mpg, color = factor(cyl))) +
 #'   geom_point() +
 #'   geom_debug()
+#'
+#' ggplot(mtcars, aes(cyl, mpg, color = factor(cyl))) +
+#'   geom_point() +
+#'   geom_debug(summary.fun = head, summary.fun.args = list(n = 3))
 #'
 #' # echo to the R console \code{data} as received by geoms
 #' ggplot(mtcars, aes(cyl, mpg, colour = factor(cyl))) +
@@ -164,20 +169,28 @@ GeomNull <-
 #'   geom_sf(color = "darkblue", fill = "white") +
 #'   geom_debug()
 #'
-geom_debug <- function(mapping = NULL, data = NULL, stat = "identity",
+geom_debug <- function(mapping = NULL,
+                       data = NULL,
+                       stat = "identity",
                        summary.fun = NULL,
-                       geom.summary.fun = summary.fun,
+                       geom.summary.fun = head,
                        summary.fun.args = list(),
                        geom.summary.fun.args = summary.fun.args,
                        print.fun = print,
                        print.fun.args = list(),
                        position = "identity", na.rm = FALSE,
                        show.legend = FALSE,
-                       inherit.aes = TRUE, ...) {
+                       inherit.aes = TRUE,
+                       ...) {
   force(summary.fun)
   ggplot2::layer(
-    geom = GeomDebug, mapping = mapping,  data = data, stat = stat,
-    position = position, show.legend = show.legend, inherit.aes = inherit.aes,
+    geom = GeomDebug,
+    mapping = mapping,
+    data = data,
+    stat = stat,
+    position = position,
+    show.legend = show.legend,
+    inherit.aes = inherit.aes,
     params = list(na.rm = na.rm,
                   summary.fun = geom.summary.fun,
                   summary.fun.args = geom.summary.fun.args,
@@ -197,9 +210,6 @@ geom_debug_npc <- geom_debug
 #' @export
 GeomDebug <-
   ggplot2::ggproto("GeomDebug", ggplot2::Geom,
-                   draw_key = function(...) {
-                     grid::nullGrob()
-                     },
                    draw_panel = function(data, panel_scales, coord,
                                          summary.fun = NULL,
                                          summary.fun.args = list(),
@@ -212,13 +222,16 @@ GeomDebug <-
                        z <- data
                      }
                      if (!is.null(print.fun)) {
-                       if (!is.null(summary.fun)) {
-                         cat("Summary of input 'data' to 'draw_panel()':\n")
-                       } else {
-                         cat("Input 'data' to 'draw_panel()':\n")
-                       }
+                       cat("Input 'data' to 'draw_panel()':\n")
                        do.call(print.fun, c(quote(z), print.fun.args))
+                       if (is.data.frame(z) && nrow(data) > nrow(z)) {
+                         cat("...\n")
+                       }
+                       cat("\n")
                      }
                    grid::nullGrob()
+                   },
+                   draw_key = function(...) {
+                     grid::nullGrob()
                    }
   )

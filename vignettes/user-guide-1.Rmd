@@ -16,7 +16,7 @@ vignette: >
 library(knitr)
 opts_chunk$set(fig.align = 'center', 
                fig.show = 'hold', fig.width = 7, fig.height = 4)
-options(warnPartialMatchArgs = FALSE, max.print = 30)
+options(warnPartialMatchArgs = FALSE)
 ```
 
 ## Preliminaries
@@ -208,22 +208,21 @@ As shown above an important use of `geom_debug()` it to display the data returne
 ggplot(my.data, aes(x, y, colour = group)) + 
   geom_point() + 
   stat_smooth(method = "lm", formula = y ~ poly(x, 2)) +
-  stat_smooth(method = "lm", formula = y ~ poly(x, 2), geom = "debug")
+  stat_smooth(method = "lm", formula = y ~ poly(x, 2), 
+              geom = "debug", summary.fun = head)
 ```
 
-# Data input to geometries
+# Data input and output for statistics
 
 Statistics can be defined to operate on data corresponding to a whole panel or
 separately on data corresponding to each individual group, as created by mapping
 aesthetics to factors. The statistics described below print a summary of their
 `data` input by default to the console. These statistics, in addition return a
-data frame containing text mapped to `labels` suitable for "plotting" with geom
-"text" or geom "label". This text gives a summary of the data.
-
-The 'gginnards' package defines a `"null"` geom, which is used as default by the
-_debug_ statistics. This geom is similar to the more recently added
-`ggplot2::geom_blank()` and is used as default _geom_ in the statistics
-described here.
+data frame containing summary information including `labels` suitable for
+"plotting" with `geom = "text"` or `geom = "label"`. However, package
+'gginnards' defines a "null" geom, `geom_null()`, which is used as default by
+the _debug_ statistics. This geom is similar to the more recently added
+`ggplot2::geom_blank()`.
 
 ```{r}
 ggplot(my.data, aes(x, y)) + 
@@ -231,13 +230,13 @@ ggplot(my.data, aes(x, y)) +
 ```
 
 Using as default geom "null" allows to add the debug _stats_ for the side effect
-of console output without altering the rendering of the plot when there
-is at least one other plot layer.
+of console output without altering the rendering of the plot when there is at
+least one other plot layer.
 
-Because of the way 'ggplot2' works, the values are listed to the console at 
-the time when the `ggplot` object is printed. As shown here, no other geom or 
-stat is required, however in the remaining examples we add `geom_point()` 
-to make the data also visible in the plot.
+Because of the way 'ggplot2' works, the values are listed to the console at the
+time when the `ggplot` object is printed. As shown here, no other geom or stat
+is required, however in the remaining examples we add `geom_point()` to make the
+data also visible in the plot.
 
 ```{r}
 ggplot(my.data, aes(x, y)) + 
@@ -358,9 +357,9 @@ pipe_assign <- function(value, name, pos = .GlobalEnv, ...) {
 
 ggplot(my.data, aes(x, y, colour = group)) + 
   geom_point() + 
-  geom_debug(summary.fun = pipe_assign, 
-             summary.fun.args = list(name = "debug_data"),
-             print.fun = NULL)
+  geom_debug(summary.fun = NULL,
+             print.fun = pipe_assign, 
+             print.fun.args = list(name = "debug_data"))
 
 head(debug_data)
 ```

@@ -39,14 +39,13 @@
 #'   \code{data} object} }
 #'
 #' @examples
-#' library(ggplot2)
 #' my.df <- data.frame(x = rep(1:10, 2),
 #'                     y = rep(c(1,2), c(10,10)),
 #'                     group = rep(c("A","B"), c(10,10)))
 #'
 #' ggplot(my.df, aes(x,y)) +
 #'   geom_point() +
-#'   stat_debug_group()
+#'   stat_debug_group(summary.fun = NULL)
 #'
 #' ggplot(my.df, aes(x,y, colour = group)) +
 #'   geom_point() +
@@ -64,7 +63,7 @@ stat_debug_group <-
   function(mapping = NULL,
            data = NULL,
            geom = "debug",
-           summary.fun = print,
+           summary.fun = head,
            summary.fun.args = list(),
            position = "identity",
            na.rm = FALSE,
@@ -95,12 +94,17 @@ StatDebugGroup <-
     "StatDebugGroup",
     ggplot2::Stat,
     compute_group = function(data, scales, summary.fun, summary.fun.args) {
-      force(data)
       if (!is.null(summary.fun)) {
-        data.summary <-  do.call(summary.fun, c(quote(data), summary.fun.args))
-        cat("Input 'data' to 'compute_group()':\n")
-        print(data.summary)
+        z <-  do.call(summary.fun, c(quote(data), summary.fun.args))
+      } else {
+        z <- data
       }
+      cat("Input 'data' to 'compute_group()':\n")
+      print(z)
+      if (is.data.frame(z) && nrow(data) > nrow(z)) {
+        cat("...\n")
+      }
+      cat("\n")
       tibble::tibble(x = mean(range(data$x)),
                      y = mean(range(data$y)),
                      nrow = nrow(data),

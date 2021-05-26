@@ -8,7 +8,7 @@ stat_debug_group(
   mapping = NULL,
   data = NULL,
   geom = "debug",
-  summary.fun = print,
+  summary.fun = head,
   summary.fun.args = list(),
   position = "identity",
   na.rm = FALSE,
@@ -69,14 +69,13 @@ can include aesthetics whose values you want to set, not map. See
 }
 
 \examples{
-library(ggplot2)
 my.df <- data.frame(x = rep(1:10, 2),
                     y = rep(c(1,2), c(10,10)),
                     group = rep(c("A","B"), c(10,10)))
 
 ggplot(my.df, aes(x,y)) +
   geom_point() +
-  stat_debug_group()
+  stat_debug_group(summary.fun = NULL)
 
 ggplot(my.df, aes(x,y, colour = group)) +
   geom_point() +
