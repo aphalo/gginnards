@@ -27,7 +27,7 @@ to write extensions and when debugging newly defined stats and geoms.
 Occasionally it may be useful to edit `gg` objects. A typical case are packages
 that provide extensions to 'ggplot2' that construct and return whole `gg`
 objects instead of new statistics and geometries. In such cases in can be
-useful to programmaticaly edit these `gg` objects. Functions are provided
+useful to programatically edit these `gg` objects. Functions are provided
 for the manipulation of layers within `gg`objects.
 
 As the variables returned in `data` by many statistics depend on input, some
@@ -41,8 +41,8 @@ This package was born when several functions were removed from package
 ## Geometries
 
 `geom_debug()` by default prints the `data` object received as input to the
-console and generates no graphic output. As it takes as arguments functions, it
-allows great flexibility in how `data` is displayed or saved.
+console and generates no graphic output. As it takes as argument a summary
+function, it allows great flexibility in how `data` is displayed.
 `geom_debug()` is useful at any time when one needs to check what variables are
 returned by a statistics. Many statistics are well documented and always return
 the same variables. For other statistics even if well documented the returned
@@ -51,13 +51,13 @@ them, in which case this geometry can also be useful when debugging scripts.
 
 ## Statistics
 
-Statistics that echo their data input to the R console and/or
-plot aim at easing debugging during development of new geoms and statistics.
-The should help those learning how ggplot layers work.
+Statistics that echo their data input to the R console aim at easing debugging
+during development of new geoms and statistics. They will also help those
+learning how ggplot grouping, panels and layers work.
 
 ## Manipulation of layers
 
-A set of functions layestates the manipulation of layers in ggplot objects,
+A set of functions easy the manipulation of layers in ggplot objects,
 allowing deletion of any existing layer, insertion of new layers at any
 position, and reordering of the existing layers.
 
@@ -90,7 +90,8 @@ ggplot(mtcars, aes(cyl, mpg, color = mpg)) +
   geom_debug(summary.fun = colnames)
 ```
 
-We print to the R console `data` as returned by `stat_summary()` and _seen_ as input by geometries.
+We print to the R console `data` as returned by `stat_summary()` and _seen_ as
+input by geometries.
 
 ```{r}
 ggplot(mtcars, aes(cyl, mpg, colour = factor(cyl))) +

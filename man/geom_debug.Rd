@@ -9,12 +9,8 @@ geom_debug(
   mapping = NULL,
   data = NULL,
   stat = "identity",
-  summary.fun = NULL,
-  geom.summary.fun = head,
+  summary.fun = head,
   summary.fun.args = list(),
-  geom.summary.fun.args = summary.fun.args,
-  print.fun = print,
-  print.fun.args = list(),
   position = "identity",
   na.rm = FALSE,
   show.legend = FALSE,
@@ -26,12 +22,8 @@ geom_debug_npc(
   mapping = NULL,
   data = NULL,
   stat = "identity",
-  summary.fun = NULL,
-  geom.summary.fun = head,
+  summary.fun = head,
   summary.fun.args = list(),
-  geom.summary.fun.args = summary.fun.args,
-  print.fun = print,
-  print.fun.args = list(),
   position = "identity",
   na.rm = FALSE,
   show.legend = FALSE,
@@ -52,17 +44,11 @@ defined at the top level of the plot.}
 \item{stat}{The statistical transformation to use on the data for this layer,
 as a string.}
 
-\item{summary.fun, geom.summary.fun}{A function used to print the \code{data}
+\item{summary.fun}{A function used to print the \code{data}
 object received as input.}
 
-\item{summary.fun.args, geom.summary.fun.args}{A list of additional arguments
+\item{summary.fun.args}{A list of additional arguments
 to be passed to \code{summary.fun}.}
-
-\item{print.fun}{A function used to print the value returned by
-\code{summary.fun}.}
-
-\item{print.fun.args}{A list of additional arguments to be passed to
-\code{print.fun}.}
 
 \item{position}{Position adjustment, either as a string, or the result of a
 call to a position adjustment function.}
@@ -111,6 +97,14 @@ ggplot(mtcars, aes(cyl, mpg, color = factor(cyl))) +
 ggplot(mtcars, aes(cyl, mpg, color = factor(cyl))) +
   geom_point() +
   geom_debug(summary.fun = head, summary.fun.args = list(n = 3))
+
+ggplot(mtcars, aes(cyl, mpg, color = factor(cyl))) +
+  geom_point() +
+  geom_debug(summary.fun = nrow)
+
+ggplot(mtcars, aes(cyl, mpg, color = factor(cyl))) +
+  geom_point() +
+  geom_debug(summary.fun = attributes)
 
 # echo to the R console \code{data} as received by geoms
 ggplot(mtcars, aes(cyl, mpg, colour = factor(cyl))) +

@@ -51,6 +51,10 @@ default plot specification, e.g. \code{\link[ggplot2]{borders}}.}
   layer, for example you override the default \code{stat} associated with the
   layer. \item Other arguments passed on to the stat.}}
 }
+\value{
+A plot layer instance. Mainly used for the side-effect of printing
+  to the console the \code{data} object.
+}
 \description{
 The null geom can be used to silence graphic output from a stat, such as
 \code{stat_debug_group()} and \code{stat_debug_panel()} defined in this same
@@ -58,7 +62,7 @@ package. No visible graphical output is returned. An invisible
 \code{grid::grid_null()} grob is returned instead.
 }
 \note{
-This _geom_ is very unusual in that it does not produce visible graphic
+This geom is very unusual in that it does not produce visible graphic
   output. It only returns a \code{\link[grid]{grid.null}} grob (graphical
   object). However, it accepts for consistency all the same parameters as
   normal geoms, which have no effect on the graphical output, except for

@@ -18,7 +18,7 @@ and geoms.
 Occasionally it may be useful to edit `gg` objects. A typical case are
 packages that provide extensions to ‘ggplot2’ that construct and return
 whole `gg` objects instead of new statistics and geometries. In such
-cases in can be useful to programmaticaly edit these `gg` objects.
+cases in can be useful to programatically edit these `gg` objects.
 Functions are provided for the manipulation of layers within
 `gg`objects.
 
@@ -34,10 +34,10 @@ This package was born when several functions were removed from package
 ## Geometries
 
 `geom_debug()` by default prints the `data` object received as input to
-the console and generates no graphic output. As it takes as arguments
-functions, it allows great flexibility in how `data` is displayed or
-saved. `geom_debug()` is useful at any time when one needs to check what
-variables are returned by a statistics. Many statistics are well
+the console and generates no graphic output. As it takes as argument a
+summary function, it allows great flexibility in how `data` is
+displayed. `geom_debug()` is useful at any time when one needs to check
+what variables are returned by a statistics. Many statistics are well
 documented and always return the same variables. For other statistics
 even if well documented the returned variables in `data` vary depending
 on grouping and/or the arguments passed to them, in which case this
@@ -45,15 +45,15 @@ geometry can also be useful when debugging scripts.
 
 ## Statistics
 
-Statistics that echo their data input to the R console and/or plot aim
-at easing debugging during development of new geoms and statistics. The
-should help those learning how ggplot layers work.
+Statistics that echo their data input to the R console aim at easing
+debugging during development of new geoms and statistics. They will also
+help those learning how ggplot grouping, panels and layers work.
 
 ## Manipulation of layers
 
-A set of functions layestates the manipulation of layers in ggplot
-objects, allowing deletion of any existing layer, insertion of new
-layers at any position, and reordering of the existing layers.
+A set of functions easy the manipulation of layers in ggplot objects,
+allowing deletion of any existing layer, insertion of new layers at any
+position, and reordering of the existing layers.
 
 ## Manipulation of embedded data
 
@@ -80,20 +80,15 @@ ggplot(mtcars, aes(cyl, mpg, color = mpg)) +
 
 ![](man/figures/README-unnamed-chunk-2-1.png)<!-- -->
 
-    #> # A tibble: 32 x 5
-    #>    colour      x     y PANEL group
-    #>    <chr>   <dbl> <dbl> <fct> <int>
-    #>  1 #30648F     6  21   1        -1
-    #>  2 #30648F     6  21   1        -1
-    #>  3 #356E9D     4  22.8 1        -1
-    #>  4 #316692     6  21.4 1        -1
-    #>  5 #29577E     8  18.7 1        -1
-    #>  6 #275379     6  18.1 1        -1
-    #>  7 #1D3F5E     8  14.3 1        -1
-    #>  8 #3977A9     4  24.4 1        -1
-    #>  9 #356E9D     4  22.8 1        -1
-    #> 10 #2A5982     6  19.2 1        -1
-    #> # ... with 22 more rows
+    #> Input 'data' to 'draw_panel()':
+    #>    colour x    y PANEL group
+    #> 1 #30648F 6 21.0     1    -1
+    #> 2 #30648F 6 21.0     1    -1
+    #> 3 #356E9D 4 22.8     1    -1
+    #> 4 #316692 6 21.4     1    -1
+    #> 5 #29577E 8 18.7     1    -1
+    #> 6 #275379 6 18.1     1    -1
+    #> ...
 
 We print to the R console `colnames(data)`.
 
@@ -105,6 +100,7 @@ ggplot(mtcars, aes(cyl, mpg, color = mpg)) +
 
 ![](man/figures/README-unnamed-chunk-3-1.png)<!-- -->
 
+    #> Input 'data' to 'draw_panel()':
     #> [1] "colour" "x"      "y"      "PANEL"  "group"
 
 We print to the R console `data` as returned by `stat_summary()` and
@@ -118,12 +114,11 @@ ggplot(mtcars, aes(cyl, mpg, colour = factor(cyl))) +
 
 ![](man/figures/README-unnamed-chunk-4-1.png)<!-- -->
 
-    #> # A tibble: 3 x 8
-    #>   colour      x group     y  ymin  ymax PANEL flipped_aes
-    #>   <chr>   <dbl> <int> <dbl> <dbl> <dbl> <fct> <lgl>      
-    #> 1 #F8766D     4     1  26.7  24.2  29.1 1     FALSE      
-    #> 2 #00BA38     6     2  19.7  18.8  20.7 1     FALSE      
-    #> 3 #619CFF     8     3  15.1  13.8  16.3 1     FALSE
+    #> Input 'data' to 'draw_panel()':
+    #>    colour x group        y     ymin     ymax PANEL flipped_aes
+    #> 1 #F8766D 4     1 26.66364 24.19000 29.27341     1       FALSE
+    #> 2 #00BA38 6     2 19.74286 18.74286 20.78607     1       FALSE
+    #> 3 #619CFF 8     3 15.10000 13.78571 16.39304     1       FALSE
 
 We print to the R console `data` as *seen* as input by statistics that
 use a *panel function*.
@@ -136,21 +131,19 @@ ggplot(mtcars, aes(cyl, mpg, colour = factor(cyl))) +
 
 ![](man/figures/README-unnamed-chunk-5-1.png)<!-- -->
 
-    #> [1] "Input 'data' to 'compute_panel()':"
-    #> # A tibble: 32 x 5
-    #>        x     y colour PANEL group
-    #>    <dbl> <dbl> <fct>  <fct> <int>
-    #>  1     6  21   6      1         2
-    #>  2     6  21   6      1         2
-    #>  3     4  22.8 4      1         1
-    #>  4     6  21.4 6      1         2
-    #>  5     8  18.7 8      1         3
-    #>  6     6  18.1 6      1         2
-    #>  7     8  14.3 8      1         3
-    #>  8     4  24.4 4      1         1
-    #>  9     4  22.8 4      1         1
-    #> 10     6  19.2 6      1         2
-    #> # ... with 22 more rows
+    #> Input 'data' to 'compute_group()':
+    #>   x    y colour PANEL group
+    #> 1 6 21.0      6     1     2
+    #> 2 6 21.0      6     1     2
+    #> 3 4 22.8      4     1     1
+    #> 4 6 21.4      6     1     2
+    #> 5 8 18.7      8     1     3
+    #> 6 6 18.1      6     1     2
+    #> ...
+    #> 
+    #> Input 'data' to 'draw_panel()':
+    #>   PANEL x     y nrow ncol                   colnames class.x class.y  groups
+    #> 1     1 6 22.15   32    5 x, y, colour, PANEL, group numeric numeric 2, 1, 3
 
 We build object `p` of class `gg` (a ggplot). We query the number of
 layers and the position of layers by the class of the `ggproto` object.

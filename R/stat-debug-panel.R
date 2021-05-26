@@ -41,6 +41,11 @@
 #'   \item{PANEL}{all distinct values in PANEL as passed in \code{data} object}
 #'   }
 #'
+#' @return A plot layer instance.
+#'
+#' @return A plot layer instance. Mainly used for the side-effect of printing
+#'   to the console the \code{data} object.
+#'
 #' @examples
 #' my.df <- data.frame(x = rep(1:10, 2),
 #'                     y = rep(c(1,2), c(10,10)),
@@ -101,7 +106,9 @@ StatDebugPanel <-
     "StatDebugPanel",
     ggplot2::Stat,
     compute_panel =
-      function(data, scales, summary.fun, summary.fun.args) {
+      function(data, scales,
+               summary.fun = head,
+               summary.fun.args = list()) {
         if (!is.null(summary.fun)) {
           z <-  do.call(summary.fun, c(quote(data), summary.fun.args))
         } else {

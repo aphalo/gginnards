@@ -212,7 +212,7 @@ ggplot(my.data, aes(x, y, colour = group)) +
               geom = "debug", summary.fun = head)
 ```
 
-# Data input and output for statistics
+# Data input to statistics
 
 Statistics can be defined to operate on data corresponding to a whole panel or
 separately on data corresponding to each individual group, as created by mapping
@@ -229,32 +229,37 @@ ggplot(my.data, aes(x, y)) +
   geom_null()
 ```
 
-Using as default geom "null" allows to add the debug _stats_ for the side effect
+Using geom "null" allows to add the debug _stats_ for the side effect
 of console output without altering the rendering of the plot when there is at
-least one other plot layer.
+least one other plot layer. The default geom "debug" does not alter the
+rendering of the plot but prints to the console the `data` output by the
+debug stats.
 
 Because of the way 'ggplot2' works, the values are listed to the console at the
 time when the `ggplot` object is printed. As shown here, no other geom or stat
 is required, however in the remaining examples we add `geom_point()` to make the
-data also visible in the plot.
+data also visible in the plot. Here we set `geom = "null"` to override the
+default use of `geom_debug()`.
 
 ```{r}
 ggplot(my.data, aes(x, y)) + 
-  stat_debug_group()
+  stat_debug_group(geom = "null")
 ```
  
 In the absence of facets or groups we get the printout of a single data 
 frame, which is similar to that returned by `geom_debug()`. Without grouping,
-group is set to `-1` for all observations.
+group is set to `-1` for all observations. As the default geom is `geom_debug()`
+a summary computed by the stat is also printed to the console.
 
 ```{r}
 ggplot(my.data, aes(x, y)) + 
   geom_point() + 
-  stat_debug_group(geom = "debug")
+  stat_debug_group()
 ```
 
 In a plot with no grouping, there is no difference in the `data` input for
-`compute_panel()` and `compute_group()` functions (this applies in general to ggplot
+`compute_panel()` and `compute_group()` functions except for the oder of the
+variables or columns in the data frame (this applies in general to ggplot
 statistics).
 
 ```{r}
@@ -346,23 +351,7 @@ ggplot(my.data, aes(x, y, colour = group)) +
                                                  after_stat(group))))
 ```
 
-# Assign debug output to a variable
 
-In the next example we show how to save the data input of the geom to a variable in the global environment. However, assignment takes place at the time the ggplot object is printed. An approach like this could be used to capture the data output of statistics in automated code tests.
-
-```{r}
-pipe_assign <- function(value, name, pos = .GlobalEnv, ...) {
-  assign(x = name, value = value, inherits = FALSE, pos = pos, ...)
-}
-
-ggplot(my.data, aes(x, y, colour = group)) + 
-  geom_point() + 
-  geom_debug(summary.fun = NULL,
-             print.fun = pipe_assign, 
-             print.fun.args = list(name = "debug_data"))
-
-head(debug_data)
-```
 
 
 

@@ -85,8 +85,6 @@ The functions described here are not expected to be useful in everyday
   retain enough flexibility.
 }
 \examples{
-library(ggplot2)
-
 df <- data.frame(
   gp = factor(rep(letters[1:3], each = 10)),
   y = rnorm(30)

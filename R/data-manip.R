@@ -28,6 +28,9 @@
 #' @section Warning!: The current implementation drops variables only from the
 #'   default data object. Data objects within layers are not modified.
 #'
+#' @return A \code{"ggplot"} object that is a copy of \code{p} but containing
+#'   only a subset of the variables in its default \code{data}.
+#'
 #' @examples
 #' library(ggplot2)
 #'

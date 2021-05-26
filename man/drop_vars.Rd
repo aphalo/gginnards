@@ -27,6 +27,9 @@ automatically.}
 are not mapped to any aesthetic or facet.}
 }
 \value{
+A \code{"ggplot"} object that is a copy of \code{p} but containing
+  only a subset of the variables in its default \code{data}.
+
 character vector with names of mapped variables in the default
    data object.
 

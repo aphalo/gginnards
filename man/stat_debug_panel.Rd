@@ -51,6 +51,12 @@ default plot specification, e.g. \code{\link[ggplot2]{borders}}.}
 can include aesthetics whose values you want to set, not map. See
 \code{\link[ggplot2]{layer}} for more details.}
 }
+\value{
+A plot layer instance.
+
+A plot layer instance. Mainly used for the side-effect of printing
+  to the console the \code{data} object.
+}
 \description{
 \code{stat_debug} reports all distinct values in \code{group}
   and \code{PANEL}, and \code{nrow}, \code{ncol} and the names of the columns

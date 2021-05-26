@@ -1,9 +1,9 @@
 #' @details The new facilities for cleanly defining new stats and geoms added to
 #'   package 'ggplot2' in version 2.0.0 gave origin to this package. I needed
-#'   tools to help me learn how layers work and to debug the extenssions to
+#'   tools to help me learn how layers work and to debug the extensions to
 #'   'ggplot2' that I was developing. I share them through this package in the
 #'   hope that they will help other users of 'ggplot2' understand how this
-#'   this vry popular graphics package works internally. The vignettes provide
+#'   this very popular graphics package works internally. The vignettes provide
 #'   examples of how to use these tools both for debugging and learning how
 #'   ggplots are stored.
 #'
