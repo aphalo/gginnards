@@ -111,7 +111,7 @@ to notice.
 ```{r}
 p <- ggplot(my.data, aes(group, y)) + 
   geom_point() +
-  stat_summary(fun.data = mean_se, colour = "cornflowerblue", size = 1.3) +
+  stat_summary(fun.data = mean_se, colour = "cornflowerblue", size = 1) +
   facet_wrap(~panel, scales = "free_x", labeller = label_both) +
   expand_limits(y = c(-2, 2))
 p
