@@ -75,6 +75,7 @@ library(gginnards)
 library(tibble)
 library(magrittr)
 library(stringr)
+eval_pryr <- requireNamespace("pryr", quietly = TRUE)
 ```
 
 We generate some artificial data and create a data frame with them.
@@ -373,7 +374,7 @@ only when modified. Does the 'ggplot2' code modify the
 argument passed to its `data` parameter triggering a real copy operation or not.
 We can check this with the help of package 'pryr'.
 
-```{r}
+```{r, eval = eval_pryr}
 pryr::address(my.data)
 z <- p$data
 pryr::address(z)
@@ -385,7 +386,7 @@ the object is saved to disk or `my.data` modified in any way after `p` was
 created a copy of `my.data` will be created at this later time. In this simple
 example we modify the value of an attribute.
 
-```{r}
+```{r, eval = eval_pryr}
 attr(my.data, "my.atr.num") <- 1324567
 pryr::address(z)
 pryr::address(my.data)
