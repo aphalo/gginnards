@@ -116,9 +116,9 @@ ggplot(mtcars, aes(cyl, mpg, colour = factor(cyl))) +
 
     #> Input 'data' to 'draw_panel()':
     #>    colour x group        y     ymin     ymax PANEL flipped_aes
-    #> 1 #F8766D 4     1 26.66364 24.19000 29.27341     1       FALSE
-    #> 2 #00BA38 6     2 19.74286 18.74286 20.78607     1       FALSE
-    #> 3 #619CFF 8     3 15.10000 13.78571 16.39304     1       FALSE
+    #> 1 #F8766D 4     1 26.66364 24.39977 29.25523     1       FALSE
+    #> 2 #00BA38 6     2 19.74286 18.82821 20.70036     1       FALSE
+    #> 3 #619CFF 8     3 15.10000 13.76411 16.32857     1       FALSE
 
 We print to the R console `data` as *seen* as input by statistics that
 use a *panel function*.

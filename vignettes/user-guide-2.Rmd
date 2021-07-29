@@ -104,13 +104,16 @@ We change the default theme to an uncluttered one.
 old_theme <- theme_set(theme_bw())
 ```
 
-We generate a plot to be used later to demonstrate the use of the functions.
+We generate a plot to be used later to demonstrate the use of the functions. We
+ue `expand_limits()` to ensure that the effect of later manipulations is easier
+to notice.
 
 ```{r}
 p <- ggplot(my.data, aes(group, y)) + 
   geom_point() +
   stat_summary(fun.data = mean_se, colour = "cornflowerblue", size = 1.3) +
-  facet_wrap(~panel, scales = "free_x", labeller = label_both)
+  facet_wrap(~panel, scales = "free_x", labeller = label_both) +
+  expand_limits(y = c(-2, 2))
 p
 ```
 

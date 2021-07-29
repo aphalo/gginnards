@@ -4,6 +4,13 @@ editor_options:
     wrap: 72
 ---
 
+# gginnards 0.1.0-1
+
+-   Minor update to *User Guide 2* to address non-compliance with CRAN
+    requirements.
+
+-   Minor update to *User Guide 2* figures to enhance clarity.
+
 # gginnards 0.1.0
 
 -   Add `geom_debug_npc()` as a synonym for `geom_debug()` to allow
