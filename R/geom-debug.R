@@ -54,10 +54,13 @@
 #'   geom_null()
 #'
 #' # shape data
-#' nc <- sf::st_read(system.file("shape/nc.shp", package = "sf"), quiet = TRUE)
 #'
-#' ggplot(data = nc) +
-#'   geom_null()
+#' if (requireNamespace("sf", quietly = TRUE)) {
+#'   nc <- sf::st_read(system.file("shape/nc.shp", package = "sf"), quiet = TRUE)
+#'
+#'   ggplot(data = nc) +
+#'     geom_null()
+#' }
 #'
 geom_null <- function(mapping = NULL, data = NULL, stat = "identity",
                       position = "identity", na.rm = FALSE,
@@ -170,11 +173,13 @@ GeomNull <-
 #'   stat_summary(fun.data = "mean_se", geom = "debug")
 #'
 #' # shape data is not passed to geometries or statistics
-#' nc <- sf::st_read(system.file("shape/nc.shp", package = "sf"), quiet = TRUE)
+#' if (requireNamespace("sf", quietly = TRUE)) {
+#'   nc <- sf::st_read(system.file("shape/nc.shp", package = "sf"), quiet = TRUE)
 #'
-#' ggplot(data = nc) +
-#'   geom_sf(color = "darkblue", fill = "white") +
-#'   geom_debug()
+#'   ggplot(data = nc) +
+#'     geom_sf(color = "darkblue", fill = "white") +
+#'     geom_debug()
+#' }
 #'
 geom_debug <- function(mapping = NULL,
                        data = NULL,

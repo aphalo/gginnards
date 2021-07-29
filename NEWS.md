@@ -6,8 +6,8 @@ editor_options:
 
 # gginnards 0.1.0-1
 
--   Minor update to *User Guide 2* to address non-compliance with CRAN
-    requirements.
+-   Minor update to *User Guide 2* and four code examples in functions'
+    documenttaion to address non-compliance with CRAN requirements.
 
 -   Minor update to *User Guide 2* figures to enhance clarity.
 

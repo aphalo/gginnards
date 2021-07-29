@@ -8,7 +8,7 @@
 \description{
 Extensions to 'ggplot2' providing low-level debug tools: statistics
     and geometries echoing their data argument. Layer manipulation: deletion,
-    insertion, extraction and reordering of layers. Deletion of unused variables 
+    insertion, extraction and reordering of layers. Deletion of unused variables
     from the data object embedded in "ggplot" objects.
 }
 \details{

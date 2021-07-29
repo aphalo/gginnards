@@ -111,34 +111,36 @@ num_layers(ggplot())
 top_layer(ggplot())
 bottom_layer(ggplot())
 
-nc <- sf::st_read(system.file("shape/nc.shp", package = "sf"), quiet = TRUE)
-nc_3857 <- sf::st_transform(nc, 3857)
+if (requireNamespace("sf", quietly = TRUE)) {
+  nc <- sf::st_read(system.file("shape/nc.shp", package = "sf"), quiet = TRUE)
+  nc_3857 <- sf::st_transform(nc, 3857)
 
-p.sf1 <- ggplot() +
-          geom_sf(data = nc)
-p.sf1
-num_layers(p.sf1)
-top_layer(p.sf1)
+  p.sf1 <- ggplot() +
+           geom_sf(data = nc)
+  p.sf1
+  num_layers(p.sf1)
+  top_layer(p.sf1)
 
-append_layers(p.sf1,
-              geom_sf(data = nc_3857, colour = "red", fill = NA),
-              position = "top")
+  append_layers(p.sf1,
+                geom_sf(data = nc_3857, colour = "red", fill = NA),
+                position = "top")
 
-p.sf2 <- ggplot() +
-          geom_sf(data = nc) +
-          geom_sf(data = nc_3857, colour = "red", fill = NA)
-p.sf2
-num_layers(p.sf2)
-top_layer(p.sf2)
-delete_layers(p.sf2, idx = 2L)
+  p.sf2 <- ggplot() +
+           geom_sf(data = nc) +
+           geom_sf(data = nc_3857, colour = "red", fill = NA)
+  p.sf2
+  num_layers(p.sf2)
+  top_layer(p.sf2)
+  delete_layers(p.sf2, idx = 2L)
 
-extract_layers(p.sf2, "GeomSf")
-extract_layers(p.sf2, "StatSf")
-extract_layers(p.sf2, idx = 1L)
-p.sf1 + extract_layers(p.sf2, idx = 2L)
+  extract_layers(p.sf2, "GeomSf")
+  extract_layers(p.sf2, "StatSf")
+  extract_layers(p.sf2, idx = 1L)
+  p.sf1 + extract_layers(p.sf2, idx = 2L)
 
-# beware that Coords are not extracted!
-ggplot() + extract_layers(p.sf2, idx = 2L) + coord_sf()
+  # beware that Coords are not extracted!
+  ggplot() + extract_layers(p.sf2, idx = 2L) + coord_sf()
+}
 
 }
 \references{

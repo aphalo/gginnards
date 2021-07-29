@@ -68,13 +68,15 @@
 #' str(p.dp, components = "data") # smaller in size
 #'
 #' # shape data
-#' nc <- sf::st_read(system.file("shape/nc.shp", package = "sf"), quiet = TRUE)
+#' if (requireNamespace("sf", quietly = TRUE)) {
+#'   nc <- sf::st_read(system.file("shape/nc.shp", package = "sf"), quiet = TRUE)
 #'
-#' p.sf <- ggplot(data = nc) +
+#'   p.sf <- ggplot(data = nc) +
 #'           geom_sf()
-#' p.sf
-#' mapped_vars(p.sf)
-#' drop_vars(p.sf)
+#'   p.sf
+#'   mapped_vars(p.sf)
+#'   drop_vars(p.sf)
+#' }
 #'
 drop_vars <- function(p, keep.vars = character(), guess.vars = TRUE) {
   stopifnot(ggplot2::is.ggplot(p))
@@ -90,7 +92,7 @@ drop_vars <- function(p, keep.vars = character(), guess.vars = TRUE) {
   data.vars <- names(p$data)
   unused.vars <- setdiff(data.vars, union(mapped.vars, keep.vars))
   keep.idxs <- which(!data.vars %in% unused.vars)
-  p$data <- dplyr::select(p$data, keep.idxs)
+  p$data <- p$data[ , keep.idxs]
   p
 }
 

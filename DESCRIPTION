@@ -25,10 +25,9 @@ Imports:
     magrittr (>= 1.5),
     tibble (>= 2.1.0)
 Suggests:
-    sf (>= 0.9),
-    dplyr (>= 0.8.1),
     knitr (>= 1.24),
     rmarkdown (>= 1.14),
+    sf (>= 0.9),
     pryr (>= 0.1.4)
 URL: https://www.r4photobiology.info, https://github.com/aphalo/gginnards
 BugReports: https://github.com/aphalo/gginnards/issues

@@ -76,9 +76,12 @@ ggplot(mtcars, aes(cyl, mpg)) +
   geom_null()
 
 # shape data
-nc <- sf::st_read(system.file("shape/nc.shp", package = "sf"), quiet = TRUE)
 
-ggplot(data = nc) +
-  geom_null()
+if (requireNamespace("sf", quietly = TRUE)) {
+  nc <- sf::st_read(system.file("shape/nc.shp", package = "sf"), quiet = TRUE)
+
+  ggplot(data = nc) +
+    geom_null()
+}
 
 }
