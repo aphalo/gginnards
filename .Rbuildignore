@@ -6,3 +6,4 @@ inst-not
 ^_pkgdown\.yml$
 build-binary-from-source\.sh
 ^\.github$
+^CITATION\.cff$

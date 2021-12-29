@@ -1,0 +1,53 @@
+# -----------------------------------------------------------
+# CITATION file created with {cffr} R package, v0.1.1
+# See also: https://docs.ropensci.org/cffr/
+# -----------------------------------------------------------
+ 
+cff-version: 1.2.0
+message: 'To cite package "gginnards" in publications use:'
+type: software
+license: GPL-2.0-or-later
+title: 'gginnards: Explore the Innards of ''ggplot2'' Objects'
+version: 0.1.0-1
+abstract: 'Extensions to ''ggplot2'' providing low-level debug tools: statistics and
+  geometries echoing their data argument. Layer manipulation: deletion, insertion,
+  extraction and reordering of layers. Deletion of unused variables from the data
+  object embedded in "ggplot" objects.'
+authors:
+- family-names: Aphalo
+  given-names: Pedro J.
+  email: pedro.aphalo@helsinki.fi
+  orcid: https://orcid.org/0000-0003-3385-972X
+preferred-citation:
+  type: manual
+  title: 'gginnards: Explore the Innards of ''ggplot2'' Objects'
+  authors:
+  - family-names: Aphalo
+    given-names: Pedro J.
+    email: pedro.aphalo@helsinki.fi
+    orcid: https://orcid.org/0000-0003-3385-972X
+  version: 0.1.0-1
+  abstract: 'Extensions to ''ggplot2'' providing low-level debug tools: statistics
+    and geometries echoing their data argument. Layer manipulation: deletion, insertion,
+    extraction and reordering of layers. Deletion of unused variables from the data
+    object embedded in "ggplot" objects.'
+  repository: https://CRAN.R-project.org/package=gginnards
+  repository-code: https://github.com/aphalo/gginnards
+  url: https://www.r4photobiology.info
+  date-released: '2021-07-29'
+  contact:
+  - family-names: Aphalo
+    given-names: Pedro J.
+    email: pedro.aphalo@helsinki.fi
+    orcid: https://orcid.org/0000-0003-3385-972X
+  license: GPL-2.0-or-later
+  year: '2021'
+repository: https://CRAN.R-project.org/package=gginnards
+repository-code: https://github.com/aphalo/gginnards
+url: https://www.r4photobiology.info
+date-released: '2021-07-29'
+contact:
+- family-names: Aphalo
+  given-names: Pedro J.
+  email: pedro.aphalo@helsinki.fi
+  orcid: https://orcid.org/0000-0003-3385-972X

@@ -350,10 +350,3 @@ ggplot(my.data, aes(x, y, colour = group)) +
                    mapping = aes(label = sprintf("group = %i", 
                                                  after_stat(group))))
 ```
-
-
-
-
-
-
-
