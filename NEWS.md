@@ -4,10 +4,15 @@ editor_options:
     wrap: 72
 ---
 
+# gginnards 0.1.1
+
+-   Update `geom_debug()` to avoid some spurious warnings triggered by
+    unrecognised arguments and aesthetics.
+
 # gginnards 0.1.0-1
 
 -   Minor update to *User Guide 2* and four code examples in functions'
-    documenttaion to address non-compliance with CRAN requirements.
+    documentation to address non-compliance with CRAN requirements.
 
 -   Minor update to *User Guide 2* figures to enhance clarity.
 

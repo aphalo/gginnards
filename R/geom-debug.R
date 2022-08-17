@@ -88,6 +88,11 @@ geom_null <- function(mapping = NULL, data = NULL, stat = "identity",
 #'
 GeomNull <-
   ggplot2::ggproto("GeomNull", ggplot2::Geom,
+                   optional_aes = c("x", "y", "npcx", "npcy", "xend", "yend", "ymax", "ymin",
+                                    "label", "colour", "fill",
+                                    "shape", "size", "stroke",
+                                    "linetype", "lineend", "linejoin",
+                                    "angle", "family", "fontface", "hjust", "vjust"),
                    default_aes = ggplot2::aes(),
                    draw_key = function(...) {
                      grid::nullGrob()
@@ -133,6 +138,7 @@ GeomNull <-
 #'   than combining with them. This is most useful for helper functions that
 #'   define both data and aesthetics and shouldn't inherit behaviour from the
 #'   default plot specification, e.g. \code{\link[ggplot2]{borders}}.
+#' @param parse Ignored. Helps avoid warnings.
 #' @param ... other arguments passed on to \code{\link[ggplot2]{layer}}. There
 #'   are three types of arguments you can use here:
 #'
@@ -186,6 +192,7 @@ geom_debug <- function(mapping = NULL,
                        stat = "identity",
                        summary.fun = head,
                        summary.fun.args = list(),
+                       parse = NULL,
                        position = "identity", na.rm = FALSE,
                        show.legend = FALSE,
                        inherit.aes = TRUE,
@@ -200,8 +207,7 @@ geom_debug <- function(mapping = NULL,
     inherit.aes = inherit.aes,
     params = list(na.rm = na.rm,
                   summary.fun = summary.fun,
-                  summary.fun.args = summary.fun.args,
-                  ...)
+                  summary.fun.args = summary.fun.args)
   )
 }
 
@@ -215,6 +221,12 @@ geom_debug_npc <- geom_debug
 #' @export
 GeomDebug <-
   ggplot2::ggproto("GeomDebug", ggplot2::Geom,
+                   optional_aes = c("x", "y", "npcx", "npcy", "xend", "yend", "ymax", "ymin",
+                                    "label", "colour", "fill",
+                                    "shape", "size", "stroke",
+                                    "linetype", "lineend", "linejoin",
+                                    "angle", "family", "fontface", "hjust", "vjust"),
+                   default_aes = ggplot2::aes(),
                    draw_panel = function(data, panel_scales, coord,
                                          summary.fun = head,
                                          summary.fun.args = list()) {

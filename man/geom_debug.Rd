@@ -11,6 +11,7 @@ geom_debug(
   stat = "identity",
   summary.fun = head,
   summary.fun.args = list(),
+  parse = NULL,
   position = "identity",
   na.rm = FALSE,
   show.legend = FALSE,
@@ -24,6 +25,7 @@ geom_debug_npc(
   stat = "identity",
   summary.fun = head,
   summary.fun.args = list(),
+  parse = NULL,
   position = "identity",
   na.rm = FALSE,
   show.legend = FALSE,
@@ -49,6 +51,8 @@ object received as input.}
 
 \item{summary.fun.args}{A list of additional arguments
 to be passed to \code{summary.fun}.}
+
+\item{parse}{Ignored. Helps avoid warnings.}
 
 \item{position}{Position adjustment, either as a string, or the result of a
 call to a position adjustment function.}
