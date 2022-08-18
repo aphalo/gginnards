@@ -69,8 +69,8 @@ geom_null <- function(mapping = NULL, data = NULL, stat = "identity",
   ggplot2::layer(
     geom = GeomNull, mapping = mapping,  data = data, stat = stat,
     position = position, show.legend = show.legend, inherit.aes = inherit.aes,
-    params = list(na.rm = na.rm,
-                  ...)
+    params = rlang::list2(na.rm = na.rm,
+                          ...)
   )
 }
 
@@ -205,9 +205,10 @@ geom_debug <- function(mapping = NULL,
     position = position,
     show.legend = show.legend,
     inherit.aes = inherit.aes,
-    params = list(na.rm = na.rm,
-                  summary.fun = summary.fun,
-                  summary.fun.args = summary.fun.args)
+    params = rlang::list2(na.rm = na.rm,
+                          summary.fun = summary.fun,
+                          summary.fun.args = summary.fun.args,
+                          ...)
   )
 }
 

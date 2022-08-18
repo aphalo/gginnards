@@ -90,10 +90,10 @@ stat_debug_panel <-
     position = position,
     show.legend = show.legend,
     inherit.aes = inherit.aes,
-    params = list(na.rm = na.rm,
-                  summary.fun = summary.fun,
-                  summary.fun.args = summary.fun.args,
-                  ...)
+    params = rlang::list2(na.rm = na.rm,
+                          summary.fun = summary.fun,
+                          summary.fun.args = summary.fun.args,
+                          ...)
   )
 }
 
