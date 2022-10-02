@@ -88,11 +88,36 @@ geom_null <- function(mapping = NULL, data = NULL, stat = "identity",
 #'
 GeomNull <-
   ggplot2::ggproto("GeomNull", ggplot2::Geom,
-                   optional_aes = c("x", "y", "npcx", "npcy", "xend", "yend", "ymax", "ymin",
-                                    "label", "colour", "fill",
-                                    "shape", "size", "stroke",
-                                    "linetype", "lineend", "linejoin",
-                                    "angle", "family", "fontface", "hjust", "vjust"),
+                   optional_aes = c(# ggplot2
+                     "x", "y", "npcx", "npcy",
+                     "xintercept", "yintercept",
+                     "xend", "yend",
+                     "ymax", "ymin",
+                     "xmax", "xmin",
+                     "middle", "xmiddle",
+                     "lower", "xlower",
+                     "upper", "xupper",
+                     "width",
+                     "label",
+                     "hjust", "vjust",
+                     "colour", "color", "alpha", "fill",
+                     "shape", "size", "linewidth", "stroke",
+                     "linetype", "lineend", "linejoin",
+                     "angle",
+                     "family", "fontface", "lineheight",
+                     "map_id", "weight",
+                     # ggpp and ggrepel
+                     "segment.linetype", "segment.colour",
+                     "segment.size", "segment.alpha",
+                     # ggpp
+                     "vp.width", "vp.height",
+                     # ggrepel
+                     "point.size", "segment.angle",
+                     "segment.curvature", "segment.ncp",
+                     "segment.shape", "segment.square",
+                     "segment.squareShape", "segment.inflect",
+                     "segment.debug"
+                   ),
                    default_aes = ggplot2::aes(),
                    draw_key = function(...) {
                      grid::nullGrob()
@@ -222,11 +247,36 @@ geom_debug_npc <- geom_debug
 #' @export
 GeomDebug <-
   ggplot2::ggproto("GeomDebug", ggplot2::Geom,
-                   optional_aes = c("x", "y", "npcx", "npcy", "xend", "yend", "ymax", "ymin",
-                                    "label", "colour", "fill",
-                                    "shape", "size", "stroke",
+                   optional_aes = c(# ggplot2
+                                    "x", "y", "npcx", "npcy",
+                                    "xintercept", "yintercept",
+                                    "xend", "yend",
+                                    "ymax", "ymin",
+                                    "xmax", "xmin",
+                                    "middle", "xmiddle",
+                                    "lower", "xlower",
+                                    "upper", "xupper",
+                                    "width",
+                                    "label",
+                                    "hjust", "vjust",
+                                    "colour", "color", "alpha", "fill",
+                                    "shape", "size", "linewidth", "stroke",
                                     "linetype", "lineend", "linejoin",
-                                    "angle", "family", "fontface", "hjust", "vjust"),
+                                    "angle",
+                                    "family", "fontface", "lineheight",
+                                    "map_id", "weight",
+                                    # ggpp and ggrepel
+                                    "segment.linetype", "segment.colour",
+                                    "segment.size", "segment.alpha",
+                                    # ggpp
+                                    "vp.width", "vp.height",
+                                    # ggrepel
+                                    "point.size", "segment.angle",
+                                    "segment.curvature", "segment.ncp",
+                                    "segment.shape", "segment.square",
+                                    "segment.squareShape", "segment.inflect",
+                                    "segment.debug"
+                                    ),
                    default_aes = ggplot2::aes(),
                    draw_panel = function(data, panel_scales, coord,
                                          summary.fun = head,

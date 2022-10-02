@@ -197,7 +197,7 @@ argument in the call to this statistic. In this way the data printed to the
 console will be those returned by the statistics and received by the geometry.
 
 ```{r}
-ggplot(mpg, aes(cyl, hwy, colour = factor(cyl))) +
+ggplot(mpg, aes(cyl, hwy)) +
   stat_summary(fun.data = "mean_se") +
   stat_summary(fun.data = "mean_se", geom = "debug") 
 ```
