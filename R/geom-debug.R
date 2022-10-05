@@ -122,9 +122,9 @@ GeomNull <-
                    draw_key = function(...) {
                      grid::nullGrob()
                    },
-                   draw_panel = function(data, panel_scales, coord,
-                                         summary.fun,
-                                         summary.fun.args) {
+                   draw_panel = function(data,
+                                         panel_params,
+                                         coord) {
                      grid::nullGrob()
                    }
   )
@@ -146,8 +146,8 @@ GeomNull <-
 #'   \code{mapping} if there isn't a mapping defined for the plot.
 #' @param data A data frame. If specified, overrides the default data frame
 #'   defined at the top level of the plot.
-#' @param summary.fun A function used to print the \code{data}
-#'   object received as input.
+#' @param summary.fun A function (or its name as a character string) used to
+#'   summarize the \code{data} object received as input before printing it.
 #' @param summary.fun.args A list of additional arguments
 #'   to be passed to \code{summary.fun}.
 #' @param position Position adjustment, either as a string, or the result of a
@@ -164,6 +164,9 @@ GeomNull <-
 #'   define both data and aesthetics and shouldn't inherit behaviour from the
 #'   default plot specification, e.g. \code{\link[ggplot2]{borders}}.
 #' @param parse Ignored. Helps avoid warnings.
+#' @param nudge_x,nudge_y Horizontal and vertical adjustments to nudge the
+#'   starting position. The units for \code{nudge_x} and \code{nudge_y} are the
+#'   same as for the data units on the x-axis and y-axis.
 #' @param ... other arguments passed on to \code{\link[ggplot2]{layer}}. There
 #'   are three types of arguments you can use here:
 #'
@@ -171,11 +174,32 @@ GeomNull <-
 #'   \code{color = "red"} or \code{size = 3}. \item Other arguments to the
 #'   layer, for example you override the default \code{stat} associated with the
 #'   layer. \item Other arguments passed on to the stat. }
-#' @return This _geom_ is very unusual in that it does not produce visible graphic
-#'   output. It only returns a \code{grid.null()} grob (graphical object). It
-#'   passes its input as argument to the first parameter of the function
-#'   passed as argument to `geom.summary.function`. This by default is the
-#'   argument passed to `summary.fun`.
+#'
+#' @return The panel function of this geometry always returns a
+#'   \code{\link[grid]{nullGrob}}, the legend is is also set to
+#'   \code{\link[grid]{nullGrob}}. This geometry used for its text printing side
+#'   effect.
+#'
+#' @details The intended use of this geometry is to help explore the data as
+#'   they are added to a plot layer. It is very unusual in that it does not
+#'   produce visible graphic output. It only returns a \code{grid.null()} grob
+#'   (graphical object) when the plot is rendered. Also, differently to normal
+#'   geometries, it passes its \code{data} input as argument to the first
+#'   parameter of the function passed as argument to \code{summary.fun}. The
+#'   value returned by this function is then printed to the R console. If
+#'   \code{summary.fun = NULL}, the whole \code{data} object is printed.
+#'
+#'   Nudging with \code{nudge_x} and \code{nudge_y} behave as in
+#'   \code{\link[ggplot2]{geom_text}}. Arguments passed to \code{position} are
+#'   obeyed. So the effects of positions are reflected in the \code{data} object
+#'   printed or summarized to the R console. The argument passed to \code{parse}
+#'   is currently ignored.
+#'
+#'   Many aesthetics are defined as optional so that they are accepted silently
+#'   by \code{geom_debug()} and handled by 'ggplot2' as usual.
+#'
+#' @seealso To access data, scales and grobs in a built ggplot, see
+#'   \code{\link[ggplot2]{ggplot_build}}.
 #'
 #' @importFrom utils head
 #' @export
@@ -218,10 +242,20 @@ geom_debug <- function(mapping = NULL,
                        summary.fun = head,
                        summary.fun.args = list(),
                        parse = NULL,
+                       nudge_x = 0,
+                       nudge_y = 0,
                        position = "identity", na.rm = FALSE,
                        show.legend = FALSE,
                        inherit.aes = TRUE,
                        ...) {
+  if (!missing(nudge_x) || !missing(nudge_y)) {
+    if (!missing(position) && position != "identity") {
+      rlang::abort("You must specify either `position` or `nudge_x`/`nudge_y`.")
+    }
+    # by default we keep the original positions
+    position <- ggplot2::position_nudge(nudge_x, nudge_y)
+  }
+
   ggplot2::layer(
     geom = GeomDebug,
     mapping = mapping,
@@ -278,20 +312,21 @@ GeomDebug <-
                                     "segment.debug"
                                     ),
                    default_aes = ggplot2::aes(),
-                   draw_panel = function(data, panel_scales, coord,
+                   draw_panel = function(data,
+                                         panel_params,
+                                         coord,
                                          summary.fun = head,
                                          summary.fun.args = list()) {
-                     if (!is.null(summary.fun)) {
-                       z <-  do.call(summary.fun, c(quote(data), summary.fun.args))
-                     } else {
+                     if (is.null(summary.fun)) {
+                       header.text <- "Input 'data' to 'draw_panel()':"
                        z <- data
+                     } else {
+                       header.text <- "Summary of input 'data' to 'draw_panel()':"
+                       z <-  do.call(summary.fun, c(quote(data), summary.fun.args))
                      }
-                     cat("Input 'data' to 'draw_panel()':\n")
+                     print(header.text)
                      print(z)
-                     if (is.data.frame(z) && nrow(data) > nrow(z)) {
-                       cat("...\n")
-                     }
-                     cat("\n")
+
                      grid::nullGrob()
                    },
                    draw_key = function(...) {

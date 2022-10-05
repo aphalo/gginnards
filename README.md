@@ -24,7 +24,18 @@ Functions are provided for the manipulation of layers within
 
 As the variables returned in `data` by many statistics depend on input,
 some of these tools can be also useful in everyday plotting with
-`ggplot2`.
+‘gplot2’.
+
+## WARNING
+
+Because of its nature, this package does not always play safe and nice
+even if it tries to. No exported or internal function or object should
+be imported or used in other packages, simply because they may change at
+any time. Although I intend to maintain the package, I will not attempt
+to actively keep it compatible with anything but the current version of
+‘ggplot2’. Please, see the blog post [Playing on the same team as your
+dependecy](https://www.tidyverse.org/blog/2022/09/playing-on-the-same-team-as-your-dependecy/)
+by Thomas Lin Pedersen.
 
 ## History
 
@@ -80,7 +91,7 @@ ggplot(mtcars, aes(cyl, mpg, color = mpg)) +
 
 ![](man/figures/README-unnamed-chunk-2-1.png)<!-- -->
 
-    #> Input 'data' to 'draw_panel()':
+    #> [1] "Summary of input 'data' to 'draw_panel()':"
     #>    colour x    y PANEL group
     #> 1 #30648F 6 21.0     1    -1
     #> 2 #30648F 6 21.0     1    -1
@@ -88,7 +99,6 @@ ggplot(mtcars, aes(cyl, mpg, color = mpg)) +
     #> 4 #316692 6 21.4     1    -1
     #> 5 #29577E 8 18.7     1    -1
     #> 6 #275379 6 18.1     1    -1
-    #> ...
 
 We print to the R console `colnames(data)`.
 
@@ -100,7 +110,7 @@ ggplot(mtcars, aes(cyl, mpg, color = mpg)) +
 
 ![](man/figures/README-unnamed-chunk-3-1.png)<!-- -->
 
-    #> Input 'data' to 'draw_panel()':
+    #> [1] "Summary of input 'data' to 'draw_panel()':"
     #> [1] "colour" "x"      "y"      "PANEL"  "group"
 
 We print to the R console `data` as returned by `stat_summary()` and
@@ -114,11 +124,11 @@ ggplot(mtcars, aes(cyl, mpg, colour = factor(cyl))) +
 
 ![](man/figures/README-unnamed-chunk-4-1.png)<!-- -->
 
-    #> Input 'data' to 'draw_panel()':
+    #> [1] "Summary of input 'data' to 'draw_panel()':"
     #>    colour x group        y     ymin     ymax PANEL flipped_aes
-    #> 1 #F8766D 4     1 26.66364 24.39977 29.25523     1       FALSE
-    #> 2 #00BA38 6     2 19.74286 18.82821 20.70036     1       FALSE
-    #> 3 #619CFF 8     3 15.10000 13.76411 16.32857     1       FALSE
+    #> 1 #F8766D 4     1 26.66364 24.08182 29.10000     1       FALSE
+    #> 2 #00BA38 6     2 19.74286 18.77143 20.72857     1       FALSE
+    #> 3 #619CFF 8     3 15.10000 13.69893 16.34286     1       FALSE
 
 We print to the R console `data` as *seen* as input by statistics that
 use a *panel function*.
@@ -141,7 +151,7 @@ ggplot(mtcars, aes(cyl, mpg, colour = factor(cyl))) +
     #> 6 6 18.1      6     1     2
     #> ...
     #> 
-    #> Input 'data' to 'draw_panel()':
+    #> [1] "Summary of input 'data' to 'draw_panel()':"
     #>   PANEL x     y nrow ncol                   colnames class.x class.y  groups
     #> 1     1 6 22.15   32    5 x, y, colour, PANEL, group numeric numeric 2, 1, 3
 
@@ -212,8 +222,8 @@ citation("gginnards")
 #> 
 #> To cite package 'gginnards' in publications use:
 #> 
-#>   Pedro J. Aphalo (2021). gginnards: Explore the Innards of 'ggplot2'
-#>   Objects. https://www.r4photobiology.info,
+#>   Aphalo P (2022). _gginnards: Explore the Innards of 'ggplot2'
+#>   Objects_. https://www.r4photobiology.info,
 #>   https://github.com/aphalo/gginnards.
 #> 
 #> A BibTeX entry for LaTeX users is
@@ -221,7 +231,7 @@ citation("gginnards")
 #>   @Manual{,
 #>     title = {gginnards: Explore the Innards of 'ggplot2' Objects},
 #>     author = {Pedro J. Aphalo},
-#>     year = {2021},
+#>     year = {2022},
 #>     note = {https://www.r4photobiology.info, https://github.com/aphalo/gginnards},
 #>   }
 ```

@@ -31,7 +31,18 @@ useful to programatically edit these `gg` objects. Functions are provided
 for the manipulation of layers within `gg`objects.
 
 As the variables returned in `data` by many statistics depend on input, some
-of these tools can be also useful in everyday plotting with `ggplot2`.
+of these tools can be also useful in everyday plotting with 'gplot2'.
+
+## WARNING
+
+Because of its nature, this package does not always play safe and nice even if
+it tries to. No exported or internal function or object should be imported or
+used in other packages, simply because they may change at any time. Although I
+intend to maintain the package, I will not attempt to actively keep it
+compatible with anything but the current version of 'ggplot2'. Please, see the
+blog post [Playing on the same team as your
+dependecy](https://www.tidyverse.org/blog/2022/09/playing-on-the-same-team-as-your-dependecy/)
+by Thomas Lin Pedersen.
 
 ## History
 

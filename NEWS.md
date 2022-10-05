@@ -7,9 +7,13 @@ editor_options:
 # gginnards 0.1.1
 
 -   Update `geom_debug()` to avoid spurious warnings triggered by
-    unrecognised arguments and aesthetics. Aesthetics silently accepted
+    unrecognized arguments and aesthetics. Aesthetics silently accepted
     include all those used by geoms from packages 'ggplot2', 'ggpp', and
     'ggrepel'.
+    
+-   Minor update to the printed output from `geom_debug()`.
+
+-   Tested working with upcoming 'ggplot2' 3.3.7.
 
 # gginnards 0.1.0-1
 

@@ -12,6 +12,8 @@ geom_debug(
   summary.fun = head,
   summary.fun.args = list(),
   parse = NULL,
+  nudge_x = 0,
+  nudge_y = 0,
   position = "identity",
   na.rm = FALSE,
   show.legend = FALSE,
@@ -26,6 +28,8 @@ geom_debug_npc(
   summary.fun = head,
   summary.fun.args = list(),
   parse = NULL,
+  nudge_x = 0,
+  nudge_y = 0,
   position = "identity",
   na.rm = FALSE,
   show.legend = FALSE,
@@ -46,13 +50,17 @@ defined at the top level of the plot.}
 \item{stat}{The statistical transformation to use on the data for this layer,
 as a string.}
 
-\item{summary.fun}{A function used to print the \code{data}
-object received as input.}
+\item{summary.fun}{A function (or its name as a character string) used to
+summarize the \code{data} object received as input before printing it.}
 
 \item{summary.fun.args}{A list of additional arguments
 to be passed to \code{summary.fun}.}
 
 \item{parse}{Ignored. Helps avoid warnings.}
+
+\item{nudge_x, nudge_y}{Horizontal and vertical adjustments to nudge the
+starting position. The units for \code{nudge_x} and \code{nudge_y} are the
+same as for the data units on the x-axis and y-axis.}
 
 \item{position}{Position adjustment, either as a string, or the result of a
 call to a position adjustment function.}
@@ -78,11 +86,10 @@ default plot specification, e.g. \code{\link[ggplot2]{borders}}.}
   layer. \item Other arguments passed on to the stat. }}
 }
 \value{
-This _geom_ is very unusual in that it does not produce visible graphic
-  output. It only returns a \code{grid.null()} grob (graphical object). It
-  passes its input as argument to the first parameter of the function
-  passed as argument to `geom.summary.function`. This by default is the
-  argument passed to `summary.fun`.
+The panel function of this geometry always returns a
+  \code{\link[grid]{nullGrob}}, the legend is is also set to
+  \code{\link[grid]{nullGrob}}. This geometry used for its text printing side
+  effect.
 }
 \description{
 The debug geom is used to print to the console a summary of the data being
@@ -91,6 +98,24 @@ received by geoms as input \code{data} data frame.
 \details{
 It can be useful when debugging the code of statistics or to learn how the
 stats and geoms work in 'ggplot2' (>= 2.0.0).
+
+The intended use of this geometry is to help explore the data as
+  they are added to a plot layer. It is very unusual in that it does not
+  produce visible graphic output. It only returns a \code{grid.null()} grob
+  (graphical object) when the plot is rendered. Also, differently to normal
+  geometries, it passes its \code{data} input as argument to the first
+  parameter of the function passed as argument to \code{summary.fun}. The
+  value returned by this function is then printed to the R console. If
+  \code{summary.fun = NULL}, the whole \code{data} object is printed.
+
+  Nudging with \code{nudge_x} and \code{nudge_y} behave as in
+  \code{\link[ggplot2]{geom_text}}. Arguments passed to \code{position} are
+  obeyed. So the effects of positions are reflected in the \code{data} object
+  printed or summarized to the R console. The argument passed to \code{parse}
+  is currently ignored.
+
+  Many aesthetics are defined as optional so that they are accepted silently
+  by \code{geom_debug()} and handled by 'ggplot2' as usual.
 }
 \examples{
 # echo to the R console \code{data} as received by geoms
@@ -124,4 +149,8 @@ if (requireNamespace("sf", quietly = TRUE)) {
     geom_debug()
 }
 
+}
+\seealso{
+To access data, scales and grobs in a built ggplot, see
+  \code{\link[ggplot2]{ggplot_build}}.
 }
