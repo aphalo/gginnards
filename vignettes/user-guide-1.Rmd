@@ -231,34 +231,33 @@ ggplot(my.data, aes(x, y)) +
 
 Using geom "null" allows to add the debug _stats_ for the side effect
 of console output without altering the rendering of the plot when there is at
-least one other plot layer. The default geom "debug" does not alter the
-rendering of the plot but prints to the console the `data` output by the
+least one other plot layer. The default geom `"null"` does not alter the
+rendering of the plot or print to the console the `data` output by the
 debug stats.
 
 Because of the way 'ggplot2' works, the values are listed to the console at the
 time when the `ggplot` object is printed. As shown here, no other geom or stat
 is required, however in the remaining examples we add `geom_point()` to make the
-data also visible in the plot. Here we set `geom = "null"` to override the
-default use of `geom_debug()`.
+data also visible in the plot. 
 
 ```{r}
 ggplot(my.data, aes(x, y)) + 
-  stat_debug_group(geom = "null")
+  stat_debug_group()
 ```
  
 In the absence of facets or groups we get the printout of a single data 
 frame, which is similar to that returned by `geom_debug()`. Without grouping,
-group is set to `-1` for all observations. As the default geom is `geom_debug()`
+group is set to `-1` for all observations. As the we override the default geom with `geom_debug()`
 a summary computed by the stat is also printed to the console.
 
 ```{r}
 ggplot(my.data, aes(x, y)) + 
   geom_point() + 
-  stat_debug_group()
+  stat_debug_group(geom = "debug")
 ```
 
 In a plot with no grouping, there is no difference in the `data` input for
-`compute_panel()` and `compute_group()` functions except for the oder of the
+`compute_panel()` and `compute_group()` functions except for the order of the
 variables or columns in the data frame (this applies in general to ggplot
 statistics).
 
@@ -269,7 +268,7 @@ ggplot(my.data, aes(x, y)) +
 ```
 
 By mapping the `colour` aesthetic we create a grouping. In the case,
-`compute_group()` is called with the data subsetted by group, and a separate
+`compute_group()` is called with the data subset by group, and a separate
 data frame is displayed for each call `compute_group()`, corresponding each to a
 level in the mapped factor. In this case `group` takes as values positive 
 consecutive integers. As a factor was mapped to colour, colour is encoded as
@@ -303,7 +302,7 @@ Facets based on factors create panels within a plot. Here we create a plot with 
 ```{r}
 ggplot(my.data, aes(x, y, colour = group)) + 
   geom_point() + 
-  stat_debug_panel(summary.fun = nrow) +
+  stat_debug_panel(summary.fun = "nrow") +
   facet_wrap(~block)
 ```
 
@@ -324,7 +323,7 @@ debug output.
 
 `stat_debug_group()` and `stat_debug_panel()` return summary data that can be 
 inspected using a geometry in addition to printing the data received as argument. 
-If we use `geom_debug()` a summary are printed to the console. With two groups,
+If we use `geom_debug()` a summary is printed to the console. With two groups,
 we get two summaries when we use `stat_debug_group()`.
 
 ```{r}
@@ -342,11 +341,14 @@ ggplot(my.data, aes(x, y, shape = group)) +
 ```
 
 In principle one can use other _geoms_ to annotate the plot with the debug summary.
+In this case we silence all output to the R console and use the stat as any other
+ggplot stat.
 
 ```{r}
 ggplot(my.data, aes(x, y, colour = group)) + 
   geom_point() + 
   stat_debug_group(geom = "text",
                    mapping = aes(label = sprintf("group = %i", 
-                                                 after_stat(group))))
+                                                 after_stat(group))),
+                   summary.fun = function(x) {NULL})
 ```

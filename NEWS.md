@@ -11,9 +11,13 @@ editor_options:
     include all those used by geoms from packages 'ggplot2', 'ggpp', and
     'ggrepel'.
     
--   Minor update to the printed output from `geom_debug()`.
+-   Improve the printed output from `geom_debug()`, `stat_debug_group()`
+    and `stat_debug_panel()`.
+    
+-   Change the default geom of `stat_debug_group()` and `stat_debug_panel()`
+    from `"debug"` to `"null"`.    
 
--   Tested working with upcoming 'ggplot2' 3.3.7.
+-   Tested working with 'ggplot2' 3.3.6 and upcoming 'ggplot2' 3.3.7.
 
 # gginnards 0.1.0-1
 

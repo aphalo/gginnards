@@ -91,7 +91,7 @@ ggplot(mtcars, aes(cyl, mpg, color = mpg)) +
 
 ![](man/figures/README-unnamed-chunk-2-1.png)<!-- -->
 
-    #> [1] "Summary of input 'data' to 'draw_panel()':"
+    #> [1] "Summary (head) of input 'data' to 'draw_panel()':"
     #>    colour x    y PANEL group
     #> 1 #30648F 6 21.0     1    -1
     #> 2 #30648F 6 21.0     1    -1
@@ -126,9 +126,9 @@ ggplot(mtcars, aes(cyl, mpg, colour = factor(cyl))) +
 
     #> [1] "Summary of input 'data' to 'draw_panel()':"
     #>    colour x group        y     ymin     ymax PANEL flipped_aes
-    #> 1 #F8766D 4     1 26.66364 24.08182 29.10000     1       FALSE
-    #> 2 #00BA38 6     2 19.74286 18.77143 20.72857     1       FALSE
-    #> 3 #619CFF 8     3 15.10000 13.69893 16.34286     1       FALSE
+    #> 1 #F8766D 4     1 26.66364 24.25409 29.01818     1       FALSE
+    #> 2 #00BA38 6     2 19.74286 18.71429 20.72893     1       FALSE
+    #> 3 #619CFF 8     3 15.10000 13.81357 16.27143     1       FALSE
 
 We print to the R console `data` as *seen* as input by statistics that
 use a *panel function*.
@@ -141,7 +141,7 @@ ggplot(mtcars, aes(cyl, mpg, colour = factor(cyl))) +
 
 ![](man/figures/README-unnamed-chunk-5-1.png)<!-- -->
 
-    #> Input 'data' to 'compute_group()':
+    #> [1] "Summary (head) of input 'data' to 'compute_panel()':"
     #>   x    y colour PANEL group
     #> 1 6 21.0      6     1     2
     #> 2 6 21.0      6     1     2
@@ -149,11 +149,6 @@ ggplot(mtcars, aes(cyl, mpg, colour = factor(cyl))) +
     #> 4 6 21.4      6     1     2
     #> 5 8 18.7      8     1     3
     #> 6 6 18.1      6     1     2
-    #> ...
-    #> 
-    #> [1] "Summary of input 'data' to 'draw_panel()':"
-    #>   PANEL x     y nrow ncol                   colnames class.x class.y  groups
-    #> 1     1 6 22.15   32    5 x, y, colour, PANEL, group numeric numeric 2, 1, 3
 
 We build object `p` of class `gg` (a ggplot). We query the number of
 layers and the position of layers by the class of the `ggproto` object.
@@ -238,6 +233,6 @@ citation("gginnards")
 
 ## License
 
-© 2016-2021 Pedro J. Aphalo (<pedro.aphalo@helsinki.fi>). Released under
+© 2016-2022 Pedro J. Aphalo (<pedro.aphalo@helsinki.fi>). Released under
 the GPL, version 2 or greater. This software carries no warranty of any
 kind.

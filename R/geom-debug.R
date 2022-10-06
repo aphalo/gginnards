@@ -131,7 +131,7 @@ GeomNull <-
 
 # Debug geom --------------------------------------------------------------
 
-#' Geom which prints input data to console.
+#' Geom that prints input data to console.
 #'
 #' The debug geom is used to print to the console a summary of the data being
 #' received by geoms as input \code{data} data frame.
@@ -146,8 +146,9 @@ GeomNull <-
 #'   \code{mapping} if there isn't a mapping defined for the plot.
 #' @param data A data frame. If specified, overrides the default data frame
 #'   defined at the top level of the plot.
-#' @param summary.fun A function (or its name as a character string) used to
-#'   summarize the \code{data} object received as input before printing it.
+#' @param summary.fun The name of a function as a character string (or a
+#'   function) to be used to summarize the \code{data} object received as input
+#'   before printing it.
 #' @param summary.fun.args A list of additional arguments
 #'   to be passed to \code{summary.fun}.
 #' @param position Position adjustment, either as a string, or the result of a
@@ -198,6 +199,12 @@ GeomNull <-
 #'   Many aesthetics are defined as optional so that they are accepted silently
 #'   by \code{geom_debug()} and handled by 'ggplot2' as usual.
 #'
+#'   If the argument passed to \code{summary.fun()} is a character string, the
+#'   name will appear in the header of the printout. However, the function
+#'   must be available at the time the plot is rendered. If a function is
+#'   passed as argument, its definition will be saved as part of the \code{"gg"}
+#'   object.
+#'
 #' @seealso To access data, scales and grobs in a built ggplot, see
 #'   \code{\link[ggplot2]{ggplot_build}}.
 #'
@@ -212,20 +219,20 @@ GeomNull <-
 #'
 #' ggplot(mtcars, aes(cyl, mpg, color = factor(cyl))) +
 #'   geom_point() +
-#'   geom_debug(summary.fun = head, summary.fun.args = list(n = 3))
+#'   geom_debug(summary.fun = "head", summary.fun.args = list(n = 3))
 #'
 #' ggplot(mtcars, aes(cyl, mpg, color = factor(cyl))) +
 #'   geom_point() +
-#'   geom_debug(summary.fun = nrow)
+#'   geom_debug(summary.fun = "nrow")
 #'
 #' ggplot(mtcars, aes(cyl, mpg, color = factor(cyl))) +
 #'   geom_point() +
-#'   geom_debug(summary.fun = attributes)
+#'   geom_debug(summary.fun = "attributes")
 #'
 #' # echo to the R console \code{data} as received by geoms
 #' ggplot(mtcars, aes(cyl, mpg, colour = factor(cyl))) +
 #'   stat_summary(fun.data = "mean_se") +
-#'   stat_summary(fun.data = "mean_se", geom = "debug")
+#'   stat_summary(fun.data = "mean_se", geom = "debug", summary.fun = NULL)
 #'
 #' # shape data is not passed to geometries or statistics
 #' if (requireNamespace("sf", quietly = TRUE)) {
@@ -239,7 +246,7 @@ GeomNull <-
 geom_debug <- function(mapping = NULL,
                        data = NULL,
                        stat = "identity",
-                       summary.fun = head,
+                       summary.fun = "head",
                        summary.fun.args = list(),
                        parse = NULL,
                        nudge_x = 0,
@@ -321,7 +328,12 @@ GeomDebug <-
                        header.text <- "Input 'data' to 'draw_panel()':"
                        z <- data
                      } else {
-                       header.text <- "Summary of input 'data' to 'draw_panel()':"
+                       if (is.character(summary.fun)) {
+                         header.text <- sprintf("Summary (%s) of input 'data' to 'draw_panel()':",
+                                                summary.fun)
+                       } else {
+                         header.text <- "Summary of input 'data' to 'draw_panel()':"
+                       }
                        z <-  do.call(summary.fun, c(quote(data), summary.fun.args))
                      }
                      print(header.text)

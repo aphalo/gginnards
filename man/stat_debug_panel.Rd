@@ -7,9 +7,11 @@
 stat_debug_panel(
   mapping = NULL,
   data = NULL,
-  geom = "debug",
-  summary.fun = head,
+  geom = "null",
+  summary.fun = "head",
   summary.fun.args = list(),
+  geom.summary.fun = NULL,
+  geom.summary.fun.args = list(),
   position = "identity",
   na.rm = FALSE,
   show.legend = FALSE,
@@ -27,10 +29,10 @@ the plot defaults.}
 
 \item{geom}{The geometric object to use display the data}
 
-\item{summary.fun}{A function used to print the \code{data} object received
-as input.}
+\item{summary.fun, geom.summary.fun}{A function used to print the \code{data}
+object received as input.}
 
-\item{summary.fun.args}{A list.}
+\item{summary.fun.args, geom.summary.fun.args}{A named list.}
 
 \item{position}{The position adjustment to use for overlapping points on this
 layer}
@@ -52,16 +54,27 @@ can include aesthetics whose values you want to set, not map. See
 \code{\link[ggplot2]{layer}} for more details.}
 }
 \value{
-A plot layer instance.
-
-A plot layer instance. Mainly used for the side-effect of printing
-  to the console the \code{data} object.
+A tibble with a summary of the \code{data} received, which is not
+   printed by default using \code{geom_null()}. Can be printed by passing
+   \code{geom = "debug"}.
 }
 \description{
 \code{stat_debug} reports all distinct values in \code{group}
   and \code{PANEL}, and \code{nrow}, \code{ncol} and the names of the columns
   or variables, and the class of x and y for each panel in a ggplot as passed
   to the \code{compute_panel} function in the \code{ggproto} object.
+}
+\details{
+This stat is meant to be used for the side-effect of printing to the
+  console the \code{data} object received as input by the
+  \code{compute_panel()} function, or a summary of it. This is the same as
+  for any other statistics passed the same arguments (including defaults that
+  may need to be overridden if they differ).
+
+  In principle any geom can be passed as argument to override \code{"null"}.
+  Keep in mind that this stat sets default mappings only for the \emph{x} and
+  \emph{y} aesthetics: \code{geom_debug()} and \code{geom_text()} are
+  useful.
 }
 \section{Computed variables}{
 
@@ -79,24 +92,57 @@ A plot layer instance. Mainly used for the side-effect of printing
 
 \examples{
 my.df <- data.frame(x = rep(1:10, 2),
-                    y = rep(c(1,2), c(10,10)),
+                    y = rep(c(1,2), c(10,10)) + rnorm(20),
                     group = rep(c("A","B"), c(10,10)))
 
+# by default head() is used to show the top rows of data object
+# and geom_null() to silence the data returned by the stat
 ggplot(my.df, aes(x,y)) +
   geom_point() +
   stat_debug_panel()
 
+# geom_debug prints the data returned by the stat
 ggplot(my.df, aes(x,y)) +
   geom_point() +
-  stat_debug_panel(summary.fun = nrow)
+  stat_debug_panel(geom = "debug")
 
+# to print only the the data returned by the stat
+# we pass as summary function a function that always returns NULL
+ggplot(my.df, aes(x,y)) +
+  geom_point() +
+  stat_debug_panel(geom = "debug",
+                   summary.fun = function(x) {NULL})
+
+ggplot(my.df, aes(x,y)) +
+  geom_point() +
+  stat_debug_panel(aes(label = sprintf("nrow = \%i, ncol = \%i, colnames: \%s",
+                                       after_stat(nrow),
+                                       after_stat(ncol),
+                                       after_stat(colnames))),
+                   geom = "text")
+
+# here we show all the data object
+ggplot(my.df, aes(x,y)) +
+  geom_point() +
+  stat_debug_panel(summary.fun = NULL)
+
+ggplot(my.df, aes(x,y)) +
+  geom_point() +
+  stat_debug_panel(summary.fun = "nrow")
+
+# with grouping
 ggplot(my.df, aes(x,y, colour = group)) +
   geom_point() +
-  stat_debug_panel()
+  stat_debug_panel(summary.fun = NULL)
 
 ggplot(my.df, aes(x,y)) +
   geom_point() +
   facet_wrap(~group) +
+  stat_debug_panel()
+
+# by default head() is used to show the top rows of data object
+ggplot(my.df, aes(group,y)) +
+  geom_point() +
   stat_debug_panel()
 
 }

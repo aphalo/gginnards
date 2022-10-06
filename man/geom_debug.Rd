@@ -3,13 +3,13 @@
 \name{geom_debug}
 \alias{geom_debug}
 \alias{geom_debug_npc}
-\title{Geom which prints input data to console.}
+\title{Geom that prints input data to console.}
 \usage{
 geom_debug(
   mapping = NULL,
   data = NULL,
   stat = "identity",
-  summary.fun = head,
+  summary.fun = "head",
   summary.fun.args = list(),
   parse = NULL,
   nudge_x = 0,
@@ -25,7 +25,7 @@ geom_debug_npc(
   mapping = NULL,
   data = NULL,
   stat = "identity",
-  summary.fun = head,
+  summary.fun = "head",
   summary.fun.args = list(),
   parse = NULL,
   nudge_x = 0,
@@ -50,8 +50,9 @@ defined at the top level of the plot.}
 \item{stat}{The statistical transformation to use on the data for this layer,
 as a string.}
 
-\item{summary.fun}{A function (or its name as a character string) used to
-summarize the \code{data} object received as input before printing it.}
+\item{summary.fun}{The name of a function as a character string (or a
+function) to be used to summarize the \code{data} object received as input
+before printing it.}
 
 \item{summary.fun.args}{A list of additional arguments
 to be passed to \code{summary.fun}.}
@@ -116,6 +117,12 @@ The intended use of this geometry is to help explore the data as
 
   Many aesthetics are defined as optional so that they are accepted silently
   by \code{geom_debug()} and handled by 'ggplot2' as usual.
+
+  If the argument passed to \code{summary.fun()} is a character string, the
+  name will appear in the header of the printout. However, the function
+  must be available at the time the plot is rendered. If a function is
+  passed as argument, its definition will be saved as part of the \code{"gg"}
+  object.
 }
 \examples{
 # echo to the R console \code{data} as received by geoms
@@ -125,20 +132,20 @@ ggplot(mtcars, aes(cyl, mpg, color = factor(cyl))) +
 
 ggplot(mtcars, aes(cyl, mpg, color = factor(cyl))) +
   geom_point() +
-  geom_debug(summary.fun = head, summary.fun.args = list(n = 3))
+  geom_debug(summary.fun = "head", summary.fun.args = list(n = 3))
 
 ggplot(mtcars, aes(cyl, mpg, color = factor(cyl))) +
   geom_point() +
-  geom_debug(summary.fun = nrow)
+  geom_debug(summary.fun = "nrow")
 
 ggplot(mtcars, aes(cyl, mpg, color = factor(cyl))) +
   geom_point() +
-  geom_debug(summary.fun = attributes)
+  geom_debug(summary.fun = "attributes")
 
 # echo to the R console \code{data} as received by geoms
 ggplot(mtcars, aes(cyl, mpg, colour = factor(cyl))) +
   stat_summary(fun.data = "mean_se") +
-  stat_summary(fun.data = "mean_se", geom = "debug")
+  stat_summary(fun.data = "mean_se", geom = "debug", summary.fun = NULL)
 
 # shape data is not passed to geometries or statistics
 if (requireNamespace("sf", quietly = TRUE)) {
