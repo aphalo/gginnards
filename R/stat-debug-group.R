@@ -81,7 +81,7 @@
 #'   stat_debug_group(aes(label = sprintf("nrow = %i, ncol = %i, colnames: %s",
 #'                                        after_stat(nrow),
 #'                                        after_stat(ncol),
-#'                                         after_stat(colnames))),
+#'                                        after_stat(colnames))),
 #'                    geom = "text")
 #'
 #' # here we show all the data object
