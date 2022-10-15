@@ -6,8 +6,8 @@ editor_options:
 
 # gginnards 0.1.1
 
--   Update `geom_debug()` to avoid spurious warnings triggered by
-    unrecognized arguments and aesthetics. Aesthetics silently accepted
+-   Update `geom_debug()` to avoid several spurious warnings triggered by
+    unrecognized parameters and aesthetics. Aesthetics silently accepted
     include all those used by geoms from packages 'ggplot2', 'ggpp', and
     'ggrepel'.
     
@@ -17,7 +17,7 @@ editor_options:
 -   Change the default geom of `stat_debug_group()` and `stat_debug_panel()`
     from `"debug"` to `"null"`.    
 
--   Tested working with 'ggplot2' 3.3.6 and upcoming 'ggplot2' 3.3.7.
+-   Tested working with 'ggplot2' 3.3.6 and upcoming 'ggplot2' 3.4.0 (v3.4.0-rc).
 
 # gginnards 0.1.0-1
 
