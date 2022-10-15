@@ -21,7 +21,7 @@ authors:
 repository: https://CRAN.R-project.org/package=gginnards
 repository-code: https://github.com/aphalo/gginnards
 url: https://www.r4photobiology.info
-date-released: '2022-10-07'
+date-released: '2022-10-15'
 contact:
 - family-names: Aphalo
   given-names: Pedro J.
