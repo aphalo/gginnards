@@ -4,6 +4,10 @@ editor_options:
     wrap: 72
 ---
 
+# gginnards 0.1.2
+
+-   Fix bug in `drop_vars()` (report and fix by struckma in issue [#1](https://github.com/aphalo/gginnards/issues/1)).
+
 # gginnards 0.1.1
 
 -   Update `geom_debug()` to avoid several spurious warnings triggered by

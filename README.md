@@ -5,6 +5,8 @@
 
 [![cran
 version](https://www.r-pkg.org/badges/version/gginnards)](https://cran.r-project.org/package=gginnards)
+[![cran
+checks](https://badges.cranchecks.info/worst/gginnards.svg)](https://cran.r-project.org/web/checks/check_results_gginnards.html)
 [![R build
 status](https://github.com/aphalo/gginnards/workflows/R-CMD-check/badge.svg)](https://github.com/aphalo/gginnards/actions)
 
@@ -24,7 +26,7 @@ Functions are provided for the manipulation of layers within
 
 As the variables returned in `data` by many statistics depend on input,
 some of these tools can be also useful in everyday plotting with
-‘gplot2’.
+‘gplot2’ as a way of diagnosing problems.
 
 ## WARNING
 
@@ -48,7 +50,7 @@ This package was born when several functions were removed from package
 the console and generates no graphic output. As it takes as argument a
 summary function, it allows great flexibility in how `data` is
 displayed. `geom_debug()` is useful at any time when one needs to check
-what variables are returned by a statistics. Many statistics are well
+what variables are returned by statistics. Many statistics are well
 documented and always return the same variables. For other statistics
 even if well documented the returned variables in `data` vary depending
 on grouping and/or the arguments passed to them, in which case this
@@ -126,16 +128,15 @@ ggplot(mtcars, aes(cyl, mpg, colour = factor(cyl))) +
 
     #> [1] "Summary of input 'data' to 'draw_panel()':"
     #>    colour x group        y     ymin     ymax PANEL flipped_aes
-    #> 1 #F8766D 4     1 26.66364 24.25409 29.01818     1       FALSE
-    #> 2 #00BA38 6     2 19.74286 18.71429 20.72893     1       FALSE
-    #> 3 #619CFF 8     3 15.10000 13.81357 16.27143     1       FALSE
+    #> 1 #F8766D 4     1 26.66364 24.26341 29.21955     1       FALSE
+    #> 2 #00BA38 6     2 19.74286 18.68536 20.67143     1       FALSE
+    #> 3 #619CFF 8     3 15.10000 13.74268 16.24304     1       FALSE
 
 We print to the R console `data` as *seen* as input by statistics that
 use a *panel function*.
 
 ``` r
 ggplot(mtcars, aes(cyl, mpg, colour = factor(cyl))) +
-  stat_summary(fun.data = "mean_cl_boot") +
   stat_debug_panel()
 ```
 
@@ -214,10 +215,9 @@ publications, please cite according to:
 
 ``` r
 citation("gginnards")
-#> 
 #> To cite package 'gginnards' in publications use:
 #> 
-#>   Aphalo P (2022). _gginnards: Explore the Innards of 'ggplot2'
+#>   Aphalo P (2023). _gginnards: Explore the Innards of 'ggplot2'
 #>   Objects_. https://www.r4photobiology.info,
 #>   https://github.com/aphalo/gginnards.
 #> 
@@ -226,13 +226,13 @@ citation("gginnards")
 #>   @Manual{,
 #>     title = {gginnards: Explore the Innards of 'ggplot2' Objects},
 #>     author = {Pedro J. Aphalo},
-#>     year = {2022},
+#>     year = {2023},
 #>     note = {https://www.r4photobiology.info, https://github.com/aphalo/gginnards},
 #>   }
 ```
 
 ## License
 
-© 2016-2022 Pedro J. Aphalo (<pedro.aphalo@helsinki.fi>). Released under
+© 2016-2023 Pedro J. Aphalo (<pedro.aphalo@helsinki.fi>). Released under
 the GPL, version 2 or greater. This software carries no warranty of any
 kind.

@@ -92,7 +92,7 @@ drop_vars <- function(p, keep.vars = character(), guess.vars = TRUE) {
   data.vars <- names(p$data)
   unused.vars <- setdiff(data.vars, union(mapped.vars, keep.vars))
   keep.idxs <- which(!data.vars %in% unused.vars)
-  p$data <- p$data[ , keep.idxs]
+  p$data <- p$data[ , keep.idxs, drop = FALSE]
   p
 }
 
