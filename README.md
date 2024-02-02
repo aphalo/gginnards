@@ -1,6 +1,4 @@
 
-<!-- README.md is generated from README.Rmd. Please edit that file -->
-
 # gginnards <img src="man/figures/logo-gginnards.png" align="right" width="150" />
 
 [![cran
@@ -128,9 +126,9 @@ ggplot(mtcars, aes(cyl, mpg, colour = factor(cyl))) +
 
     #> [1] "Summary of input 'data' to 'draw_panel()':"
     #>    colour x group        y     ymin     ymax PANEL flipped_aes
-    #> 1 #F8766D 4     1 26.66364 24.26341 29.21955     1       FALSE
-    #> 2 #00BA38 6     2 19.74286 18.68536 20.67143     1       FALSE
-    #> 3 #619CFF 8     3 15.10000 13.74268 16.24304     1       FALSE
+    #> 1 #F8766D 4     1 26.66364 24.30000 28.93727     1       FALSE
+    #> 2 #00BA38 6     2 19.74286 18.75679 20.72893     1       FALSE
+    #> 3 #619CFF 8     3 15.10000 13.84268 16.32875     1       FALSE
 
 We print to the R console `data` as *seen* as input by statistics that
 use a *panel function*.
@@ -218,8 +216,8 @@ citation("gginnards")
 #> To cite package 'gginnards' in publications use:
 #> 
 #>   Aphalo P (2023). _gginnards: Explore the Innards of 'ggplot2'
-#>   Objects_. https://www.r4photobiology.info,
-#>   https://github.com/aphalo/gginnards.
+#>   Objects_. R package version 0.1.2,
+#>   <https://CRAN.R-project.org/package=gginnards>.
 #> 
 #> A BibTeX entry for LaTeX users is
 #> 
@@ -227,7 +225,8 @@ citation("gginnards")
 #>     title = {gginnards: Explore the Innards of 'ggplot2' Objects},
 #>     author = {Pedro J. Aphalo},
 #>     year = {2023},
-#>     note = {https://www.r4photobiology.info, https://github.com/aphalo/gginnards},
+#>     note = {R package version 0.1.2},
+#>     url = {https://CRAN.R-project.org/package=gginnards},
 #>   }
 ```
 

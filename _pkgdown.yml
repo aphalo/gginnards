@@ -1,4 +1,4 @@
-destination: ../gginnards-docs
+destination: ../docs/gginnards
 url: https://docs.r4photobiology.info/gginnards/
 
 template:
