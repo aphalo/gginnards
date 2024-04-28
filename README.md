@@ -99,6 +99,15 @@ ggplot(mtcars, aes(cyl, mpg, color = mpg)) +
     #> 4 #316692 6 21.4     1    -1
     #> 5 #29577E 8 18.7     1    -1
     #> 6 #275379 6 18.1     1    -1
+    #> [1] "Summary (summary) of input 'params' to 'draw_panel()':"
+    #>         Length Class     Mode       
+    #> x       11     ViewScale environment
+    #> x.sec   11     ViewScale environment
+    #> x.range  2     -none-    numeric    
+    #> y       11     ViewScale environment
+    #> y.sec   11     ViewScale environment
+    #> y.range  2     -none-    numeric    
+    #> guides   4     Guides    environment
 
 We print to the R console `colnames(data)`.
 
@@ -106,12 +115,29 @@ We print to the R console `colnames(data)`.
 ggplot(mtcars, aes(cyl, mpg, color = mpg)) +
   geom_point() +
   geom_debug(summary.fun = colnames)
+#> Warning in geom_debug(summary.fun = colnames): Ignoring unknown parameters:
+#> `summary.fun`
 ```
 
 ![](man/figures/README-unnamed-chunk-3-1.png)<!-- -->
 
-    #> [1] "Summary of input 'data' to 'draw_panel()':"
-    #> [1] "colour" "x"      "y"      "PANEL"  "group"
+    #> [1] "Summary (head) of input 'data' to 'draw_panel()':"
+    #>    colour x    y PANEL group
+    #> 1 #30648F 6 21.0     1    -1
+    #> 2 #30648F 6 21.0     1    -1
+    #> 3 #356E9D 4 22.8     1    -1
+    #> 4 #316692 6 21.4     1    -1
+    #> 5 #29577E 8 18.7     1    -1
+    #> 6 #275379 6 18.1     1    -1
+    #> [1] "Summary (summary) of input 'params' to 'draw_panel()':"
+    #>         Length Class     Mode       
+    #> x       11     ViewScale environment
+    #> x.sec   11     ViewScale environment
+    #> x.range  2     -none-    numeric    
+    #> y       11     ViewScale environment
+    #> y.sec   11     ViewScale environment
+    #> y.range  2     -none-    numeric    
+    #> guides   4     Guides    environment
 
 We print to the R console `data` as returned by `stat_summary()` and
 *seen* as input by geometries.
@@ -124,11 +150,20 @@ ggplot(mtcars, aes(cyl, mpg, colour = factor(cyl))) +
 
 ![](man/figures/README-unnamed-chunk-4-1.png)<!-- -->
 
-    #> [1] "Summary of input 'data' to 'draw_panel()':"
-    #>    colour x group        y     ymin     ymax PANEL flipped_aes
-    #> 1 #F8766D 4     1 26.66364 24.30000 28.93727     1       FALSE
-    #> 2 #00BA38 6     2 19.74286 18.75679 20.72893     1       FALSE
-    #> 3 #619CFF 8     3 15.10000 13.84268 16.32875     1       FALSE
+    #> [1] "Summary (head) of input 'data' to 'draw_panel()':"
+    #>    colour x group        y     ymin     ymax PANEL flipped_aes orientation
+    #> 1 #F8766D 4     1 26.66364 24.28114 29.33682     1       FALSE          NA
+    #> 2 #00BA38 6     2 19.74286 18.77107 20.74286     1       FALSE          NA
+    #> 3 #619CFF 8     3 15.10000 13.79232 16.40714     1       FALSE          NA
+    #> [1] "Summary (summary) of input 'params' to 'draw_panel()':"
+    #>         Length Class     Mode       
+    #> x       11     ViewScale environment
+    #> x.sec   11     ViewScale environment
+    #> x.range  2     -none-    numeric    
+    #> y       11     ViewScale environment
+    #> y.sec   11     ViewScale environment
+    #> y.range  2     -none-    numeric    
+    #> guides   4     Guides    environment
 
 We print to the R console `data` as *seen* as input by statistics that
 use a *panel function*.
@@ -217,7 +252,8 @@ citation("gginnards")
 #> 
 #>   Aphalo P (2023). _gginnards: Explore the Innards of 'ggplot2'
 #>   Objects_. R package version 0.1.2,
-#>   <https://CRAN.R-project.org/package=gginnards>.
+#>   https://github.com/aphalo/gginnards,
+#>   <https://www.r4photobiology.info>.
 #> 
 #> A BibTeX entry for LaTeX users is
 #> 
@@ -225,8 +261,8 @@ citation("gginnards")
 #>     title = {gginnards: Explore the Innards of 'ggplot2' Objects},
 #>     author = {Pedro J. Aphalo},
 #>     year = {2023},
-#>     note = {R package version 0.1.2},
-#>     url = {https://CRAN.R-project.org/package=gginnards},
+#>     note = {R package version 0.1.2, https://github.com/aphalo/gginnards},
+#>     url = {https://www.r4photobiology.info},
 #>   }
 ```
 

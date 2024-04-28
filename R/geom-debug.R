@@ -88,35 +88,47 @@ geom_null <- function(mapping = NULL, data = NULL, stat = "identity",
 #'
 GeomNull <-
   ggplot2::ggproto("GeomNull", ggplot2::Geom,
-                   optional_aes = c(# ggplot2
-                     "x", "y", "npcx", "npcy",
+                   # needed to avoid warnings
+                   optional_aes = c(# ggplot2 at 3.5.1
+                     "group", "subgroup", "order",
+                     "x", "y", "z",
                      "xintercept", "yintercept",
+                     "slope", "intercept",
+                     "sample",
                      "xend", "yend",
                      "ymax", "ymin",
                      "xmax", "xmin",
                      "middle", "xmiddle",
                      "lower", "xlower",
                      "upper", "xupper",
-                     "width",
+                     "width", "height",
                      "label",
                      "hjust", "vjust",
                      "colour", "color", "alpha", "fill",
                      "shape", "size", "linewidth", "stroke",
                      "linetype", "lineend", "linejoin",
-                     "angle",
+                     "angle", "radius",
                      "family", "fontface", "lineheight",
                      "map_id", "weight",
-                     # ggpp and ggrepel
-                     "segment.linetype", "segment.colour",
-                     "segment.size", "segment.alpha",
-                     # ggpp
+                     "geometry",
+                     # ggpp at 0.5.6
                      "vp.width", "vp.height",
-                     # ggrepel
+                     "npcx", "npcy",
+                     # ggrepel at 0.9.5
                      "point.size", "segment.angle",
                      "segment.curvature", "segment.ncp",
                      "segment.shape", "segment.square",
                      "segment.squareShape", "segment.inflect",
-                     "segment.debug"
+                     "segment.debug",
+                     "segment.linetype",
+                     "segment.colour", "segment.color",
+                     "segment.size", "segment.alpha",
+                     # ggtext at 0.1.2
+                     "label.colour", "label.size",
+                     "text.colour",
+                     "box.colour", "box.size",
+                     "halign", "valign",
+                     "orientation"
                    ),
                    default_aes = ggplot2::aes(),
                    draw_key = function(...) {
@@ -146,11 +158,13 @@ GeomNull <-
 #'   \code{mapping} if there isn't a mapping defined for the plot.
 #' @param data A data frame. If specified, overrides the default data frame
 #'   defined at the top level of the plot.
-#' @param summary.fun The name of a function as a character string (or a
-#'   function) to be used to summarize the \code{data} object received as input
-#'   before printing it.
-#' @param summary.fun.args A list of additional arguments
-#'   to be passed to \code{summary.fun}.
+#' @param dbgfun.data,dbgfun.params,dbgfun.print The name of functions as character
+#'   strings or as named function objects to be used to summarize
+#'   the \code{data} and the \code{params} objects received as input by the
+#'   geometry before printing them with \code{dbgfun.print}.
+#' @param dbgfun.data.args,dbgfun.params.args,dbgfun.print.args A list of additional
+#'   named arguments to be passed to \code{dbgfun.data}, \code{dbgfun.params} and
+#'   \code{dbgfun.print}.
 #' @param position Position adjustment, either as a string, or the result of a
 #'   call to a position adjustment function.
 #' @param stat The statistical transformation to use on the data for this layer,
@@ -164,7 +178,7 @@ GeomNull <-
 #'   than combining with them. This is most useful for helper functions that
 #'   define both data and aesthetics and shouldn't inherit behaviour from the
 #'   default plot specification, e.g. \code{\link[ggplot2]{borders}}.
-#' @param parse Ignored. Helps avoid warnings.
+#' @param parse,orientation Ignored. Helps avoid warnings.
 #' @param nudge_x,nudge_y Horizontal and vertical adjustments to nudge the
 #'   starting position. The units for \code{nudge_x} and \code{nudge_y} are the
 #'   same as for the data units on the x-axis and y-axis.
@@ -185,25 +199,28 @@ GeomNull <-
 #'   they are added to a plot layer. It is very unusual in that it does not
 #'   produce visible graphic output. It only returns a \code{grid.null()} grob
 #'   (graphical object) when the plot is rendered. Also, differently to normal
-#'   geometries, it passes its \code{data} input as argument to the first
-#'   parameter of the function passed as argument to \code{summary.fun}. The
-#'   value returned by this function is then printed to the R console. If
-#'   \code{summary.fun = NULL}, the whole \code{data} object is printed.
+#'   geometries, it prints the \code{data} and \code{params} objects or a
+#'   summary of them. The summary it obtained using the functions passed as
+#'   arguments to its formal parameter \code{dbgfun.data} and
+#'   \code{dbgfun.params}. The \code{data} and \code{params} objects are passed
+#'   as the first positional argument to these functions and the valued returned
+#'   are printed to the R console. If \code{dbgfun.data = "I"} the \code{data}
+#'   object is printed as is and if \code{dbgfun.data = NULL} the objects is not
+#'   printed, and similarly for \code{params}.
 #'
 #'   Nudging with \code{nudge_x} and \code{nudge_y} behave as in
 #'   \code{\link[ggplot2]{geom_text}}. Arguments passed to \code{position} are
 #'   obeyed. So the effects of positions are reflected in the \code{data} object
-#'   printed or summarized to the R console. The argument passed to \code{parse}
-#'   is currently ignored.
+#'   printed or summarized to the R console. The arguments passed to
+#'   \code{parse} and \code{orientation} are currently ignored.
 #'
 #'   Many aesthetics are defined as optional so that they are accepted silently
 #'   by \code{geom_debug()} and handled by 'ggplot2' as usual.
 #'
-#'   If the argument passed to \code{summary.fun()} is a character string, the
-#'   name will appear in the header of the printout. However, the function
-#'   must be available at the time the plot is rendered. If a function is
-#'   passed as argument, its definition will be saved as part of the \code{"gg"}
-#'   object.
+#'   The names of \code{dbgfun.data()} and \code{dbgfun.params} will appear in
+#'   the section headers of the printout. Following the grammar of graphics
+#'   expectations, the definitions of the debug and print functions are saved as
+#'   part of the \code{"gg"} object.
 #'
 #' @seealso To access data, scales and grobs in a built ggplot, see
 #'   \code{\link[ggplot2]{ggplot_build}}.
@@ -219,20 +236,36 @@ GeomNull <-
 #'
 #' ggplot(mtcars, aes(cyl, mpg, color = factor(cyl))) +
 #'   geom_point() +
-#'   geom_debug(summary.fun = "head", summary.fun.args = list(n = 3))
+#'   geom_debug(dbgfun.params = NULL)
 #'
 #' ggplot(mtcars, aes(cyl, mpg, color = factor(cyl))) +
 #'   geom_point() +
-#'   geom_debug(summary.fun = "nrow")
+#'   geom_debug(dbgfun.data = NULL)
 #'
 #' ggplot(mtcars, aes(cyl, mpg, color = factor(cyl))) +
 #'   geom_point() +
-#'   geom_debug(summary.fun = "attributes")
+#'   geom_debug(dbgfun.data = "head", dbgfun.data.args = list(n = 3))
+#'
+#' ggplot(mtcars, aes(cyl, mpg, color = factor(cyl))) +
+#'   geom_point() +
+#'   geom_debug(dbgfun.data = "nrow", dbgfun.params = "length")
+#'
+#' ggplot(mtcars, aes(cyl, mpg, color = factor(cyl))) +
+#'   geom_point() +
+#'   geom_debug(dbgfun.data = "attributes", dbgfun.params = "attributes")
+#'
+#' ggplot(mtcars, aes(cyl, mpg, color = factor(cyl))) +
+#'   geom_point() +
+#'   geom_debug(dbgfun.data = "I", dbgfun.params = NULL)
 #'
 #' # echo to the R console \code{data} as received by geoms
 #' ggplot(mtcars, aes(cyl, mpg, colour = factor(cyl))) +
 #'   stat_summary(fun.data = "mean_se") +
-#'   stat_summary(fun.data = "mean_se", geom = "debug", summary.fun = NULL)
+#'   stat_summary(geom = "debug", fun.data = "mean_se")
+#'
+#' ggplot(mtcars, aes(cyl, mpg, colour = factor(cyl))) +
+#'   stat_summary(fun.data = "mean_se") +
+#'   stat_summary(geom = "debug", fun.data = "mean_se", dbgfun.params = NULL)
 #'
 #' # shape data is not passed to geometries or statistics
 #' if (requireNamespace("sf", quietly = TRUE)) {
@@ -246,9 +279,14 @@ GeomNull <-
 geom_debug <- function(mapping = NULL,
                        data = NULL,
                        stat = "identity",
-                       summary.fun = "head",
-                       summary.fun.args = list(),
+                       dbgfun.data = "head",
+                       dbgfun.data.args = list(),
+                       dbgfun.params = "summary",
+                       dbgfun.params.args = list(),
+                       dbgfun.print = "print",
+                       dbgfun.print.args = list(),
                        parse = NULL,
+                       orientation = NULL,
                        nudge_x = 0,
                        nudge_y = 0,
                        position = "identity", na.rm = FALSE,
@@ -272,9 +310,13 @@ geom_debug <- function(mapping = NULL,
     show.legend = show.legend,
     inherit.aes = inherit.aes,
     params = rlang::list2(na.rm = na.rm,
-                          summary.fun = summary.fun,
-                          summary.fun.args = summary.fun.args,
-                          ...)
+                          ...,
+                          dbgfun.data = dbgfun.data,
+                          dbgfun.data.args = dbgfun.data.args,
+                          dbgfun.params = dbgfun.params,
+                          dbgfun.params.args = dbgfun.params.args,
+                          dbgfun.print = dbgfun.print,
+                          dbgfun.print.args = dbgfun.print.args)
   )
 }
 
@@ -288,56 +330,92 @@ geom_debug_npc <- geom_debug
 #' @export
 GeomDebug <-
   ggplot2::ggproto("GeomDebug", ggplot2::Geom,
-                   optional_aes = c(# ggplot2
-                                    "x", "y", "npcx", "npcy",
+                   # needed to avoid warnings
+                   optional_aes = c(# ggplot2 at 3.5.1
+                                    "group", "subgroup", "order",
+                                    "x", "y", "z",
                                     "xintercept", "yintercept",
+                                    "slope", "intercept",
+                                    "sample",
                                     "xend", "yend",
                                     "ymax", "ymin",
                                     "xmax", "xmin",
                                     "middle", "xmiddle",
                                     "lower", "xlower",
                                     "upper", "xupper",
-                                    "width",
+                                    "width", "height",
                                     "label",
                                     "hjust", "vjust",
                                     "colour", "color", "alpha", "fill",
                                     "shape", "size", "linewidth", "stroke",
                                     "linetype", "lineend", "linejoin",
-                                    "angle",
+                                    "angle", "radius",
                                     "family", "fontface", "lineheight",
                                     "map_id", "weight",
-                                    # ggpp and ggrepel
-                                    "segment.linetype", "segment.colour",
-                                    "segment.size", "segment.alpha",
-                                    # ggpp
+                                    "geometry",
+                                    # ggpp at 0.5.6
                                     "vp.width", "vp.height",
-                                    # ggrepel
+                                    "npcx", "npcy",
+                                    # ggrepel at 0.9.5
                                     "point.size", "segment.angle",
                                     "segment.curvature", "segment.ncp",
                                     "segment.shape", "segment.square",
                                     "segment.squareShape", "segment.inflect",
-                                    "segment.debug"
+                                    "segment.debug",
+                                    "segment.linetype",
+                                    "segment.colour", "segment.color",
+                                    "segment.size", "segment.alpha",
+                                    # ggtext at 0.1.2
+                                    "label.colour", "label.size",
+                                    "text.colour",
+                                    "box.colour", "box.size",
+                                    "halign", "valign",
+                                    "orientation"
                                     ),
                    default_aes = ggplot2::aes(),
                    draw_panel = function(data,
                                          panel_params,
                                          coord,
-                                         summary.fun = head,
-                                         summary.fun.args = list()) {
-                     if (is.null(summary.fun)) {
-                       header.text <- "Input 'data' to 'draw_panel()':"
-                       z <- data
-                     } else {
-                       if (is.character(summary.fun)) {
-                         header.text <- sprintf("Summary (%s) of input 'data' to 'draw_panel()':",
-                                                summary.fun)
-                       } else {
-                         header.text <- "Summary of input 'data' to 'draw_panel()':"
-                       }
-                       z <-  do.call(summary.fun, c(quote(data), summary.fun.args))
+                                         dbgfun.data = "head",
+                                         dbgfun.data.args = list(),
+                                         dbgfun.params = "summary",
+                                         dbgfun.params.args = list(),
+                                         dbgfun.print = "print",
+                                         dbgfun.print.args = list()) {
+
+                     if (is.character(dbgfun.print)) {
+                       dbgfun.print <- match.fun(dbgfun.print)
+                     } else if (!is.function(dbgfun.print)) {
+                       dbgfun.print <- print
                      }
-                     print(header.text)
-                     print(z)
+
+                     if (!is.null(dbgfun.data)) {
+                       if (is.character(dbgfun.data)) {
+                         dbgfun.data.name <- dbgfun.data
+                         dbgfun.data <- match.fun(dbgfun.data)
+                       } else if (!is.null(dbgfun.data)) {
+                         dbgfun.data.name <- deparse(substitute(dbgfun.data))
+                       }
+                       data.header <- sprintf("Summary (%s) of input 'data' to 'draw_panel()':",
+                                                dbgfun.data.name)
+                       zz <-  do.call(dbgfun.data, c(quote(data), dbgfun.data.args))
+                       dbgfun.print(data.header)
+                       dbgfun.print(zz)
+                     }
+
+                     if (!is.null(dbgfun.params)) {
+                       if (is.character(dbgfun.params)) {
+                         dbgfun.params.name <- dbgfun.params
+                         dbgfun.params <- match.fun(dbgfun.params)
+                       } else if (!is.null(dbgfun.params)) {
+                         dbgfun.params.name <- deparse(substitute(dbgfun.params))
+                       }
+                       params.header <- sprintf("Summary (%s) of input 'params' to 'draw_panel()':",
+                                              dbgfun.params.name)
+                       zz <-  do.call(dbgfun.params, c(quote(panel_params), dbgfun.params.args))
+                       dbgfun.print(params.header)
+                       dbgfun.print(zz)
+                     }
 
                      grid::nullGrob()
                    },

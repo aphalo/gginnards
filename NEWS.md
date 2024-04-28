@@ -4,6 +4,16 @@ editor_options:
     wrap: 72
 ---
 
+# gginnards 0.2.0
+
+-   Update `geom_debug()` so that it prints both `data` and `params`.
+-   Update `geom_debug()` so that the function used to print the summaries is
+an argument to a new formal parameter.
+-   Rename formal parameter `summary.fun` into `dbgfun.data`. **This is a code
+breaking change!**
+-   Update the `optional_aes` in `geom_debug()` and `geom_null()` to track
+changes in `ggplot2` and `ggpp`.
+
 # gginnards 0.1.2
 
 -   Fix bug in `drop_vars()` (report and fix by struckma in issue [#1](https://github.com/aphalo/gginnards/issues/1)).

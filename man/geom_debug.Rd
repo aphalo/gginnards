@@ -9,9 +9,14 @@ geom_debug(
   mapping = NULL,
   data = NULL,
   stat = "identity",
-  summary.fun = "head",
-  summary.fun.args = list(),
+  dbgfun.data = "head",
+  dbgfun.data.args = list(),
+  dbgfun.params = "summary",
+  dbgfun.params.args = list(),
+  dbgfun.print = "print",
+  dbgfun.print.args = list(),
   parse = NULL,
+  orientation = NULL,
   nudge_x = 0,
   nudge_y = 0,
   position = "identity",
@@ -25,9 +30,14 @@ geom_debug_npc(
   mapping = NULL,
   data = NULL,
   stat = "identity",
-  summary.fun = "head",
-  summary.fun.args = list(),
+  dbgfun.data = "head",
+  dbgfun.data.args = list(),
+  dbgfun.params = "summary",
+  dbgfun.params.args = list(),
+  dbgfun.print = "print",
+  dbgfun.print.args = list(),
   parse = NULL,
+  orientation = NULL,
   nudge_x = 0,
   nudge_y = 0,
   position = "identity",
@@ -50,14 +60,16 @@ defined at the top level of the plot.}
 \item{stat}{The statistical transformation to use on the data for this layer,
 as a string.}
 
-\item{summary.fun}{The name of a function as a character string (or a
-function) to be used to summarize the \code{data} object received as input
-before printing it.}
+\item{dbgfun.data, dbgfun.params, dbgfun.print}{The name of functions as character
+strings or as named function objects to be used to summarize
+the \code{data} and the \code{params} objects received as input by the
+geometry before printing them with \code{dbgfun.print}.}
 
-\item{summary.fun.args}{A list of additional arguments
-to be passed to \code{summary.fun}.}
+\item{dbgfun.data.args, dbgfun.params.args, dbgfun.print.args}{A list of additional
+named arguments to be passed to \code{dbgfun.data}, \code{dbgfun.params} and
+\code{dbgfun.print}.}
 
-\item{parse}{Ignored. Helps avoid warnings.}
+\item{parse, orientation}{Ignored. Helps avoid warnings.}
 
 \item{nudge_x, nudge_y}{Horizontal and vertical adjustments to nudge the
 starting position. The units for \code{nudge_x} and \code{nudge_y} are the
@@ -104,25 +116,28 @@ The intended use of this geometry is to help explore the data as
   they are added to a plot layer. It is very unusual in that it does not
   produce visible graphic output. It only returns a \code{grid.null()} grob
   (graphical object) when the plot is rendered. Also, differently to normal
-  geometries, it passes its \code{data} input as argument to the first
-  parameter of the function passed as argument to \code{summary.fun}. The
-  value returned by this function is then printed to the R console. If
-  \code{summary.fun = NULL}, the whole \code{data} object is printed.
+  geometries, it prints the \code{data} and \code{params} objects or a
+  summary of them. The summary it obtained using the functions passed as
+  arguments to its formal parameter \code{dbgfun.data} and
+  \code{dbgfun.params}. The \code{data} and \code{params} objects are passed
+  as the first positional argument to these functions and the valued returned
+  are printed to the R console. If \code{dbgfun.data = "I"} the \code{data}
+  object is printed as is and if \code{dbgfun.data = NULL} the objects is not
+  printed, and similarly for \code{params}.
 
   Nudging with \code{nudge_x} and \code{nudge_y} behave as in
   \code{\link[ggplot2]{geom_text}}. Arguments passed to \code{position} are
   obeyed. So the effects of positions are reflected in the \code{data} object
-  printed or summarized to the R console. The argument passed to \code{parse}
-  is currently ignored.
+  printed or summarized to the R console. The arguments passed to
+  \code{parse} and \code{orientation} are currently ignored.
 
   Many aesthetics are defined as optional so that they are accepted silently
   by \code{geom_debug()} and handled by 'ggplot2' as usual.
 
-  If the argument passed to \code{summary.fun()} is a character string, the
-  name will appear in the header of the printout. However, the function
-  must be available at the time the plot is rendered. If a function is
-  passed as argument, its definition will be saved as part of the \code{"gg"}
-  object.
+  The names of \code{dbgfun.data()} and \code{dbgfun.params} will appear in
+  the section headers of the printout. Following the grammar of graphics
+  expectations, the definitions of the debug and print functions are saved as
+  part of the \code{"gg"} object.
 }
 \examples{
 # echo to the R console \code{data} as received by geoms
@@ -132,20 +147,36 @@ ggplot(mtcars, aes(cyl, mpg, color = factor(cyl))) +
 
 ggplot(mtcars, aes(cyl, mpg, color = factor(cyl))) +
   geom_point() +
-  geom_debug(summary.fun = "head", summary.fun.args = list(n = 3))
+  geom_debug(dbgfun.params = NULL)
 
 ggplot(mtcars, aes(cyl, mpg, color = factor(cyl))) +
   geom_point() +
-  geom_debug(summary.fun = "nrow")
+  geom_debug(dbgfun.data = NULL)
 
 ggplot(mtcars, aes(cyl, mpg, color = factor(cyl))) +
   geom_point() +
-  geom_debug(summary.fun = "attributes")
+  geom_debug(dbgfun.data = "head", dbgfun.data.args = list(n = 3))
+
+ggplot(mtcars, aes(cyl, mpg, color = factor(cyl))) +
+  geom_point() +
+  geom_debug(dbgfun.data = "nrow", dbgfun.params = "length")
+
+ggplot(mtcars, aes(cyl, mpg, color = factor(cyl))) +
+  geom_point() +
+  geom_debug(dbgfun.data = "attributes", dbgfun.params = "attributes")
+
+ggplot(mtcars, aes(cyl, mpg, color = factor(cyl))) +
+  geom_point() +
+  geom_debug(dbgfun.data = "I", dbgfun.params = NULL)
 
 # echo to the R console \code{data} as received by geoms
 ggplot(mtcars, aes(cyl, mpg, colour = factor(cyl))) +
   stat_summary(fun.data = "mean_se") +
-  stat_summary(fun.data = "mean_se", geom = "debug", summary.fun = NULL)
+  stat_summary(geom = "debug", fun.data = "mean_se")
+
+ggplot(mtcars, aes(cyl, mpg, colour = factor(cyl))) +
+  stat_summary(fun.data = "mean_se") +
+  stat_summary(geom = "debug", fun.data = "mean_se", dbgfun.params = NULL)
 
 # shape data is not passed to geometries or statistics
 if (requireNamespace("sf", quietly = TRUE)) {

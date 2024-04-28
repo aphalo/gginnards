@@ -189,7 +189,7 @@ here, additional arguments can be passed by name to the function.
 ```{r}
 ggplot(my.data, aes(x, y, colour = group)) + 
   geom_point() + 
-  geom_debug(summary.fun = head, summary.fun.args = list(n = 3))
+  geom_debug(dbgfun.data = head, dbgfun.data.args = list(n = 3))
 ```
 
 When using a statistic that modifies the data, we can pass `geom_debug()` as
@@ -209,7 +209,7 @@ ggplot(my.data, aes(x, y, colour = group)) +
   geom_point() + 
   stat_smooth(method = "lm", formula = y ~ poly(x, 2)) +
   stat_smooth(method = "lm", formula = y ~ poly(x, 2), 
-              geom = "debug", summary.fun = head)
+              geom = "debug", dbgfun.data = head)
 ```
 
 # Data input to statistics
@@ -302,7 +302,7 @@ Facets based on factors create panels within a plot. Here we create a plot with 
 ```{r}
 ggplot(my.data, aes(x, y, colour = group)) + 
   geom_point() + 
-  stat_debug_panel(summary.fun = "nrow") +
+  stat_debug_panel(dbgfun.data = "nrow") +
   facet_wrap(~block)
 ```
 
