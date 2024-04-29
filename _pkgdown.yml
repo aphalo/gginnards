@@ -11,13 +11,12 @@ reference:
   - title: Geoms
     desc: Geoms, short for geometric objects, generate output from data. Contrary to "normal" geoms, these geoms do not render data as graphical elements.
     contents:
-    - geom_debug
+    - geom_debug_panel
     - geom_null
   - title: Statistics
     desc: It is often useful to summarize data before plotting. Contrary to "normal" statistics, the data summaries these statistics return are aimed at debugging.
     contents:
     - stat_debug_group
-    - stat_debug_panel
   - title: Manipulation of layers
     desc: Occasionaly it can be useful to edit `gg` objects _breaking_ the usual rules of the _grammar of graphics_ operations such as delete, insert, extract and modify stacking order of layers.
     contents:

@@ -1,7 +1,8 @@
-#' @title Print to console data received by the compute group function.
+#' @title Print to console data received by statistics as input
 #'
-#' @description \code{stat_debug_group} does not modify \code{data} but can
-#'   echo to the R console its \code{data} input or a summary of it.
+#' @description \code{stat_debug_group} and \code{stat_debug_panel}
+#' apply a function to \code{data} and, most importantly,
+#'   echo to the R console their \code{data} input or a summary of it.
 #'
 #' @param mapping The aesthetic mapping, usually constructed with
 #'   \code{\link[ggplot2]{aes}} or \code{\link[ggplot2]{aes_}}. Only needs
@@ -15,14 +16,14 @@
 #' @param fun.data.args A named list of additional arguments to be passed to
 #'   \code{fun.data}.
 #' @param dbgfun.data,geom.dbgfun.data,geom.dbgfun.params A
-#'   functions used to summarise the \code{data} and \code{parameters} object
-#'   received as input by the statistic and geome.
+#'   functions used to summarise the \code{data} and \code{parameters} objects
+#'   received as input by the statistic and geometry.
 #' @param dbgfun.data.args,geom.dbgfun.data.args,geom.dbgfun.params.args
-#'   A named list.
-#' @param dbgfun.data,geom.dbgfun.data,geom.dbgfun.params,dbgfun.print A
-#'   function used to print the \code{data} object received as input.
-#' @param dbgfun.data.args,geom.dbgfun.data.args,geom.dbgfun.params.args,dbgfun.print.args
-#'   A named list.
+#'   A named list of arguments.
+#' @param dbgfun.print A function used to print the summary of the \code{data}
+#'   object received as input by the statistic, also visible to the geometry,
+#'   and used by \code{geom_debug()}.
+#' @param dbgfun.print.args A named list.
 #' @param position The position adjustment to use for overlapping points on this
 #'   layer
 #' @param show.legend logical. Should this layer be included in the legends?
@@ -50,29 +51,31 @@
 #' @return A copy of its \code{data} input, which is an object of class
 #'    \code{"data.frame"} or inheriting from \code{"data.frame"}.
 #'
-#' @details This stat is meant to be used for the side-effect of printing to the
-#'   console the \code{data} object received as input by the
-#'   \code{compute_group()} function, or a summary of it. This is the same as
-#'   for any other statistics passed the same arguments (including defaults that
-#'   may need to be overridden if they differ).
+#' @details These stats are meant to be used for the side-effect of printing to
+#'   the console the \code{data} object received as input by the
+#'   \code{compute_group()} or \code{compute_panel()} function, or a summary of
+#'   it. These \code{data} objects are the same as those received as input by
+#'   any other statistics passed the same arguments. By default, the applied
+#'   function is \code{I()}, the identity function.
 #'
-#'   In principle any geom can be passed as argument to override \code{geom = "null"},
-#'   but \code{geom = "debug"} is treated as a special case and functions
+#'   In principle any geom can be passed as argument to override \code{geom =
+#'   "null"}. However, \code{geom = "debug_panel"} and \code{geom =
+#'   "debug_group"} are treated as special cases and functions
 #'   \code{geom.dbgfun.data} and \code{geom.dbgfun.params}, and lists
 #'   \code{geom.dbgfun.data.args} and \code{geom.dbgfun.params.args} renamed and
 #'   passed to the geometry. Arguments passed to these four formal parameters
 #'   are not passed to other geometries.
 #'
-#'   Keep in mind that this stat sets default mappings only for the \emph{x} and/or
-#'   \emph{y} aesthetics, additional mappings can be set using \code{aes()},
-#'   possibly together with \code{after_stat()}.
+#'   Keep in mind that this stat sets default mappings only for the \emph{x}
+#'   and/or \emph{y} aesthetics, additional mappings can be set using
+#'   \code{aes()}, possibly together with \code{after_stat()}.
 #'
 #' @examples
 #' my.df <- data.frame(x = rep(1:10, 2),
 #'                     y = rep(c(1,2), c(10,10)) + rnorm(20),
 #'                     group = rep(c("A","B"), c(10,10)))
 #'
-#' # by default head() is used to show the top rows of data object
+#' # by default head() is used to show the top rows of the data object
 #' # and geom_null() to silence the data returned by the stat
 #' ggplot(my.df, aes(x,y)) +
 #'   geom_point() +
@@ -81,19 +84,19 @@
 #' # geom_debug prints the data returned by the stat
 #' ggplot(my.df, aes(x,y)) +
 #'   geom_point() +
-#'   stat_debug_group(geom = "debug")
+#'   stat_debug_group(geom = "debug_panel")
 #'
 #' # geom_debug prints the data returned by the stat
 #' ggplot(my.df, aes(x,y)) +
 #'   geom_point() +
-#'   stat_debug_group(geom = "debug",
+#'   stat_debug_group(geom = "debug_panel",
 #'                    geom.dbgfun.params = "summary")
 #'
 #' # to print only the the data returned by the stat
 #' # we pass as summary function a function that always returns NULL
 #' ggplot(my.df, aes(x,y)) +
 #'   geom_point() +
-#'   stat_debug_group(geom = "debug",
+#'   stat_debug_group(geom = "debug_panel",
 #'                    dbgfun.data = function(x) {NULL})
 #'
 #' ggplot(my.df, aes(x,y)) +
@@ -110,6 +113,10 @@
 #' ggplot(my.df, aes(x,y, colour = group)) +
 #'   geom_point() +
 #'   stat_debug_group()
+#'
+#' ggplot(my.df, aes(x,y, colour = group)) +
+#'   geom_point() +
+#'   stat_debug_panel()
 #'
 #' ggplot(my.df, aes(x, y, colour = group)) +
 #'   geom_point() +
@@ -147,7 +154,7 @@ stat_debug_group <-
            show.legend = FALSE,
            inherit.aes = TRUE,
            ...) {
-    if (geom == "debug") {
+    if (geom %in% c("debug_panel", "debug_group")) {
       params <- rlang::list2(na.rm = na.rm,
                              ...,
                              fun.data = fun.data,
@@ -159,7 +166,8 @@ stat_debug_group <-
                              dbgfun.params = geom.dbgfun.params,
                              dbgfun.params.args = geom.dbgfun.params.args,
                              dbgfun.print = dbgfun.print,
-                             dbgfun.print.args = dbgfun.print.args)
+                             dbgfun.print.args = dbgfun.print.args,
+                             compute.label = "compute_group()")
     } else {
       # avoid warning when other geoms are used
       params <- rlang::list2(na.rm = na.rm,
@@ -169,7 +177,8 @@ stat_debug_group <-
                              stat.dbgfun.data = dbgfun.data,
                              stat.dbgfun.data.args = dbgfun.data.args,
                              dbgfun.print = dbgfun.print,
-                             dbgfun.print.args = dbgfun.print.args)
+                             dbgfun.print.args = dbgfun.print.args,
+                             compute.label = "compute_group()")
     }
 
     ggplot2::layer(
@@ -188,49 +197,132 @@ stat_debug_group <-
 #' @format NULL
 #' @usage NULL
 #' @export
+debug_compute_fun <- function(data,
+                              scales,
+                              fun.data,
+                              fun.data.args,
+                              stat.dbgfun.data,
+                              stat.dbgfun.data.args,
+                              dbgfun.print,
+                              dbgfun.print.args,
+                              compute.label = "compute_function()") {
+
+  if (is.character(dbgfun.print)) {
+    dbgfun.print <- match.fun(dbgfun.print)
+  } else if (!is.function(dbgfun.print)) {
+    dbgfun.print <- print
+  }
+
+  if (!is.null(stat.dbgfun.data)) {
+    if (is.character(stat.dbgfun.data)) {
+      stat.dbgfun.data.name <- stat.dbgfun.data
+      stat.dbgfun.data <- match.fun(stat.dbgfun.data)
+    } else if (!is.null(stat.dbgfun.data) ) {
+      stat.dbgfun.data.name <- deparse(substitute(stat.dbgfun.data))
+      if (length(stat.dbgfun.data.name) > 1) {
+        stat.dbgfun.data.name <- "anonymous function"
+      }
+    }
+    data.header <- sprintf("PANEL %i; group(s) %s; '%s' input 'data' (%s):",
+                           unclass(data$PANEL[1]),
+                           paste(format(sort(unique(data$group))), collapse = ", "),
+                           compute.label,
+                           stat.dbgfun.data.name)
+    zz <-  do.call(stat.dbgfun.data, c(quote(data), stat.dbgfun.data.args))
+    dbgfun.print(data.header)
+    dbgfun.print(zz)
+  }
+
+  # the computations on data
+  if (is.null(fun.data)) {
+    data[NULL, ]
+  } else {
+    do.call(fun.data, c(quote(data), fun.data.args))
+  }
+
+}
+
+#' @rdname gginnards-ggproto
+#' @format NULL
+#' @usage NULL
+#' @export
 StatDebugGroup <-
   ggplot2::ggproto(
     "StatDebugGroup",
     ggplot2::Stat,
-    compute_group = function(data,
-                             scales,
-                             fun.data,
-                             fun.data.args,
-                             stat.dbgfun.data,
-                             stat.dbgfun.data.args,
-                             dbgfun.print,
-                             dbgfun.print.args) {
+    compute_group = debug_compute_fun,
+    required_aes = c("x|y")
+  )
 
+#' @rdname stat_debug_group
+#'
+#' @export
+stat_debug_panel <-
+  function(mapping = NULL,
+           data = NULL,
+           geom = "null",
+           fun.data = "I",
+           fun.data.args = list(),
+           dbgfun.data = "head",
+           dbgfun.data.args = list(),
+           geom.dbgfun.data = "head",
+           geom.dbgfun.data.args = list(),
+           geom.dbgfun.params = NULL,
+           geom.dbgfun.params.args = list(),
+           dbgfun.print = "print",
+           dbgfun.print.args = list(),
+           position = "identity",
+           na.rm = FALSE,
+           show.legend = FALSE,
+           inherit.aes = TRUE,
+           ...) {
+    if (geom %in% c("debug_panel", "debug_group")) {
+      params <- rlang::list2(na.rm = na.rm,
+                             ...,
+                             fun.data = fun.data,
+                             fun.data.args = fun.data.args,
+                             stat.dbgfun.data = dbgfun.data,
+                             stat.dbgfun.data.args = dbgfun.data.args,
+                             dbgfun.data = geom.dbgfun.data,
+                             dbgfun.data.args = geom.dbgfun.data.args,
+                             dbgfun.params = geom.dbgfun.params,
+                             dbgfun.params.args = geom.dbgfun.params.args,
+                             dbgfun.print = dbgfun.print,
+                             dbgfun.print.args = dbgfun.print.args,
+                             compute.label = "compute_panel()")
+    } else {
+      # avoid warning when other geoms are used
+      params <- rlang::list2(na.rm = na.rm,
+                             ...,
+                             fun.data = fun.data,
+                             fun.data.args = fun.data.args,
+                             stat.dbgfun.data = dbgfun.data,
+                             stat.dbgfun.data.args = dbgfun.data.args,
+                             dbgfun.print = dbgfun.print,
+                             dbgfun.print.args = dbgfun.print.args,
+                             compute.label = "compute_panel()")
+    }
 
-      if (is.character(dbgfun.print)) {
-        dbgfun.print <- match.fun(dbgfun.print)
-      } else if (!is.function(dbgfun.print)) {
-        dbgfun.print <- print
-      }
-      if (!is.null(stat.dbgfun.data)) {
-        if (is.character(stat.dbgfun.data)) {
-          stat.dbgfun.data.name <- stat.dbgfun.data
-          stat.dbgfun.data <- match.fun(stat.dbgfun.data)
-        } else if (!is.null(stat.dbgfun.data) ) {
-          stat.dbgfun.data.name <- deparse(substitute(stat.dbgfun.data))
-          if (length(stat.dbgfun.data.name) > 1) {
-            stat.dbgfun.data.name <- "anonymous function"
-          }
-        }
-        data.header <- sprintf("PANEL %i; group %i; 'compute_group()' input 'data' (%s):",
-                               unclass(data$PANEL[1]), data$group[1], stat.dbgfun.data.name)
-        zz <-  do.call(stat.dbgfun.data, c(quote(data), stat.dbgfun.data.args))
-        dbgfun.print(data.header)
-        dbgfun.print(zz)
-      }
+    ggplot2::layer(
+      stat = StatDebugPanel,
+      data = data,
+      mapping = mapping,
+      geom = geom,
+      position = position,
+      show.legend = show.legend,
+      inherit.aes = inherit.aes,
+      params = params
+    )
+  }
 
-      # the computations on data
-      if (is.null(fun.data)) {
-        data[NULL, ]
-      } else {
-        do.call(fun.data, c(quote(data), fun.data.args))
-      }
-
-    },
+#' @rdname gginnards-ggproto
+#' @format NULL
+#' @usage NULL
+#' @export
+StatDebugPanel <-
+  ggplot2::ggproto(
+    "StatDebugPanel",
+    ggplot2::Stat,
+    compute_panel = debug_compute_fun,
     required_aes = c("x|y")
   )

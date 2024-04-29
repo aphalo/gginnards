@@ -408,10 +408,10 @@ data_attributes(p)
 
 Another interesting question is whether these user attributes are copied when
 data are passed to geometries and statistics. We can find out with
-`geom_debug()` that they are not.
+`geom_debug_panel()` that they are not.
 
 ```{r}
-p + geom_debug(summary.fun = attributes)
+p + geom_debug_panel(dbgfun.data = attributes, dbgfun.params = NULL)
 ```
 
 ## Coda
