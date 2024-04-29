@@ -8,10 +8,16 @@ stat_debug_group(
   mapping = NULL,
   data = NULL,
   geom = "null",
-  summary.fun = "head",
-  summary.fun.args = list(),
-  geom.summary.fun = NULL,
-  geom.summary.fun.args = list(),
+  fun.data = "I",
+  fun.data.args = list(),
+  dbgfun.data = "head",
+  dbgfun.data.args = list(),
+  geom.dbgfun.data = "head",
+  geom.dbgfun.data.args = list(),
+  geom.dbgfun.params = NULL,
+  geom.dbgfun.params.args = list(),
+  dbgfun.print = "print",
+  dbgfun.print.args = list(),
   position = "identity",
   na.rm = FALSE,
   show.legend = FALSE,
@@ -29,10 +35,18 @@ the plot defaults.}
 
 \item{geom}{The geometric object to use display the data}
 
-\item{summary.fun, geom.summary.fun}{A function used to print the \code{data}
-object received as input.}
+\item{fun.data}{A function taking a data frame as its first argument and
+returning a data frame. This function does the computations generating
+the value passed from the statistic to the downstream geometry.}
 
-\item{summary.fun.args, geom.summary.fun.args}{A named list.}
+\item{fun.data.args}{A named list of additional arguments to be passed to
+\code{fun.data}.}
+
+\item{dbgfun.data, geom.dbgfun.data, geom.dbgfun.params}{A
+functions used to summarise the \code{data} and \code{parameters} object
+received as input by the statistic and geome.}
+
+\item{dbgfun.data.args, geom.dbgfun.data.args, geom.dbgfun.params.args}{A named list.}
 
 \item{position}{The position adjustment to use for overlapping points on this
 layer}
@@ -52,29 +66,37 @@ default plot specification, e.g. \code{\link[ggplot2]{borders}}.}
 \item{...}{other arguments passed on to \code{\link[ggplot2]{layer}}. This
 can include aesthetics whose values you want to set, not map. See
 \code{\link[ggplot2]{layer}} for more details.}
+
+\item{dbgfun.data, geom.dbgfun.data, geom.dbgfun.params, dbgfun.print}{A
+function used to print the \code{data} object received as input.}
+
+\item{dbgfun.data.args, geom.dbgfun.data.args, geom.dbgfun.params.args, dbgfun.print.args}{A named list.}
 }
 \value{
-A tibble with a summary of the \code{data} received, which is not
-   printed by default using \code{geom_null()}. Can be printed by passing
-   \code{geom = "debug"}.
+A copy of its \code{data} input, which is an object of class
+   \code{"data.frame"} or inheriting from \code{"data.frame"}.
 }
 \description{
-\code{stat_debug} reports all distinct values in \code{group}
-  and \code{PANEL}, and \code{nrow}, \code{ncol} and the names of the columns
-  or variables, and the class of x and y for each group in a ggplot as passed
-  to the \code{compute_group} function in the \code{ggproto} object.
+\code{stat_debug_group} does not modify \code{data} but can
+  echo to the R console its \code{data} input or a summary of it.
 }
 \details{
 This stat is meant to be used for the side-effect of printing to the
   console the \code{data} object received as input by the
-  \code{compute_grroup()} function, or a summary of it. This is the same as
+  \code{compute_group()} function, or a summary of it. This is the same as
   for any other statistics passed the same arguments (including defaults that
   may need to be overridden if they differ).
 
-  In principle any geom can be passed as argument to override \code{"null"}.
-  Keep in mind that this stat sets default mappings only for the \emph{x} and
-  \emph{y} aesthetics: \code{geom_debug()} and \code{geom_text()} are
-  useful.
+  In principle any geom can be passed as argument to override \code{geom = "null"},
+  but \code{geom = "debug"} is treated as a special case and functions
+  \code{geom.dbgfun.data} and \code{geom.dbgfun.params}, and lists
+  \code{geom.dbgfun.data.args} and \code{geom.dbgfun.params.args} renamed and
+  passed to the geometry. Arguments passed to these four formal parameters
+  are not passed to other geometries.
+
+  Keep in mind that this stat sets default mappings only for the \emph{x} and/or
+  \emph{y} aesthetics, additional mappings can be set using \code{aes()},
+  possibly together with \code{after_stat()}.
 }
 \section{Computed variables}{
  \describe{ \item{x}{x at centre of range}
@@ -103,36 +125,39 @@ ggplot(my.df, aes(x,y)) +
   geom_point() +
   stat_debug_group(geom = "debug")
 
+# geom_debug prints the data returned by the stat
+ggplot(my.df, aes(x,y)) +
+  geom_point() +
+  stat_debug_group(geom = "debug",
+                   geom.dbgfun.params = "summary")
+
 # to print only the the data returned by the stat
 # we pass as summary function a function that always returns NULL
 ggplot(my.df, aes(x,y)) +
   geom_point() +
   stat_debug_group(geom = "debug",
-                   summary.fun = function(x) {NULL})
+                   dbgfun.data = function(x) {NULL})
 
 ggplot(my.df, aes(x,y)) +
   geom_point() +
-  stat_debug_group(aes(label = sprintf("nrow = \%i, ncol = \%i, colnames: \%s",
-                                       after_stat(nrow),
-                                       after_stat(ncol),
-                                       after_stat(colnames))),
+  stat_debug_group(aes(label = paste("group:", group)),
                    geom = "text")
 
 # here we show all the data object
 ggplot(my.df, aes(x,y)) +
   geom_point() +
-  stat_debug_group(summary.fun = NULL)
-
-ggplot(my.df, aes(x,y)) +
-  geom_point() +
-  stat_debug_group(summary.fun = "nrow")
+  stat_debug_group(dbgfun.data = "I")
 
 # with grouping
 ggplot(my.df, aes(x,y, colour = group)) +
   geom_point() +
   stat_debug_group()
 
-ggplot(my.df, aes(x,y)) +
+ggplot(my.df, aes(x, y, colour = group)) +
+  geom_point() +
+  stat_debug_group(dbgfun.data = "nrow")
+
+ggplot(my.df, aes(x, y)) +
   geom_point() +
   facet_wrap(~group) +
   stat_debug_group()

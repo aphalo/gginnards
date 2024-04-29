@@ -62,8 +62,11 @@
 #'     geom_null()
 #' }
 #'
-geom_null <- function(mapping = NULL, data = NULL, stat = "identity",
-                      position = "identity", na.rm = FALSE,
+geom_null <- function(mapping = NULL,
+                      data = NULL,
+                      stat = "identity",
+                      position = "identity",
+                      na.rm = FALSE,
                       show.legend = FALSE,
                       inherit.aes = TRUE, ...) {
   ggplot2::layer(
@@ -289,7 +292,8 @@ geom_debug <- function(mapping = NULL,
                        orientation = NULL,
                        nudge_x = 0,
                        nudge_y = 0,
-                       position = "identity", na.rm = FALSE,
+                       position = "identity",
+                       na.rm = FALSE,
                        show.legend = FALSE,
                        inherit.aes = TRUE,
                        ...) {
@@ -395,9 +399,14 @@ GeomDebug <-
                          dbgfun.data <- match.fun(dbgfun.data)
                        } else if (!is.null(dbgfun.data)) {
                          dbgfun.data.name <- deparse(substitute(dbgfun.data))
+                         if (length(dbgfun.data.name) > 1) {
+                           dbgfun.data.name <- "anonymous function"
+                         }
                        }
-                       data.header <- sprintf("Summary (%s) of input 'data' to 'draw_panel()':",
-                                                dbgfun.data.name)
+                       data.header <- sprintf("PANEL %i; group(s) %s; 'draw_panel()' input 'data' (%s):",
+                                              unclass(data$PANEL[1]),
+                                              paste(format(sort(unique(data$group))), collapse = ", "),
+                                              dbgfun.data.name)
                        zz <-  do.call(dbgfun.data, c(quote(data), dbgfun.data.args))
                        dbgfun.print(data.header)
                        dbgfun.print(zz)
@@ -410,8 +419,10 @@ GeomDebug <-
                        } else if (!is.null(dbgfun.params)) {
                          dbgfun.params.name <- deparse(substitute(dbgfun.params))
                        }
-                       params.header <- sprintf("Summary (%s) of input 'params' to 'draw_panel()':",
-                                              dbgfun.params.name)
+                       params.header <- sprintf("PANEL %i; group(s) %s; 'draw_panel()' input 'params' (%s):",
+                                                unclass(data$PANEL[1]),
+                                                paste(format(sort(unique(data$group))), collapse = ", "),
+                                                dbgfun.params.name)
                        zz <-  do.call(dbgfun.params, c(quote(panel_params), dbgfun.params.args))
                        dbgfun.print(params.header)
                        dbgfun.print(zz)
