@@ -167,7 +167,7 @@ The _debug_ geometries and statistics in package 'gginnards' by default do
 not add any graphical element to the plot but instead they make visible the
 `data` as received as their input.
 
-The geometry `geom_debug()` uses `stat_identity()` by default. Here the same
+The geometry `geom_debug_panel()` uses `stat_identity()` by default. Here the same
 data as rendered by `geom_point()` is printed as a tibble to the R console.
 We can see that the columns are named according to the aesthetics the variables
 in the user-supplied data have been mapped. In the case of colour, the levels
@@ -177,10 +177,10 @@ of the factor have been replaced by colour definitions. Columns `PANEL` and
 ```{r}
 ggplot(mpg, aes(cyl, hwy, colour = factor(cyl))) + 
   geom_point() +
-  geom_debug()
+  geom_debug_panel()
 ```
 
-Below we show how `geom_debug()` can be used together with functions that take
+Below we show how `geom_debug_panel()` can be used together with functions that take
 a data frame as input and return a value that can be printed. We use here 
 `head()` but other functions such `summary()`, `nrow()` and `colnames()` as
 well as user defined functions can be useful when `data` is large. As shown
@@ -189,27 +189,27 @@ here, additional arguments can be passed by name to the function.
 ```{r}
 ggplot(my.data, aes(x, y, colour = group)) + 
   geom_point() + 
-  geom_debug(summary.fun = head, summary.fun.args = list(n = 3))
+  geom_debug_panel(dbgfun.data = head, dbgfun.data.args = list(n = 3))
 ```
 
-When using a statistic that modifies the data, we can pass `geom_debug()` as
+When using a statistic that modifies the data, we can pass `geom_debug_panel()` as
 argument in the call to this statistic. In this way the data printed to the 
 console will be those returned by the statistics and received by the geometry.
 
 ```{r}
 ggplot(mpg, aes(cyl, hwy)) +
   stat_summary(fun.data = "mean_se") +
-  stat_summary(fun.data = "mean_se", geom = "debug") 
+  stat_summary(fun.data = "mean_se", geom = "debug_panel") 
 ```
 
-As shown above an important use of `geom_debug()` it to display the data returned by a statistic and received as input by geometries. Not all extensions to 'ggplot2' document all the computed variables returned by statistics. In other cases like in the next example, the values returned will depend on the arguments passed. While in the previous example the statistic returned a data frame with one row per group, here the returned data frame has 160 rows. The data are by default plotted as a line with a confidence band.
+As shown above an important use of `geom_debug_panel()` it to display the data returned by a statistic and received as input by geometries. Not all extensions to 'ggplot2' document all the computed variables returned by statistics. In other cases like in the next example, the values returned will depend on the arguments passed. While in the previous example the statistic returned a data frame with one row per group, here the returned data frame has 160 rows. The data are by default plotted as a line with a confidence band.
 
 ```{r}
 ggplot(my.data, aes(x, y, colour = group)) + 
   geom_point() + 
   stat_smooth(method = "lm", formula = y ~ poly(x, 2)) +
   stat_smooth(method = "lm", formula = y ~ poly(x, 2), 
-              geom = "debug", summary.fun = head)
+              geom = "debug_panel", dbgfun.data = head)
 ```
 
 # Data input to statistics
@@ -246,14 +246,14 @@ ggplot(my.data, aes(x, y)) +
 ```
  
 In the absence of facets or groups we get the printout of a single data 
-frame, which is similar to that returned by `geom_debug()`. Without grouping,
-group is set to `-1` for all observations. As the we override the default geom with `geom_debug()`
+frame, which is similar to that returned by `geom_debug_panel()`. Without grouping,
+group is set to `-1` for all observations. As the we override the default geom with `geom_debug_panel()`
 a summary computed by the stat is also printed to the console.
 
 ```{r}
 ggplot(my.data, aes(x, y)) + 
   geom_point() + 
-  stat_debug_group(geom = "debug")
+  stat_debug_group(geom = "debug_panel")
 ```
 
 In a plot with no grouping, there is no difference in the `data` input for
@@ -302,7 +302,7 @@ Facets based on factors create panels within a plot. Here we create a plot with 
 ```{r}
 ggplot(my.data, aes(x, y, colour = group)) + 
   geom_point() + 
-  stat_debug_panel(summary.fun = "nrow") +
+  stat_debug_panel(dbgfun.data = "nrow") +
   facet_wrap(~block)
 ```
 
@@ -311,7 +311,7 @@ with grouping and facets, within each _panel_ the `compute_group()` function is 
 ```{r}
 ggplot(my.data, aes(x, y, colour = group)) + 
   geom_point() + 
-  stat_debug_group() +
+  stat_debug_group(dbgfun.data = "nrow") +
   facet_wrap(~block)
 ```
 
@@ -323,13 +323,13 @@ debug output.
 
 `stat_debug_group()` and `stat_debug_panel()` return summary data that can be 
 inspected using a geometry in addition to printing the data received as argument. 
-If we use `geom_debug()` a summary is printed to the console. With two groups,
+If we use `geom_debug_panel()` a summary is printed to the console. With two groups,
 we get two summaries when we use `stat_debug_group()`.
 
 ```{r}
 ggplot(my.data, aes(x, y, shape = group)) + 
   geom_point() + 
-  stat_debug_group(geom = "debug")
+  stat_debug_group(geom = "debug_panel")
 ```
 
 If we use `stat_debug_panel()` we get a single summary.
@@ -337,7 +337,7 @@ If we use `stat_debug_panel()` we get a single summary.
 ```{r}
 ggplot(my.data, aes(x, y, shape = group)) + 
   geom_point() + 
-  stat_debug_panel(geom = "debug")
+  stat_debug_panel(geom = "debug_panel")
 ```
 
 In principle one can use other _geoms_ to annotate the plot with the debug summary.
@@ -350,5 +350,5 @@ ggplot(my.data, aes(x, y, colour = group)) +
   stat_debug_group(geom = "text",
                    mapping = aes(label = sprintf("group = %i", 
                                                  after_stat(group))),
-                   summary.fun = function(x) {NULL})
+                   dbgfun.data = function(x) {NULL})
 ```

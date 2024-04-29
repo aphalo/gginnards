@@ -28,22 +28,27 @@
 #' @importFrom tibble as_tibble
 #'
 #' @examples
-#' # echo to the R console \code{data} as received by geoms
+#' # echo the 'data' and 'params' as received by 'draw_panel()'
 #' ggplot(mtcars, aes(cyl, mpg, color = factor(cyl))) +
 #'   geom_point() +
-#'   geom_debug()
+#'   geom_debug_panel()
 #'
-#' # echo to the R console \code{data} as received by geoms
+#' # echo the 'data' and 'params' as received by 'draw_group()'
+#' ggplot(mtcars, aes(cyl, mpg, color = factor(cyl))) +
+#'   geom_point() +
+#'   geom_debug_group()
+#'
+#' # echo the 'data' and 'params' as received by 'draw_panel()'
 #' ggplot(mtcars, aes(cyl, mpg, colour = factor(cyl))) +
 #'   stat_summary(fun.data = "mean_se") +
-#'   stat_summary(fun.data = "mean_se", geom = "debug")
+#'   stat_summary(fun.data = "mean_se", geom = "debug_panel")
 #'
-#' # echo to the R console \code{data} received by \code{compute_panel()}
+#' # echo the 'data' received by 'compute_panel()'
 #' ggplot(mtcars, aes(cyl, mpg, color = factor(cyl))) +
 #'   geom_point() +
 #'   stat_debug_panel()
 #'
-#' # echo to the R console \code{data} received by \code{compute_group()}
+#' # echo the 'data' received by 'compute_group()'
 #' ggplot(mtcars, aes(cyl, mpg, color = factor(cyl))) +
 #'   geom_point() +
 #'   stat_debug_group()
