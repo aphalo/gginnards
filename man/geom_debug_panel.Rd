@@ -2,6 +2,7 @@
 % Please edit documentation in R/geom-debug.R
 \name{geom_debug_panel}
 \alias{geom_debug_panel}
+\alias{geom_debug}
 \alias{geom_debug_group}
 \title{Geoms that print input data to console.}
 \usage{
@@ -15,6 +16,23 @@ geom_debug_panel(
   dbgfun.params.args = list(),
   dbgfun.print = "print",
   dbgfun.print.args = list(),
+  parse = NULL,
+  orientation = NULL,
+  nudge_x = 0,
+  nudge_y = 0,
+  position = "identity",
+  na.rm = FALSE,
+  show.legend = FALSE,
+  inherit.aes = TRUE,
+  ...
+)
+
+geom_debug(
+  mapping = NULL,
+  data = NULL,
+  stat = "identity",
+  summary.fun = "head",
+  summary.fun.args = list(),
   parse = NULL,
   orientation = NULL,
   nudge_x = 0,
@@ -60,18 +78,19 @@ defined at the top level of the plot.}
 \item{stat}{The statistical transformation to use on the data for this layer,
 as a string.}
 
-\item{dbgfun.data, dbgfun.params}{The functions as character strings giving
-their names or as named or anonymous function objects, to be used to
-summarize the \code{data} and the \code{params} objects received as input
-by the geometry.}
+\item{dbgfun.data, dbgfun.params, summary.fun}{The functions as character
+strings giving their names or as named or anonymous function objects, to be
+used to summarize the \code{data} and the \code{params} objects received as
+input by the geometry.}
 
-\item{dbgfun.data.args, dbgfun.params.args}{A named list of additional
-arguments to be passed to \code{dbgfun.data} and \code{dbgfun.params}.}
+\item{dbgfun.data.args, dbgfun.params.args, summary.fun.args}{A named list of
+additional arguments to be passed to \code{dbgfun.data} and
+\code{dbgfun.params}.}
 
 \item{dbgfun.print}{A function used to print the \code{data} object received
 as input.}
 
-\item{dbgfun.print.args}{A named list.}
+\item{dbgfun.print.args}{A named list. Currently ignored!}
 
 \item{parse, orientation}{Ignored. Helps avoid warnings.}
 
@@ -117,12 +136,14 @@ objects.
 It can be useful when debugging the code of statistics or to learn how the
 stats and geoms work in 'ggplot2' (>= 3.0.0).
 
-The intended use of this geometry is to help explore the data as
+The intended use of \code{geom_debug_panel()} and
+  \code{geom_debug_group()} is to explore the data as
   they are used in a plot layer to produce graphical output. Geometries
-  can be defined using draw functions that receive as input data coresponding
+  can be defined using draw functions that receive as input data corresponding
   to a single group at a time, or draw functions that receive as input all
   data to be drawn in a panel at a time, possibly including multiple
-  groups.
+  groups. Function \code{geom_debug()} is identical to
+  \code{geom_debug_panel()}, and included for backwards compatibility.
 
   These \emph{debug} geoms are very unusual in that they do not produce
   visible graphic output. They "draw" a \code{grid.null()} grob (graphical
@@ -211,6 +232,15 @@ if (requireNamespace("sf", quietly = TRUE)) {
     geom_sf(color = "darkblue", fill = "white") +
     geom_debug_panel()
 }
+
+# backwards compatibility
+ggplot(mtcars, aes(cyl, mpg, color = factor(cyl))) +
+  geom_point() +
+  geom_debug()
+
+ggplot(mtcars, aes(cyl, mpg, colour = factor(cyl))) +
+  stat_summary(fun.data = "mean_se") +
+  stat_summary(geom = "debug", fun.data = "mean_se")
 
 }
 \seealso{

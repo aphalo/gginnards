@@ -6,16 +6,14 @@ editor_options:
 
 # gginnards 0.2.0
 
-**This is a code breaking update in relation to functions `geom_debug()`,
+**This is a code breaking update in relation to functions
 `stat_debug_group()` and `stat_debug_panel()`. Both the function signature,
-returned values and default arguments have changed.** Function `geom_debug()`
-has been renamed. The new and updated functions are more polished and flexible
-than they were in earlier versions of the package but can still be made to
-produce similar, but not identical, output to functions of the same names from
-earlier versions.
+returned values and default arguments have changed.** The new and updated
+functions are more polished and flexible than they were in earlier versions of
+the package but can still be made to produce similar, but not identical, output
+to functions of the same names from earlier versions.
 
--   Rename `geom_debug()` into `geom_debug_panel()` and add
-`geom_debug_group()`.
+-   Function `geom_debug()` maintained for backwards compatibility.
 
 -   Functions `geom_debug_panel()` and `geom_debug_group()` print summaries of
 both `data` and `params` objects.

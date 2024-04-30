@@ -23,7 +23,7 @@
 #' @param dbgfun.print A function used to print the summary of the \code{data}
 #'   object received as input by the statistic, also visible to the geometry,
 #'   and used by \code{geom_debug()}.
-#' @param dbgfun.print.args A named list.
+#' @param dbgfun.print.args A named list. Currently ignored!
 #' @param position The position adjustment to use for overlapping points on this
 #'   layer
 #' @param show.legend logical. Should this layer be included in the legends?

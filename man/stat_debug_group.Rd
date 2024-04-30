@@ -74,7 +74,7 @@ received as input by the statistic and geometry.}
 object received as input by the statistic, also visible to the geometry,
 and used by \code{geom_debug()}.}
 
-\item{dbgfun.print.args}{A named list.}
+\item{dbgfun.print.args}{A named list. Currently ignored!}
 
 \item{position}{The position adjustment to use for overlapping points on this
 layer}

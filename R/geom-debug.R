@@ -1,3 +1,49 @@
+# used only in the file
+# defined to avoid duplicating this list
+#
+optional.aes <-
+  c(# ggplot2 at 3.5.1
+    "group", "subgroup", "order",
+    "x", "y", "z",
+    "xintercept", "yintercept",
+    "slope", "intercept",
+    "sample",
+    "xend", "yend",
+    "ymax", "ymin",
+    "xmax", "xmin",
+    "middle", "xmiddle",
+    "lower", "xlower",
+    "upper", "xupper",
+    "width", "height",
+    "label",
+    "hjust", "vjust",
+    "colour", "color", "alpha", "fill",
+    "shape", "size", "linewidth", "stroke",
+    "linetype", "lineend", "linejoin",
+    "angle", "radius",
+    "family", "fontface", "lineheight",
+    "map_id", "weight",
+    "geometry",
+    # ggpp at 0.5.6
+    "vp.width", "vp.height",
+    "npcx", "npcy",
+    # ggrepel at 0.9.5
+    "point.size", "segment.angle",
+    "segment.curvature", "segment.ncp",
+    "segment.shape", "segment.square",
+    "segment.squareShape", "segment.inflect",
+    "segment.debug",
+    "segment.linetype",
+    "segment.colour", "segment.color",
+    "segment.size", "segment.alpha",
+    # ggtext at 0.1.2
+    "label.colour", "label.size",
+    "text.colour",
+    "box.colour", "box.size",
+    "halign", "valign",
+    "orientation"
+  )
+
 # Null geom ---------------------------------------------------------------
 
 #' A null geom or 'no-op' geom.
@@ -92,47 +138,7 @@ geom_null <- function(mapping = NULL,
 GeomNull <-
   ggplot2::ggproto("GeomNull", ggplot2::Geom,
                    # needed to avoid warnings
-                   optional_aes = c(# ggplot2 at 3.5.1
-                     "group", "subgroup", "order",
-                     "x", "y", "z",
-                     "xintercept", "yintercept",
-                     "slope", "intercept",
-                     "sample",
-                     "xend", "yend",
-                     "ymax", "ymin",
-                     "xmax", "xmin",
-                     "middle", "xmiddle",
-                     "lower", "xlower",
-                     "upper", "xupper",
-                     "width", "height",
-                     "label",
-                     "hjust", "vjust",
-                     "colour", "color", "alpha", "fill",
-                     "shape", "size", "linewidth", "stroke",
-                     "linetype", "lineend", "linejoin",
-                     "angle", "radius",
-                     "family", "fontface", "lineheight",
-                     "map_id", "weight",
-                     "geometry",
-                     # ggpp at 0.5.6
-                     "vp.width", "vp.height",
-                     "npcx", "npcy",
-                     # ggrepel at 0.9.5
-                     "point.size", "segment.angle",
-                     "segment.curvature", "segment.ncp",
-                     "segment.shape", "segment.square",
-                     "segment.squareShape", "segment.inflect",
-                     "segment.debug",
-                     "segment.linetype",
-                     "segment.colour", "segment.color",
-                     "segment.size", "segment.alpha",
-                     # ggtext at 0.1.2
-                     "label.colour", "label.size",
-                     "text.colour",
-                     "box.colour", "box.size",
-                     "halign", "valign",
-                     "orientation"
-                   ),
+                   optional_aes = optional.aes,
                    default_aes = ggplot2::aes(),
                    draw_key = function(...) {
                      grid::nullGrob()
@@ -142,51 +148,6 @@ GeomNull <-
                                          coord) {
                      grid::nullGrob()
                    }
-  )
-
-# used only in the file
-# defined to avoid duplicating this list
-optional.aes <-
-  c(# ggplot2 at 3.5.1
-    "group", "subgroup", "order",
-    "x", "y", "z",
-    "xintercept", "yintercept",
-    "slope", "intercept",
-    "sample",
-    "xend", "yend",
-    "ymax", "ymin",
-    "xmax", "xmin",
-    "middle", "xmiddle",
-    "lower", "xlower",
-    "upper", "xupper",
-    "width", "height",
-    "label",
-    "hjust", "vjust",
-    "colour", "color", "alpha", "fill",
-    "shape", "size", "linewidth", "stroke",
-    "linetype", "lineend", "linejoin",
-    "angle", "radius",
-    "family", "fontface", "lineheight",
-    "map_id", "weight",
-    "geometry",
-    # ggpp at 0.5.6
-    "vp.width", "vp.height",
-    "npcx", "npcy",
-    # ggrepel at 0.9.5
-    "point.size", "segment.angle",
-    "segment.curvature", "segment.ncp",
-    "segment.shape", "segment.square",
-    "segment.squareShape", "segment.inflect",
-    "segment.debug",
-    "segment.linetype",
-    "segment.colour", "segment.color",
-    "segment.size", "segment.alpha",
-    # ggtext at 0.1.2
-    "label.colour", "label.size",
-    "text.colour",
-    "box.colour", "box.size",
-    "halign", "valign",
-    "orientation"
   )
 
 # Debug geom --------------------------------------------------------------
@@ -207,15 +168,16 @@ optional.aes <-
 #'   \code{mapping} if there isn't a mapping defined for the plot.
 #' @param data A data frame. If specified, overrides the default data frame
 #'   defined at the top level of the plot.
-#' @param dbgfun.data,dbgfun.params The functions as character strings giving
-#'   their names or as named or anonymous function objects, to be used to
-#'   summarize the \code{data} and the \code{params} objects received as input
-#'   by the geometry.
-#' @param dbgfun.data.args,dbgfun.params.args A named list of additional
-#'   arguments to be passed to \code{dbgfun.data} and \code{dbgfun.params}.
+#' @param dbgfun.data,dbgfun.params,summary.fun The functions as character
+#'   strings giving their names or as named or anonymous function objects, to be
+#'   used to summarize the \code{data} and the \code{params} objects received as
+#'   input by the geometry.
+#' @param dbgfun.data.args,dbgfun.params.args,summary.fun.args A named list of
+#'   additional arguments to be passed to \code{dbgfun.data} and
+#'   \code{dbgfun.params}.
 #' @param dbgfun.print A function used to print the \code{data} object received
 #'   as input.
-#' @param dbgfun.print.args A named list.
+#' @param dbgfun.print.args A named list. Currently ignored!
 #' @param position Position adjustment, either as a string, or the result of a
 #'   call to a position adjustment function.
 #' @param stat The statistical transformation to use on the data for this layer,
@@ -246,12 +208,14 @@ optional.aes <-
 #'   \code{\link[grid]{nullGrob}}. This geometry used for its text printing side
 #'   effect.
 #'
-#' @details The intended use of this geometry is to help explore the data as
+#' @details The intended use of \code{geom_debug_panel()} and
+#'   \code{geom_debug_group()} is to explore the data as
 #'   they are used in a plot layer to produce graphical output. Geometries
-#'   can be defined using draw functions that receive as input data coresponding
+#'   can be defined using draw functions that receive as input data corresponding
 #'   to a single group at a time, or draw functions that receive as input all
 #'   data to be drawn in a panel at a time, possibly including multiple
-#'   groups.
+#'   groups. Function \code{geom_debug()} is identical to
+#'   \code{geom_debug_panel()}, and included for backwards compatibility.
 #'
 #'   These \emph{debug} geoms are very unusual in that they do not produce
 #'   visible graphic output. They "draw" a \code{grid.null()} grob (graphical
@@ -346,6 +310,15 @@ optional.aes <-
 #'     geom_debug_panel()
 #' }
 #'
+#' # backwards compatibility
+#' ggplot(mtcars, aes(cyl, mpg, color = factor(cyl))) +
+#'   geom_point() +
+#'   geom_debug()
+#'
+#' ggplot(mtcars, aes(cyl, mpg, colour = factor(cyl))) +
+#'   stat_summary(fun.data = "mean_se") +
+#'   stat_summary(geom = "debug", fun.data = "mean_se")
+#'
 geom_debug_panel <- function(mapping = NULL,
                              data = NULL,
                              stat = "identity",
@@ -392,6 +365,55 @@ geom_debug_panel <- function(mapping = NULL,
   )
 }
 
+# For backwards compatibility we fake the old function signature and name
+#
+#' @rdname geom_debug_panel
+#'
+#' @export
+#'
+geom_debug <- function(mapping = NULL,
+                       data = NULL,
+                       stat = "identity",
+                       summary.fun = "head",
+                       summary.fun.args = list(),
+                       parse = NULL,
+                       orientation = NULL,
+                       nudge_x = 0,
+                       nudge_y = 0,
+                       position = "identity",
+                       na.rm = FALSE,
+                       show.legend = FALSE,
+                       inherit.aes = TRUE,
+                       ...) {
+  if (!missing(nudge_x) || !missing(nudge_y)) {
+    if (!missing(position) && position != "identity") {
+      rlang::abort("You must specify either `position` or `nudge_x`/`nudge_y`.")
+    }
+    # by default we keep the original positions
+    position <- ggplot2::position_nudge(nudge_x, nudge_y)
+  }
+
+  ggplot2::layer(
+    geom = GeomDebug,
+    mapping = mapping,
+    data = data,
+    stat = stat,
+    position = position,
+    show.legend = show.legend,
+    inherit.aes = inherit.aes,
+    params = rlang::list2(na.rm = na.rm,
+                          ...,
+                          dbgfun.data = summary.fun,
+                          dbgfun.data.args = summary.fun.args,
+                          dbgfun.params = NULL,
+                          dbgfun.params.args = NA,
+                          dbgfun.print = print,
+                          dbgfun.print.args = list(),
+                          draw.label = "draw_panel()")
+  )
+}
+
+
 #' @rdname gginnards-ggproto
 #' @format NULL
 #' @usage NULL
@@ -401,7 +423,7 @@ debug_draw_function <- function(data,
                                 coord,
                                 dbgfun.data = "head",
                                 dbgfun.data.args = list(),
-                                dbgfun.params = "summary",
+                                dbgfun.params = NULL,
                                 dbgfun.params.args = list(),
                                 dbgfun.print = "print",
                                 dbgfun.print.args = list(),
@@ -452,6 +474,22 @@ debug_draw_function <- function(data,
 
   grid::nullGrob()
 }
+
+#' @rdname gginnards-ggproto
+#' @format NULL
+#' @usage NULL
+#'
+#' @export
+GeomDebug <-
+  ggplot2::ggproto("GeomDebug", ggplot2::Geom,
+                   # needed to avoid warnings
+                   optional_aes = optional.aes,
+                   default_aes = ggplot2::aes(),
+                   draw_panel = debug_draw_function,
+                   draw_key = function(...) {
+                     grid::nullGrob()
+                   }
+  )
 
 #' @rdname gginnards-ggproto
 #' @format NULL

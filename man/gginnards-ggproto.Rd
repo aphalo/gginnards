@@ -4,6 +4,7 @@
 \name{GeomNull}
 \alias{GeomNull}
 \alias{debug_draw_function}
+\alias{GeomDebug}
 \alias{GeomDebugPanel}
 \alias{GeomDebugGroup}
 \alias{debug_compute_fun}
