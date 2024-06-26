@@ -6,6 +6,8 @@
 \alias{gginnards-package}
 \title{gginnards: Explore the Innards of 'ggplot2' Objects}
 \description{
+\if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
+
 Extensions to 'ggplot2' providing low-level debug tools: statistics and geometries echoing their data argument. Layer manipulation: deletion, insertion, extraction and reordering of layers. Deletion of unused variables from the data object embedded in "ggplot" objects.
 }
 \details{

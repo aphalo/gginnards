@@ -1,5 +1,5 @@
 
-# gginnards <img src="man/figures/logo-gginnards.png" align="right" width="150" />
+# gginnards <img src="man/figures/logo.png" align="right" width="150" />
 
 <!-- badges: start -->
 
@@ -176,9 +176,9 @@ ggplot(mtcars, aes(cyl, mpg, colour = factor(cyl))) +
 
     #> [1] "PANEL 1; group(s) 1, 2, 3; 'draw_function()' input 'data' (head):"
     #>    colour x group        y     ymin     ymax PANEL flipped_aes orientation
-    #> 1 #F8766D 4     1 26.66364 24.26341 29.21841     1       FALSE          NA
-    #> 2 #00BA38 6     2 19.74286 18.78571 20.65714     1       FALSE          NA
-    #> 3 #619CFF 8     3 15.10000 13.74268 16.37875     1       FALSE          NA
+    #> 1 #F8766D 4     1 26.66364 24.33614 29.34614     1       FALSE          NA
+    #> 2 #00BA38 6     2 19.74286 18.70000 20.64286     1       FALSE          NA
+    #> 3 #619CFF 8     3 15.10000 13.75661 16.40071     1       FALSE          NA
 
 We print to the R console `data` as *seen* as input by statistics that
 use a *panel function*.
@@ -210,10 +210,19 @@ p <-
 
   num_layers(p)
 #> [1] 2
+```
+
+``` r
   which_layers(p, "GeomPoint")
 #> [1] 1
+```
+
+``` r
   which_layers(p, "StatSummary")
 #> [1] 2
+```
+
+``` r
 
   p
 ```
