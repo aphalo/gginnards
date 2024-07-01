@@ -21,7 +21,8 @@ version](https://www.r-pkg.org/badges/version/gginnards)](https://cran.r-project
 [![cran checks](https://badges.cranchecks.info/worst/gginnards.svg)](https://cran.r-project.org/web/checks/check_results_gginnards.html)
 [![gginnards status badge](https://aphalo.r-universe.dev/badges/gginnards)](https://aphalo.r-universe.dev/gginnards)
 [![R-CMD-check](https://github.com/aphalo/gginnards/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/aphalo/gginnards/actions/workflows/R-CMD-check.yaml)
-<a href="https://docs.r4photobiology.info/gginnards/"><img src="https://img.shields.io/badge/documentation-gginnards-informational.svg" alt="" /></a>
+[![web site](https://img.shields.io/badge/documentation-gginnards-informational.svg)](https://docs.r4photobiology.info/gginnards/)
+[![](https://img.shields.io/badge/doi-10.32614/CRAN.package.gginnards-blue.svg)](https://doi.org/10.32614/CRAN.package.gginnards)
 <!-- badges: end -->
 
 ## Purpose

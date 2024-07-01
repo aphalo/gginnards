@@ -10,7 +10,9 @@ checks](https://badges.cranchecks.info/worst/gginnards.svg)](https://cran.r-proj
 [![gginnards status
 badge](https://aphalo.r-universe.dev/badges/gginnards)](https://aphalo.r-universe.dev/gginnards)
 [![R-CMD-check](https://github.com/aphalo/gginnards/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/aphalo/gginnards/actions/workflows/R-CMD-check.yaml)
-<a href="https://docs.r4photobiology.info/gginnards/"><img src="https://img.shields.io/badge/documentation-gginnards-informational.svg" alt="" /></a>
+[![web
+site](https://img.shields.io/badge/documentation-gginnards-informational.svg)](https://docs.r4photobiology.info/gginnards/)
+[![](https://img.shields.io/badge/doi-10.32614/CRAN.package.gginnards-blue.svg)](https://doi.org/10.32614/CRAN.package.gginnards)
 <!-- badges: end -->
 
 ## Purpose
@@ -176,9 +178,9 @@ ggplot(mtcars, aes(cyl, mpg, colour = factor(cyl))) +
 
     #> [1] "PANEL 1; group(s) 1, 2, 3; 'draw_function()' input 'data' (head):"
     #>    colour x group        y     ymin     ymax PANEL flipped_aes orientation
-    #> 1 #F8766D 4     1 26.66364 24.33614 29.34614     1       FALSE          NA
-    #> 2 #00BA38 6     2 19.74286 18.70000 20.64286     1       FALSE          NA
-    #> 3 #619CFF 8     3 15.10000 13.75661 16.40071     1       FALSE          NA
+    #> 1 #F8766D 4     1 26.66364 24.30841 29.50295     1       FALSE          NA
+    #> 2 #00BA38 6     2 19.74286 18.71429 20.74286     1       FALSE          NA
+    #> 3 #619CFF 8     3 15.10000 13.72107 16.40071     1       FALSE          NA
 
 We print to the R console `data` as *seen* as input by statistics that
 use a *panel function*.
