@@ -4,6 +4,10 @@ editor_options:
     wrap: 72
 ---
 
+# gginnards 0.2.0-1
+
+* Fix CRAN checks NOTE.
+
 # gginnards 0.2.0
 
 **This is a code breaking update in relation to functions

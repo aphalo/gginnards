@@ -7,3 +7,4 @@ inst-not
 build-binary-from-source\.sh
 ^\.github$
 ^CITATION\.cff$
+^pkgdown$

@@ -162,7 +162,7 @@ GeomNull <-
 #' stats and geoms work in 'ggplot2' (>= 3.0.0).
 #'
 #' @param mapping Set of aesthetic mappings created by
-#'   \code{\link[ggplot2]{aes}} or \code{\link{aes_}}. If specified and
+#'   \code{\link[ggplot2]{aes}} or \code{\link[ggplot2]{aes_}}. If specified and
 #'   \code{inherit.aes = TRUE} (the default), is combined with the default
 #'   mapping at the top level of the plot. You only need to supply
 #'   \code{mapping} if there isn't a mapping defined for the plot.

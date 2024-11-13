@@ -4,7 +4,7 @@
 <!-- badges: start -->
 
 [![cran
-version](https://www.r-pkg.org/badges/version/gginnards)](https://cran.r-project.org/package=gginnards)
+version](https://www.r-pkg.org/badges/version-last-release/gginnards)](https://cran.r-project.org/package=gginnards)
 [![cran
 checks](https://badges.cranchecks.info/worst/gginnards.svg)](https://cran.r-project.org/web/checks/check_results_gginnards.html)
 [![gginnards status
@@ -178,9 +178,9 @@ ggplot(mtcars, aes(cyl, mpg, colour = factor(cyl))) +
 
     #> [1] "PANEL 1; group(s) 1, 2, 3; 'draw_function()' input 'data' (head):"
     #>    colour x group        y     ymin     ymax PANEL flipped_aes orientation
-    #> 1 #F8766D 4     1 26.66364 24.30841 29.50295     1       FALSE          NA
-    #> 2 #00BA38 6     2 19.74286 18.71429 20.74286     1       FALSE          NA
-    #> 3 #619CFF 8     3 15.10000 13.72107 16.40071     1       FALSE          NA
+    #> 1 #F8766D 4     1 26.66364 24.15364 29.11955     1       FALSE          NA
+    #> 2 #00BA38 6     2 19.74286 18.78571 20.72893     1       FALSE          NA
+    #> 3 #619CFF 8     3 15.10000 13.79250 16.32143     1       FALSE          NA
 
 We print to the R console `data` as *seen* as input by statistics that
 use a *panel function*.
@@ -212,19 +212,12 @@ p <-
 
   num_layers(p)
 #> [1] 2
-```
-
-``` r
   which_layers(p, "GeomPoint")
-#> [1] 1
-```
-
-``` r
+#> geom_point 
+#>          1
   which_layers(p, "StatSummary")
-#> [1] 2
-```
-
-``` r
+#> stat_summary 
+#>            2
 
   p
 ```
@@ -289,8 +282,7 @@ citation("gginnards")
 #> 
 #>   Aphalo P (2024). _gginnards: Explore the Innards of 'ggplot2'
 #>   Objects_. R package version 0.2.0,
-#>   https://github.com/aphalo/gginnards,
-#>   <https://www.r4photobiology.info>.
+#>   <https://CRAN.R-project.org/package=gginnards>.
 #> 
 #> A BibTeX entry for LaTeX users is
 #> 
@@ -298,8 +290,8 @@ citation("gginnards")
 #>     title = {gginnards: Explore the Innards of 'ggplot2' Objects},
 #>     author = {Pedro J. Aphalo},
 #>     year = {2024},
-#>     note = {R package version 0.2.0, https://github.com/aphalo/gginnards},
-#>     url = {https://www.r4photobiology.info},
+#>     note = {R package version 0.2.0},
+#>     url = {https://CRAN.R-project.org/package=gginnards},
 #>   }
 ```
 
