@@ -29,7 +29,7 @@ Suggests:
     rmarkdown (>= 1.14),
     sf (>= 0.9),
     pryr (>= 0.1.4)
-URL: https://www.r4photobiology.info, https://github.com/aphalo/gginnards
+URL: https://docs.r4photobiology.info/gginnards, https://github.com/aphalo/gginnards
 BugReports: https://github.com/aphalo/gginnards/issues
 Encoding: UTF-8
 RoxygenNote: 7.3.2
