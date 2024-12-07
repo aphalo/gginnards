@@ -65,7 +65,7 @@ Package 'ggplot2' source code at \url{https://github.com/tidyverse/ggplot2}
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://www.r4photobiology.info}
+  \item \url{https://docs.r4photobiology.info/gginnards/}
   \item \url{https://github.com/aphalo/gginnards}
   \item Report bugs at \url{https://github.com/aphalo/gginnards/issues}
 }
