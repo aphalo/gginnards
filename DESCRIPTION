@@ -32,5 +32,5 @@ Suggests:
 URL: https://docs.r4photobiology.info/gginnards/, https://github.com/aphalo/gginnards
 BugReports: https://github.com/aphalo/gginnards/issues
 Encoding: UTF-8
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
 VignetteBuilder: knitr

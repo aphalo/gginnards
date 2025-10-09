@@ -12,6 +12,10 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
+**NOTE:** The structure of the objects returned by `ggplot2:ggplot2()` is
+dependent on the major version of package 'ggplot2'. Thus, the values
+returned by the code examples if run by you can differ from those shown here.
+
 ```{r, include=FALSE, echo=FALSE}
 library(knitr)
 opts_chunk$set(fig.align = 'center', 
@@ -84,9 +88,12 @@ Object `p` contains members, but `"data"`, `"layers"`, `"mapping"`, `"theme"`
 str(p0)
 ```
 
-If we pass an argument to parameter `data` the data is copied into the
-list slot with name `data`. As we also map the data to aesthetics, this
-mapping is stored in slot `maaping`. 
+If we pass an argument to parameter `data` the data is "copied" into the
+list slot with name `data`. (The copy is not necessarily identical to the
+argument, here `my.data` as the class and other attributes may be modified.
+`ggplot()`is a generic method, and especializations for `data` atguments of
+classe different to `data.frame` can be defined.)
+As we also map the data to aesthetics, this mapping is stored in slot `maaping`. 
 
 ```{r}
 p1 <- ggplot(data = my.data, aes(x, y, colour = group))
@@ -95,6 +102,10 @@ str(p1)
 
 ```{r}
 str(p1, max.level = 2, components = "data")
+```
+
+```{r}
+all.equal(my.data, p1$data)
 ```
 
 A geometry adds a layer.
