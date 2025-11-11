@@ -75,7 +75,7 @@ library(gginnards)
 library(tibble)
 library(magrittr)
 library(stringr)
-eval_pryr <- requireNamespace("pryr", quietly = TRUE)
+eval_lobstr <- requireNamespace("lobstr", quietly = TRUE)
 ```
 
 We generate some artificial data and create a data frame with them.
@@ -375,12 +375,12 @@ It was not clear to me when R does make a copy of the data embedded in a
 `ggplot` object and when not. R's policy is to copy data objects lazily, or
 only when modified. Does the 'ggplot2' code modify the
 argument passed to its `data` parameter triggering a real copy operation or not.
-We can check this with the help of package 'pryr'.
+We can check this with the help of package 'lobstr'.
 
-```{r, eval = eval_pryr}
-pryr::address(my.data)
+```{r, eval = eval_lobstr}
+lobstr::obj_addr(my.data)
 z <- p$data
-pryr::address(z)
+lobstr::obj_addr(z)
 ```
 
 In this case, R has not created a copy. So, from the point of view of total
@@ -389,10 +389,10 @@ the object is saved to disk or `my.data` modified in any way after `p` was
 created a copy of `my.data` will be created at this later time. In this simple
 example we modify the value of an attribute.
 
-```{r, eval = eval_pryr}
+```{r, eval = eval_lobstr}
 attr(my.data, "my.atr.num") <- 1324567
-pryr::address(z)
-pryr::address(my.data)
+lobstr::obj_addr(z)
+lobstr::obj_addr(my.data)
 ```
 
 ## Attributes of the embedded data object

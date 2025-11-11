@@ -4,6 +4,11 @@ editor_options:
     wrap: 72
 ---
 
+# gginnards 0.2.1
+
+* Use `lobstr::obj_addr()` instead of `pryr::address()` in User Guide 2 
+examples. ('pryr' will be soon archived.)
+
 # gginnards 0.2.0-1
 
 * Fix CRAN checks NOTE.
