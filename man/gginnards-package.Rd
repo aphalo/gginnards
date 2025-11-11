@@ -58,7 +58,7 @@ ggplot(mtcars, aes(cyl, mpg, color = factor(cyl))) +
 
 }
 \references{
-Package 'tidyverse' web site at \url{https://www.tidyverse.org/}\cr
+Package 'tidyverse' web site at \url{https://tidyverse.org/}\cr
 Package 'ggplot2' documentation at \url{https://ggplot2.tidyverse.org/}\cr
 Package 'ggplot2' source code at \url{https://github.com/tidyverse/ggplot2}
 }
