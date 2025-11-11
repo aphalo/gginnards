@@ -12,6 +12,12 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
+**NOTE:** The structure and class of the objects returned by `ggplot()` is
+dependent on the major version of package 'ggplot2'. Thus, if code in examples
+is run under a different major version than `r
+utils::packageVersion("ggplot2")`, used to build this vignette, the values
+returned by some code examples can differ drastically from those shown below.
+
 ```{r, include=FALSE, echo=FALSE}
 library(knitr)
 opts_chunk$set(fig.align = 'center', 
@@ -418,6 +424,6 @@ p + geom_debug_panel(dbgfun.data = attributes, dbgfun.params = NULL)
 
 The are many other things that we could explore about ggplot objects, but a
 package to be submitted to CRAN cannot have too many pages of documentation, so
-we hope this package and its documentation can serve as a starting point for
+I hope this package and its documentation can serve as a starting point for
 further exploration.
 

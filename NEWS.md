@@ -4,10 +4,13 @@ editor_options:
     wrap: 72
 ---
 
-# gginnards 0.2.1
+# gginnards 0.2.0-2
 
 * Use `lobstr::obj_addr()` instead of `pryr::address()` in User Guide 2 
 examples. ('pryr' will be soon archived.)
+* A few code examples were added and/or edited in functions' documentation.
+* Minor edits to vignette and README, updating documentation for 'ggplot2' 
+(>= 4.0.0).
 
 # gginnards 0.2.0-1
 

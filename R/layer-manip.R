@@ -75,18 +75,20 @@
 #'
 #'   p.sf1 <- ggplot() +
 #'            geom_sf(data = nc)
-#'   p.sf1
+#'   print(p.sf1)
 #'   num_layers(p.sf1)
 #'   top_layer(p.sf1)
 #'
+#'   p.sf1app <-
 #'   append_layers(p.sf1,
 #'                 geom_sf(data = nc_3857, colour = "red", fill = NA),
 #'                 position = "top")
+#'   print(p.sf1app)
 #'
 #'   p.sf2 <- ggplot() +
 #'            geom_sf(data = nc) +
 #'            geom_sf(data = nc_3857, colour = "red", fill = NA)
-#'   p.sf2
+#'   print(p.sf2)
 #'   num_layers(p.sf2)
 #'   top_layer(p.sf2)
 #'   delete_layers(p.sf2, idx = 2L)
@@ -94,10 +96,14 @@
 #'   extract_layers(p.sf2, "GeomSf")
 #'   extract_layers(p.sf2, "StatSf")
 #'   extract_layers(p.sf2, idx = 1L)
-#'   p.sf1 + extract_layers(p.sf2, idx = 2L)
+#'
+#'   p.sf3 <- p.sf1 + extract_layers(p.sf2, idx = 2L)
+#'   print(p.sf3)
 #'
 #'   # beware that Coords are not extracted!
-#'   ggplot() + extract_layers(p.sf2, idx = 2L) + coord_sf()
+#'
+#'   p.sf4 <- ggplot() + extract_layers(p.sf2, idx = 2L) + coord_sf()
+#'   print(p.sf4)
 #' }
 #'
 #' @export

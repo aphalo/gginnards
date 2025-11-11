@@ -132,6 +132,10 @@
 #'   geom_point() +
 #'   stat_debug_group()
 #'
+#' ggplot(my.df, aes(group,y)) +
+#'   geom_point() +
+#'   stat_debug_group(dbgfun.data.args = list(n = 3))
+#'
 #' @export
 #' @family diagnosis functions
 #'

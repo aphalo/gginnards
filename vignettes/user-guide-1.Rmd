@@ -12,9 +12,25 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-**NOTE:** The structure of the objects returned by `ggplot2:ggplot2()` is
-dependent on the major version of package 'ggplot2'. Thus, the values
-returned by the code examples if run by you can differ from those shown here.
+**NOTE:** The structure and class of the objects returned by `ggplot()` is
+dependent on the major version of package 'ggplot2'. Thus, if code in examples
+is run under a different major version than 
+`r utils::packageVersion("ggplot2")`, used to build this vignette, the values
+returned by some code examples can differ drastically from those shown below.
+
+## Introduction
+
+The functions described below can be used to explore the data returned and/or
+received by input by _statistics_ and the data received as input by _geoms_.
+This can be useful when debugging scripts, learning how 'ggplot2' works and
+for debugging _stats_ during their development.
+
+The values extracted are "listed" to the R console by means of calls to `head()`
+or `print()` by default. However, other functions will be used if passed as
+arguments in the call.
+
+This vignette demonstrates their use, and at the same time gives a brief
+description of how _ggplot_ objects are structured.
 
 ```{r, include=FALSE, echo=FALSE}
 library(knitr)
@@ -25,9 +41,12 @@ options(warnPartialMatchArgs = FALSE)
 
 ## Preliminaries
 
+We start by loading and attaching the packages.
+
 ```{r}
-library(gginnards)
 library(tibble)
+library(ggplot2)
+library(gginnards)
 ```
 
 We generate some artificial data.
@@ -91,8 +110,8 @@ str(p0)
 If we pass an argument to parameter `data` the data is "copied" into the
 list slot with name `data`. (The copy is not necessarily identical to the
 argument, here `my.data` as the class and other attributes may be modified.
-`ggplot()`is a generic method, and especializations for `data` atguments of
-classe different to `data.frame` can be defined.)
+`ggplot()` is a generic method, and especializations for `data` atguments of
+classes derived or different from `data.frame` can be defined.)
 As we also map the data to aesthetics, this mapping is stored in slot `maaping`. 
 
 ```{r}

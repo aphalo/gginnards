@@ -1,7 +1,7 @@
 Package: gginnards
 Type: Package
 Title: Explore the Innards of 'ggplot2' Objects
-Version: 0.2.0-1.9000
+Version: 0.2.0-2
 Date: 2025-11-11
 Authors@R:
     c(
@@ -25,6 +25,7 @@ Imports:
     magrittr (>= 1.5),
     tibble (>= 2.1.0)
 Suggests:
+    S7,
     knitr (>= 1.24),
     rmarkdown (>= 1.14),
     sf (>= 0.9),

@@ -55,6 +55,11 @@
 #' mapped_vars(p)
 #' mapped_vars(p.dp)
 #'
+#' # what are the attributes of data
+#'
+#' data_attributes(p)
+#' data_attributes(p.dp)
+#'
 #' # the plots identical
 #' p
 #' p.dp

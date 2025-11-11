@@ -32,13 +32,17 @@ R package 'ggplot2'. Two geometries and two statistics are specially useful when
 learning how to write 'ggplot2' extensions and when debugging newly defined
 statistics and geometries.
 
-Objects of class `"gg"`, or unrendered ggplot objects, are a list-like structure
-containing data and "instructions" to construct a plot and its layers. By
-editing this structure it is possible to modify the plot that will be rendered.
-Functions are provided for the manipulation of layers within `gg`objects. These
-can be useful in the case extensions to 'ggplot2' that define functions that
-construct and return whole `gg` objects. In such cases in can be useful to
-programatically edit these `gg` objects to insert plot layers or change their
+**Note:** _ggplots_ were stored as objects of class `"gg"` with a list-like structure
+in 'ggplot2' (< 4.0.0 ). In 'ggplot2' (>= 4.0.0) _ggplots_ are stored as `S7`
+objects of class `"ggplot2:ggplot"`. 
+
+_ggplots_ objects of these two classes contain both data and 
+"instructions" to construct a plot and its layers. By
+editing these objects it is possible to modify or edit a ggplot in advance of rendering.
+Functions are provided for the manipulation of layers within _ggplot_ objects. These
+can be useful in the case of extensions to 'ggplot2' that define functions that
+construct and return whole _ggplot_ objects. In such cases in can be useful to
+programatically edit these _ggplot_ objects to insert plot layers or change their
 order.
 
 As the variables returned in `data` by many statistics depend on input, some
@@ -58,23 +62,29 @@ Please, see the blog post [Playing on the same team as your
 dependecy](https://www.tidyverse.org/blog/2022/09/playing-on-the-same-team-as-your-dependecy/)
 by Thomas Lin Pedersen.
 
+To my surprise, and thanks to the care taken by the developers of 'ggplot2',
+in spite of the overhaul of the class system in 'ggplot2' (== 4.0.0), no
+changes were necessary to keep 'gginnards' compatible with the updated
+'ggplot2'! A huge thanks you to Teun van den Brand, Thomas Lin Pedersen and the
+rest of the 'ggplot2' team.
+
 ## Alternatives
 
 The debug statistics and geoms are defined in 'gginnards' using the same
 approach as other 'ggplot2' extensions, without any significant assumptions
-about the internals of 'ggplot2'. Thus, they are unlikely to be affected
-by minor updates to 'ggplot2'. The layer manipulation functions rely on
+about the internals of 'ggplot2'. Thus, they have not been affected
+by minor, and even major, updates to 'ggplot2'. The layer manipulation functions rely on
 the internal structure of `"gg"` objects, but mostly on aspects unlikely
 to change frequently.
 
-Package 'gginnards' does not provide a deep view into the structure of `"gg"`
+Package 'gginnards' does not provide a deep view into the structure of _ggplot_
 objects or the steps involved in building these objects and rendering them into
-graphical objects. Package ['ggtrace'](https://github.com/yjunechoe/ggtrace) by
+graphical objects. Package ['ggtrace'](https://yjunechoe.github.io/ggtrace/) by
 June Choe provides tools for a much deeper and detailed exploration and edition
 of ggplots, but it is much more dependent on the undocumented internals of
 'ggplot2' than 'gginnards'. (Note: there exists another package named
-[ggtrace](https://github.com/cxli233/ggtraces) for a different purpose. None of
-them are yet available through CRAN.)
+[ggtrace](https://github.com/cxli233/ggtraces) for a different purpose,
+available through CRAN.)
 
 ## History
 
@@ -84,7 +94,7 @@ This package was born when several functions were extracted from package
 ## Geometries
 
 Geometries `geom_debug_panel()` and `geom_debug_droup()` by default print the
-`data` object received as input by the draw functi to the console adding a plot
+`data` object received as input by the draw function to the console adding a plot
 layer that produces no graphic output. As they take as arguments summary
 functions, they allows flexibility in how `data` objects are displayed.
 `geom_debug_panel()` and `geom_debug_droup()` are useful at any time when one
@@ -92,14 +102,14 @@ needs to check what variables are returned by statistics. Many statistics are
 well documented and always return the same variables. For other statistics even
 if well documented the returned variables in `data` vary depending on grouping
 and/or the arguments passed to them, in which case this geometry can also be
-useful when debugging scripts.
+useful for debugging data-visualization scripts.
 
 ## Statistics
 
-Statistics `stat_debug_panel()` and `stat_debug_droup()` echo their data input
-to the R console aim at easing debugging during development of new geoms and
-statistics. They will also help those learning how ggplot grouping, panels and
-layers work. As the _debug_ geometries, they take as arguments summary
+Statistics `stat_debug_panel()` and `stat_debug_droup()`, which echo their data
+input to the R console, aim at easing debugging during development of new geoms
+and statistics. They will also help those learning how ggplot grouping, panels
+and layers work. As the _debug_ geometries, they take as arguments summary
 functions allowing flexibility in how `data` objects are displayed.
 
 For debugging, the value returned by these stats is usually not interesting, and
@@ -116,8 +126,7 @@ position, and reordering of the existing layers.
 
 ## Manipulation of embedded data
 
-A function to drop unused variables from the data object embedded in `gg` and
-`ggplot` objects serves as an additional example of a manipulation that may
+A function to drop unused variables from the data object embedded in _ggplot_ objects serves as an additional example of a manipulation that may
 be useful when dealing with very large datasets. Companion functions are
 defined to explore the embedded `data` object.
 
@@ -160,7 +169,7 @@ ggplot(mtcars, aes(cyl, mpg, colour = factor(cyl))) +
   stat_debug_panel()
 ```
 
-We build object `p` of class `gg` (a ggplot). We query the number of layers and
+We build a _ggplot_ object `p`. We query the number of layers and
 the position of layers by the class of the `ggproto` object.
 
 ```{r}
@@ -204,7 +213,7 @@ devtools::install_github("aphalo/gginnards")
 
 HTML documentation is available at (https://docs.r4photobiology.info/gginnards/), including two vignettes.
 
-News about updates are regularly posted at (https://www.r4photobiology.info/).
+News about major updates are posted at (https://www.r4photobiology.info/).
 
 ## Contributing
 
@@ -220,5 +229,5 @@ citation("gginnards")
 
 ## License
 
-© 2016-2024 Pedro J. Aphalo (pedro.aphalo@helsinki.fi). Released under the GPL, version 2 or greater. This software carries no warranty of any kind.
+© 2016-2025 Pedro J. Aphalo (pedro.aphalo@helsinki.fi). Released under the GPL, version 2 or greater. This software carries no warranty of any kind.
 

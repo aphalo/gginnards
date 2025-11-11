@@ -22,14 +22,18 @@ extensions to R package ‘ggplot2’. Two geometries and two statistics are
 specially useful when learning how to write ‘ggplot2’ extensions and
 when debugging newly defined statistics and geometries.
 
-Objects of class `"gg"`, or unrendered ggplot objects, are a list-like
-structure containing data and “instructions” to construct a plot and its
-layers. By editing this structure it is possible to modify the plot that
-will be rendered. Functions are provided for the manipulation of layers
-within `gg`objects. These can be useful in the case extensions to
-‘ggplot2’ that define functions that construct and return whole `gg`
+**Note:** *ggplots* were stored as objects of class `"gg"` with a
+list-like structure in ‘ggplot2’ (\< 4.0.0 ). In ‘ggplot2’ (\>= 4.0.0)
+*ggplots* are stored as `S7` objects of class `"ggplot2:ggplot"`.
+
+*ggplots* objects of these two classes contain both data and
+“instructions” to construct a plot and its layers. By editing these
+objects it is possible to modify or edit a ggplot in advance of
+rendering. Functions are provided for the manipulation of layers within
+*ggplot* objects. These can be useful in the case of extensions to
+‘ggplot2’ that define functions that construct and return whole *ggplot*
 objects. In such cases in can be useful to programatically edit these
-`gg` objects to insert plot layers or change their order.
+*ggplot* objects to insert plot layers or change their order.
 
 As the variables returned in `data` by many statistics depend on input,
 some of these tools can be also useful in everyday plotting with
@@ -49,24 +53,30 @@ the same team as your
 dependecy](https://www.tidyverse.org/blog/2022/09/playing-on-the-same-team-as-your-dependecy/)
 by Thomas Lin Pedersen.
 
+To my surprise, and thanks to the care taken by the developers of
+‘ggplot2’, in spite of the overhaul of the class system in ‘ggplot2’ (==
+4.0.0), no changes were necessary to keep ‘gginnards’ compatible with
+the updated ‘ggplot2’! A huge thanks you to Teun van den Brand, Thomas
+Lin Pedersen and the rest of the ‘ggplot2’ team.
+
 ## Alternatives
 
 The debug statistics and geoms are defined in ‘gginnards’ using the same
 approach as other ‘ggplot2’ extensions, without any significant
-assumptions about the internals of ‘ggplot2’. Thus, they are unlikely to
-be affected by minor updates to ‘ggplot2’. The layer manipulation
-functions rely on the internal structure of `"gg"` objects, but mostly
-on aspects unlikely to change frequently.
+assumptions about the internals of ‘ggplot2’. Thus, they have not been
+affected by minor, and even major, updates to ‘ggplot2’. The layer
+manipulation functions rely on the internal structure of `"gg"` objects,
+but mostly on aspects unlikely to change frequently.
 
 Package ‘gginnards’ does not provide a deep view into the structure of
-`"gg"` objects or the steps involved in building these objects and
+*ggplot* objects or the steps involved in building these objects and
 rendering them into graphical objects. Package
-[‘ggtrace’](https://github.com/yjunechoe/ggtrace) by June Choe provides
+[‘ggtrace’](https://yjunechoe.github.io/ggtrace/) by June Choe provides
 tools for a much deeper and detailed exploration and edition of ggplots,
 but it is much more dependent on the undocumented internals of ‘ggplot2’
 than ‘gginnards’. (Note: there exists another package named
-[ggtrace](https://github.com/cxli233/ggtraces) for a different purpose.
-None of them are yet available through CRAN.)
+[ggtrace](https://github.com/cxli233/ggtraces) for a different purpose,
+available through CRAN.)
 
 ## History
 
@@ -76,7 +86,7 @@ This package was born when several functions were extracted from package
 ## Geometries
 
 Geometries `geom_debug_panel()` and `geom_debug_droup()` by default
-print the `data` object received as input by the draw functi to the
+print the `data` object received as input by the draw function to the
 console adding a plot layer that produces no graphic output. As they
 take as arguments summary functions, they allows flexibility in how
 `data` objects are displayed. `geom_debug_panel()` and
@@ -85,16 +95,16 @@ variables are returned by statistics. Many statistics are well
 documented and always return the same variables. For other statistics
 even if well documented the returned variables in `data` vary depending
 on grouping and/or the arguments passed to them, in which case this
-geometry can also be useful when debugging scripts.
+geometry can also be useful for debugging data-visualization scripts.
 
 ## Statistics
 
-Statistics `stat_debug_panel()` and `stat_debug_droup()` echo their data
-input to the R console aim at easing debugging during development of new
-geoms and statistics. They will also help those learning how ggplot
-grouping, panels and layers work. As the *debug* geometries, they take
-as arguments summary functions allowing flexibility in how `data`
-objects are displayed.
+Statistics `stat_debug_panel()` and `stat_debug_droup()`, which echo
+their data input to the R console, aim at easing debugging during
+development of new geoms and statistics. They will also help those
+learning how ggplot grouping, panels and layers work. As the *debug*
+geometries, they take as arguments summary functions allowing
+flexibility in how `data` objects are displayed.
 
 For debugging, the value returned by these stats is usually not
 interesting, and by default, it is a copy of the `data` object received
@@ -112,9 +122,9 @@ position, and reordering of the existing layers.
 ## Manipulation of embedded data
 
 A function to drop unused variables from the data object embedded in
-`gg` and `ggplot` objects serves as an additional example of a
-manipulation that may be useful when dealing with very large datasets.
-Companion functions are defined to explore the embedded `data` object.
+*ggplot* objects serves as an additional example of a manipulation that
+may be useful when dealing with very large datasets. Companion functions
+are defined to explore the embedded `data` object.
 
 ## Examples
 
@@ -135,13 +145,13 @@ ggplot(mtcars, aes(cyl, mpg, color = mpg)) +
 ![](man/figures/README-unnamed-chunk-2-1.png)<!-- -->
 
     #> [1] "PANEL 1; group(s) -1; 'draw_panel()' input 'data' (head):"
-    #>    colour x    y PANEL group
-    #> 1 #30648F 6 21.0     1    -1
-    #> 2 #30648F 6 21.0     1    -1
-    #> 3 #356E9D 4 22.8     1    -1
-    #> 4 #316692 6 21.4     1    -1
-    #> 5 #29577E 8 18.7     1    -1
-    #> 6 #275379 6 18.1     1    -1
+    #>   x    y  colour PANEL group
+    #> 1 6 21.0 #30648F     1    -1
+    #> 2 6 21.0 #30648F     1    -1
+    #> 3 4 22.8 #356E9D     1    -1
+    #> 4 6 21.4 #316692     1    -1
+    #> 5 8 18.7 #29577E     1    -1
+    #> 6 6 18.1 #275379     1    -1
     #> [1] "PANEL 1; group(s) -1; 'draw_panel()' input 'params' (summary):"
     #>         Length Class     Mode       
     #> x       11     ViewScale environment
@@ -150,6 +160,7 @@ ggplot(mtcars, aes(cyl, mpg, color = mpg)) +
     #> y       11     ViewScale environment
     #> y.sec   11     ViewScale environment
     #> y.range  2     -none-    numeric    
+    #> reverse  1     -none-    character  
     #> guides   4     Guides    environment
 
 We print to the R console `colnames(data)`.
@@ -163,7 +174,7 @@ ggplot(mtcars, aes(cyl, mpg, color = mpg)) +
 ![](man/figures/README-unnamed-chunk-3-1.png)<!-- -->
 
     #> [1] "PANEL 1; group(s) -1; 'draw_panel()' input 'data' (anonymous function):"
-    #> [1] "colour" "x"      "y"      "PANEL"  "group"
+    #> [1] "x"      "y"      "colour" "PANEL"  "group"
 
 We print to the R console `data` as returned by `stat_summary()` and
 *seen* as input by geometries.
@@ -177,10 +188,10 @@ ggplot(mtcars, aes(cyl, mpg, colour = factor(cyl))) +
 ![](man/figures/README-unnamed-chunk-4-1.png)<!-- -->
 
     #> [1] "PANEL 1; group(s) 1, 2, 3; 'draw_function()' input 'data' (head):"
-    #>    colour x group        y     ymin     ymax PANEL flipped_aes orientation
-    #> 1 #F8766D 4     1 26.66364 24.15364 29.11955     1       FALSE          NA
-    #> 2 #00BA38 6     2 19.74286 18.78571 20.72893     1       FALSE          NA
-    #> 3 #619CFF 8     3 15.10000 13.79250 16.32143     1       FALSE          NA
+    #>   x group        y     ymin     ymax  colour PANEL flipped_aes orientation
+    #> 1 4     1 26.66364 24.02659 29.21932 #F8766D     1       FALSE          NA
+    #> 2 6     2 19.74286 18.75714 20.75714 #00BA38     1       FALSE          NA
+    #> 3 8     3 15.10000 13.77839 16.40036 #619CFF     1       FALSE          NA
 
 We print to the R console `data` as *seen* as input by statistics that
 use a *panel function*.
@@ -201,8 +212,8 @@ ggplot(mtcars, aes(cyl, mpg, colour = factor(cyl))) +
     #> 5 8 18.7      8     1     3
     #> 6 6 18.1      6     1     2
 
-We build object `p` of class `gg` (a ggplot). We query the number of
-layers and the position of layers by the class of the `ggproto` object.
+We build a *ggplot* object `p`. We query the number of layers and the
+position of layers by the class of the `ggproto` object.
 
 ``` r
 p <-
@@ -262,7 +273,7 @@ HTML documentation is available at
 (<https://docs.r4photobiology.info/gginnards/>), including two
 vignettes.
 
-News about updates are regularly posted at
+News about major updates are posted at
 (<https://www.r4photobiology.info/>).
 
 ## Contributing
@@ -280,23 +291,23 @@ publications, please cite according to:
 citation("gginnards")
 #> To cite package 'gginnards' in publications use:
 #> 
-#>   Aphalo P (2024). _gginnards: Explore the Innards of 'ggplot2'
-#>   Objects_. R package version 0.2.0,
-#>   <https://CRAN.R-project.org/package=gginnards>.
+#>   Aphalo P (2025). _gginnards: Explore the Innards of 'ggplot2'
+#>   Objects_. R package version 0.2.0-1.9000,
+#>   <https://docs.r4photobiology.info/gginnards/>.
 #> 
 #> A BibTeX entry for LaTeX users is
 #> 
 #>   @Manual{,
 #>     title = {gginnards: Explore the Innards of 'ggplot2' Objects},
 #>     author = {Pedro J. Aphalo},
-#>     year = {2024},
-#>     note = {R package version 0.2.0},
-#>     url = {https://CRAN.R-project.org/package=gginnards},
+#>     year = {2025},
+#>     note = {R package version 0.2.0-1.9000},
+#>     url = {https://docs.r4photobiology.info/gginnards/},
 #>   }
 ```
 
 ## License
 
-© 2016-2024 Pedro J. Aphalo (<pedro.aphalo@helsinki.fi>). Released under
+© 2016-2025 Pedro J. Aphalo (<pedro.aphalo@helsinki.fi>). Released under
 the GPL, version 2 or greater. This software carries no warranty of any
 kind.

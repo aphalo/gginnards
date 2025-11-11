@@ -84,8 +84,13 @@ str(p, max.level = 2, size = FALSE)
 # top level structure and size of p
 str(p, max.level = 0)
 
-# names of ggplot members
-names(p)
+# names of ggplot object members/slots
+# the class of ggplot objects changed in version >= 4.0.0
+if (utils::packageVersion("ggplot2") < "4.0.0") {
+  names(p)
+} else {
+  S7::S7_class(p)
+}
 
 # structure and size of p["data"]
 str(p, max.level = 2, components = "data")
