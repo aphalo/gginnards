@@ -50,7 +50,7 @@ package, I will not attempt to actively keep it compatible with anything
 but the current version of ‘ggplot2’, although it will frequently also
 work with some earlier versions. Please, see the blog post [Playing on
 the same team as your
-dependecy](https://www.tidyverse.org/blog/2022/09/playing-on-the-same-team-as-your-dependecy/)
+dependecy](https://tidyverse.org/blog/2022/09/playing-on-the-same-team-as-your-dependecy/)
 by Thomas Lin Pedersen.
 
 To my surprise, and thanks to the care taken by the developers of
@@ -85,12 +85,12 @@ This package was born when several functions were extracted from package
 
 ## Geometries
 
-Geometries `geom_debug_panel()` and `geom_debug_droup()` by default
+Geometries `geom_debug_panel()` and `geom_debug_group()` by default
 print the `data` object received as input by the draw function to the
 console adding a plot layer that produces no graphic output. As they
 take as arguments summary functions, they allows flexibility in how
 `data` objects are displayed. `geom_debug_panel()` and
-`geom_debug_droup()` are useful at any time when one needs to check what
+`geom_debug_group()` are useful at any time when one needs to check what
 variables are returned by statistics. Many statistics are well
 documented and always return the same variables. For other statistics
 even if well documented the returned variables in `data` vary depending
@@ -99,7 +99,7 @@ geometry can also be useful for debugging data-visualization scripts.
 
 ## Statistics
 
-Statistics `stat_debug_panel()` and `stat_debug_droup()`, which echo
+Statistics `stat_debug_panel()` and `stat_debug_group()`, which echo
 their data input to the R console, aim at easing debugging during
 development of new geoms and statistics. They will also help those
 learning how ggplot grouping, panels and layers work. As the *debug*
@@ -189,9 +189,9 @@ ggplot(mtcars, aes(cyl, mpg, colour = factor(cyl))) +
 
     #> [1] "PANEL 1; group(s) 1, 2, 3; 'draw_function()' input 'data' (head):"
     #>   x group        y     ymin     ymax  colour PANEL flipped_aes orientation
-    #> 1 4     1 26.66364 24.02659 29.21932 #F8766D     1       FALSE          NA
-    #> 2 6     2 19.74286 18.75714 20.75714 #00BA38     1       FALSE          NA
-    #> 3 8     3 15.10000 13.77839 16.40036 #619CFF     1       FALSE          NA
+    #> 1 4     1 26.66364 24.16318 29.18295 #F8766D     1       FALSE          NA
+    #> 2 6     2 19.74286 18.67107 20.70000 #00BA38     1       FALSE          NA
+    #> 3 8     3 15.10000 13.85000 16.40732 #619CFF     1       FALSE          NA
 
 We print to the R console `data` as *seen* as input by statistics that
 use a *panel function*.
@@ -292,7 +292,7 @@ citation("gginnards")
 #> To cite package 'gginnards' in publications use:
 #> 
 #>   Aphalo P (2025). _gginnards: Explore the Innards of 'ggplot2'
-#>   Objects_. R package version 0.2.0-1.9000,
+#>   Objects_. R package version 0.2.0-2,
 #>   <https://docs.r4photobiology.info/gginnards/>.
 #> 
 #> A BibTeX entry for LaTeX users is
@@ -301,7 +301,7 @@ citation("gginnards")
 #>     title = {gginnards: Explore the Innards of 'ggplot2' Objects},
 #>     author = {Pedro J. Aphalo},
 #>     year = {2025},
-#>     note = {R package version 0.2.0-1.9000},
+#>     note = {R package version 0.2.0-2},
 #>     url = {https://docs.r4photobiology.info/gginnards/},
 #>   }
 ```
