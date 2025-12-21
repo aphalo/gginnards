@@ -170,11 +170,11 @@ GeomNull <-
 #'   \code{mapping} if there isn't a mapping defined for the plot.
 #' @param data A data frame. If specified, overrides the default data frame
 #'   defined at the top level of the plot.
-#' @param dbgfun.data,dbgfun.params,summary.fun The functions as character
+#' @param dbgfun.data,dbgfun.params The functions as character
 #'   strings giving their names or as named or anonymous function objects, to be
 #'   used to summarize the \code{data} and the \code{params} objects received as
 #'   input by the geometry.
-#' @param dbgfun.data.args,dbgfun.params.args,summary.fun.args A named list of
+#' @param dbgfun.data.args,dbgfun.params.args A named list of
 #'   additional arguments to be passed to \code{dbgfun.data} and
 #'   \code{dbgfun.params}.
 #' @param dbgfun.print A function used to print the \code{data} object received

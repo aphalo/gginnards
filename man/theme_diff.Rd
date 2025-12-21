@@ -13,10 +13,10 @@ theme_diff(
   invert = FALSE
 )
 
-theme_classes(theme, pattern = NULL)
+theme_classes(theme1, pattern = NULL)
 }
 \arguments{
-\item{theme1, theme2}{theme Two 'ggplot2' theme objects.}
+\item{theme1, theme2}{'ggplot2' theme objects.}
 
 \item{pattern}{character A character string containing a regular expression
 to be matched by \code{\link{grep}()} against the union of the field

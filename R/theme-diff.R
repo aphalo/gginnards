@@ -2,7 +2,7 @@
 #'
 #' Compare two 'ggplot2' theme definitions, field by field.
 #'
-#' @param theme1,theme2 theme Two 'ggplot2' theme objects.
+#' @param theme1,theme2 'ggplot2' theme objects.
 #' @param value logical If \code{TRUE} return a list with the fields with
 #'   differences extracted from the themes, and if \code{FALSE}, return the
 #'   names of the fields with differences.
@@ -98,20 +98,20 @@ theme_diff <- function(theme1,
 #'
 #' theme_classes(theme_bw(), pattern = "border")
 #'
-theme_classes <- function(theme,
+theme_classes <- function(theme1,
                           pattern = NULL) {
-  if (!length(names(theme))) {
+  if (!length(names(theme1))) {
     stop("Only objects with named fields can be compared with 'theme_diff()'!")
   }
 
-  fields.th <- names(theme)
+  fields.th <- names(theme1)
   if (!is.null(pattern) && is.character(pattern)) {
     fields.th <- grep(pattern, fields.th, value = TRUE)
   }
 
   field.classes <- list()
   for (field in fields.th) {
-    field.classes[[field]] <- class(theme[[field]])[1]
+    field.classes[[field]] <- class(theme1[[field]])[1]
   }
   unlist(field.classes)
 }

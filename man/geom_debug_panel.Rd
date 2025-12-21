@@ -63,12 +63,12 @@ defined at the top level of the plot.}
 \item{stat}{The statistical transformation to use on the data for this layer,
 as a string.}
 
-\item{dbgfun.data, dbgfun.params, summary.fun}{The functions as character
+\item{dbgfun.data, dbgfun.params}{The functions as character
 strings giving their names or as named or anonymous function objects, to be
 used to summarize the \code{data} and the \code{params} objects received as
 input by the geometry.}
 
-\item{dbgfun.data.args, dbgfun.params.args, summary.fun.args}{A named list of
+\item{dbgfun.data.args, dbgfun.params.args}{A named list of
 additional arguments to be passed to \code{dbgfun.data} and
 \code{dbgfun.params}.}
 
