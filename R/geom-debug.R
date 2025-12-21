@@ -24,10 +24,10 @@ optional.aes <-
     "family", "fontface", "lineheight",
     "map_id", "weight",
     "geometry",
-    # ggpp at 0.5.6
+    # ggpp at 0.6.0
     "vp.width", "vp.height",
     "npcx", "npcy",
-    # ggrepel at 0.9.5
+    # ggrepel at 0.9.6
     "point.size", "segment.angle",
     "segment.curvature", "segment.ncp",
     "segment.shape", "segment.square",
@@ -41,7 +41,9 @@ optional.aes <-
     "text.colour",
     "box.colour", "box.size",
     "halign", "valign",
-    "orientation"
+    "orientation",
+    # marquee at 1.2.1
+    "style"
   )
 
 # Null geom ---------------------------------------------------------------
@@ -365,26 +367,28 @@ geom_debug_panel <- function(mapping = NULL,
   )
 }
 
-# For backwards compatibility we fake the old function signature and name
-#
 #' @rdname geom_debug_panel
 #'
 #' @export
 #'
-geom_debug <- function(mapping = NULL,
-                       data = NULL,
-                       stat = "identity",
-                       summary.fun = "head",
-                       summary.fun.args = list(),
-                       parse = NULL,
-                       orientation = NULL,
-                       nudge_x = 0,
-                       nudge_y = 0,
-                       position = "identity",
-                       na.rm = FALSE,
-                       show.legend = FALSE,
-                       inherit.aes = TRUE,
-                       ...) {
+geom_debug_group <- function(mapping = NULL,
+                             data = NULL,
+                             stat = "identity",
+                             dbgfun.data = "head",
+                             dbgfun.data.args = list(),
+                             dbgfun.params = "summary",
+                             dbgfun.params.args = list(),
+                             dbgfun.print = "print",
+                             dbgfun.print.args = list(),
+                             parse = NULL,
+                             orientation = NULL,
+                             nudge_x = 0,
+                             nudge_y = 0,
+                             position = "identity",
+                             na.rm = FALSE,
+                             show.legend = FALSE,
+                             inherit.aes = TRUE,
+                             ...) {
   if (!missing(nudge_x) || !missing(nudge_y)) {
     if (!missing(position) && position != "identity") {
       rlang::abort("You must specify either `position` or `nudge_x`/`nudge_y`.")
@@ -394,7 +398,7 @@ geom_debug <- function(mapping = NULL,
   }
 
   ggplot2::layer(
-    geom = GeomDebug,
+    geom = GeomDebugGroup,
     mapping = mapping,
     data = data,
     stat = stat,
@@ -403,16 +407,29 @@ geom_debug <- function(mapping = NULL,
     inherit.aes = inherit.aes,
     params = rlang::list2(na.rm = na.rm,
                           ...,
-                          dbgfun.data = summary.fun,
-                          dbgfun.data.args = summary.fun.args,
-                          dbgfun.params = NULL,
-                          dbgfun.params.args = NA,
-                          dbgfun.print = print,
-                          dbgfun.print.args = list(),
-                          draw.label = "draw_panel()")
+                          dbgfun.data = dbgfun.data,
+                          dbgfun.data.args = dbgfun.data.args,
+                          dbgfun.params = dbgfun.params,
+                          dbgfun.params.args = dbgfun.params.args,
+                          dbgfun.print = dbgfun.print,
+                          dbgfun.print.args = dbgfun.print.args,
+                          draw.label = "draw_group()")
   )
 }
 
+# For backwards compatibility we fake the old function name
+#
+#' @rdname geom_debug_panel
+#'
+#' @section Defunct: \code{geom_debug()} has been replaced by
+#'  \code{geom_debug_group()}.
+#'
+#' @export
+#'
+geom_debug <- function(...) {
+  warning("'geom_debug()' has been replaced by 'geom_debug_group()'.")
+  geom_debug_group(...)
+}
 
 #' @rdname gginnards-ggproto
 #' @format NULL
@@ -480,22 +497,6 @@ debug_draw_function <- function(data,
 #' @usage NULL
 #'
 #' @export
-GeomDebug <-
-  ggplot2::ggproto("GeomDebug", ggplot2::Geom,
-                   # needed to avoid warnings
-                   optional_aes = optional.aes,
-                   default_aes = ggplot2::aes(),
-                   draw_panel = debug_draw_function,
-                   draw_key = function(...) {
-                     grid::nullGrob()
-                   }
-  )
-
-#' @rdname gginnards-ggproto
-#' @format NULL
-#' @usage NULL
-#'
-#' @export
 GeomDebugPanel <-
   ggplot2::ggproto("GeomDebugPanel", ggplot2::Geom,
                    # needed to avoid warnings
@@ -506,56 +507,6 @@ GeomDebugPanel <-
                      grid::nullGrob()
                    }
   )
-
-#' @rdname geom_debug_panel
-#'
-#' @export
-#'
-geom_debug_group <- function(mapping = NULL,
-                             data = NULL,
-                             stat = "identity",
-                             dbgfun.data = "head",
-                             dbgfun.data.args = list(),
-                             dbgfun.params = "summary",
-                             dbgfun.params.args = list(),
-                             dbgfun.print = "print",
-                             dbgfun.print.args = list(),
-                             parse = NULL,
-                             orientation = NULL,
-                             nudge_x = 0,
-                             nudge_y = 0,
-                             position = "identity",
-                             na.rm = FALSE,
-                             show.legend = FALSE,
-                             inherit.aes = TRUE,
-                             ...) {
-  if (!missing(nudge_x) || !missing(nudge_y)) {
-    if (!missing(position) && position != "identity") {
-      rlang::abort("You must specify either `position` or `nudge_x`/`nudge_y`.")
-    }
-    # by default we keep the original positions
-    position <- ggplot2::position_nudge(nudge_x, nudge_y)
-  }
-
-  ggplot2::layer(
-    geom = GeomDebugGroup,
-    mapping = mapping,
-    data = data,
-    stat = stat,
-    position = position,
-    show.legend = show.legend,
-    inherit.aes = inherit.aes,
-    params = rlang::list2(na.rm = na.rm,
-                          ...,
-                          dbgfun.data = dbgfun.data,
-                          dbgfun.data.args = dbgfun.data.args,
-                          dbgfun.params = dbgfun.params,
-                          dbgfun.params.args = dbgfun.params.args,
-                          dbgfun.print = dbgfun.print,
-                          dbgfun.print.args = dbgfun.print.args,
-                          draw.label = "draw_group()")
-  )
-}
 
 #' @rdname gginnards-ggproto
 #' @format NULL
@@ -571,4 +522,3 @@ GeomDebugGroup <-
                      grid::nullGrob()
                    }
   )
-

@@ -2,8 +2,8 @@
 % Please edit documentation in R/geom-debug.R
 \name{geom_debug_panel}
 \alias{geom_debug_panel}
-\alias{geom_debug}
 \alias{geom_debug_group}
+\alias{geom_debug}
 \title{Geoms that print input data to console.}
 \usage{
 geom_debug_panel(
@@ -16,23 +16,6 @@ geom_debug_panel(
   dbgfun.params.args = list(),
   dbgfun.print = "print",
   dbgfun.print.args = list(),
-  parse = NULL,
-  orientation = NULL,
-  nudge_x = 0,
-  nudge_y = 0,
-  position = "identity",
-  na.rm = FALSE,
-  show.legend = FALSE,
-  inherit.aes = TRUE,
-  ...
-)
-
-geom_debug(
-  mapping = NULL,
-  data = NULL,
-  stat = "identity",
-  summary.fun = "head",
-  summary.fun.args = list(),
   parse = NULL,
   orientation = NULL,
   nudge_x = 0,
@@ -64,6 +47,8 @@ geom_debug_group(
   inherit.aes = TRUE,
   ...
 )
+
+geom_debug(...)
 }
 \arguments{
 \item{mapping}{Set of aesthetic mappings created by
@@ -180,6 +165,11 @@ The intended use of \code{geom_debug_panel()} and
 \code{geom_debug()} is a synonym of \code{geom_debug_panel()}, for
   backwards compatibility. Not to be used in new code.
 }
+\section{Defunct}{
+ \code{geom_debug()} has been replaced by
+ \code{geom_debug_group()}.
+}
+
 \examples{
 # echo to the R console \code{data} as received by geoms
 ggplot(mtcars, aes(cyl, mpg, color = factor(cyl))) +

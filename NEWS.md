@@ -4,17 +4,27 @@ editor_options:
     wrap: 72
 ---
 
+# gginnards 0.3.0
+
+-   Add `theme_diff()`, a function for comparing 'ggplot2' themes.
+-   Add `theme_classes()`,  a function for quering the class of members of
+'ggplot2' themes.
+-   Remove `geom_debug()` which has been replaced by `geom_debug_group()` and
+`geom_debug_panel()
+-   Update the `optional_aes` in `geom_debug_panel()`, `geom_debug_group()` and
+`geom_null()` to track changes in `ggplot2` and `ggpp`.
+
 # gginnards 0.2.0-2
 
-* Use `lobstr::obj_addr()` instead of `pryr::address()` in User Guide 2 
+-   Use `lobstr::obj_addr()` instead of `pryr::address()` in User Guide 2 
 examples. ('pryr' will be soon archived.)
-* A few code examples were added and/or edited in functions' documentation.
-* Minor edits to vignette and README, updating documentation for 'ggplot2' 
+-   A few code examples were added and/or edited in functions' documentation.
+-   Minor edits to vignette and README, updating documentation for 'ggplot2' 
 (>= 4.0.0).
 
 # gginnards 0.2.0-1
 
-* Fix CRAN checks NOTE.
+-   Fix CRAN checks NOTE.
 
 # gginnards 0.2.0
 
