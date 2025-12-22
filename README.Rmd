@@ -195,7 +195,6 @@ p <-
   move_layers(p, "GeomPoint", position = "top")
 ```
 
-
 ## Installation
 
 Installation of the most recent stable version from CRAN (sources, Mac and Win binaries):

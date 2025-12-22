@@ -195,8 +195,8 @@ ggplot(mtcars, aes(cyl, mpg, colour = factor(cyl))) +
 
     #> [1] "PANEL 1; group(s) 1, 2, 3; 'draw_function()' input 'data' (head):"
     #>   x group        y     ymin     ymax  colour PANEL flipped_aes orientation
-    #> 1 4     1 26.66364 24.20000 29.20023 #F8766D     1       FALSE          NA
-    #> 2 6     2 19.74286 18.67143 20.72857 #00BA38     1       FALSE          NA
+    #> 1 4     1 26.66364 24.14523 29.26432 #F8766D     1       FALSE          NA
+    #> 2 6     2 19.74286 18.75679 20.68571 #00BA38     1       FALSE          NA
     #>  [ reached 'max' / getOption("max.print") -- omitted 1 rows ]
 
 We print to the R console `data` as *seen* as input by statistics that
