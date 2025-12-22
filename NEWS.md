@@ -6,9 +6,12 @@ editor_options:
 
 # gginnards 0.3.0
 
--   Add `theme_diff()`, a function for comparing 'ggplot2' themes.
--   Add `theme_classes()`,  a function for quering the class of members of
-'ggplot2' themes.
+-   Add `theme_extract()`, a function for extracting fields from 'ggplot2'
+themes based on pattern matching against field names.
+-   Add `theme_diff()`, a function for comparing 'ggplot2' themes, either
+across all fields or a subset of them.
+-   Add `theme_classes()`,  a function for querying the class of all or of a
+subset of fields from a 'ggplot2' theme.
 -   Remove `geom_debug()` which has been replaced by `geom_debug_group()` and
 `geom_debug_panel()
 -   Update the `optional_aes` in `geom_debug_panel()`, `geom_debug_group()` and

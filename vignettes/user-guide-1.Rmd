@@ -143,21 +143,25 @@ summary(p2)
 ```
 
 ```{r}
+str(p2, max.level = 2, components = "data")
+```
+
+```{r}
 str(p2, max.level = 2, components = "mapping")
 ```
 
+Themes are stored as lists or list-like objects. To keep the output short we use 
+`names()` although calling `str()` with `max.level = 3` would be needed to see all
+nested members. The "inheritance" of settings is based on the nesting of names,
+rather than actual nesting of objects.
+
 ```{r}
 p3 <- p2 + theme_classic()
-str(p3)
+names(p3$theme)
 ```
 
-Themes are stored as nested lists. To keep the output short we use 
-`max.level = 2` although using `max.level = 3` would be needed to see all
-nested members.
-
-```{r}
-str(p3, max.level = 2, components = "theme")
-```
+See section **Themes** below for examples of exploring theme fields and
+differences between themes.
 
 # Data mappings in ggplots
 
@@ -382,3 +386,36 @@ ggplot(my.data, aes(x, y, colour = group)) +
                                                  after_stat(group))),
                    dbgfun.data = function(x) {NULL})
 ```
+
+## Themes
+
+We can compare two themes to learn which in which fields they differ. Here we use the same constructor but with different base size for the text font. By default all fields are compared.
+
+```{r}
+theme_diff(theme_bw(), theme_bw(base_size = 12))
+```
+
+We can also compare themes to learn which fields differ out of a subset selected by pattern matching.
+
+```{r}
+theme_diff(theme_bw(), theme_bw(base_size = 12), pattern = "^strip")
+```
+
+We can also inspect what the difference itself is.
+
+```{r}
+theme_diff(theme_bw(), theme_bw(base_size = 12), value = TRUE)
+```
+
+```{r}
+theme_diff(theme_bw(), theme_grey(), value = TRUE)
+```
+
+```{r}
+theme_diff(theme_dark(), theme_light(), value = TRUE)
+```
+
+```{r}
+theme_classes(theme_bw(), pattern = "^axis\\.title")
+```
+

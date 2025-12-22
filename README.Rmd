@@ -126,9 +126,18 @@ position, and reordering of the existing layers.
 
 ## Manipulation of embedded data
 
-A function to drop unused variables from the data object embedded in _ggplot_ objects serves as an additional example of a manipulation that may
-be useful when dealing with very large datasets. Companion functions are
-defined to explore the embedded `data` object.
+A function to drop unused variables from the data object embedded in _ggplot_
+objects serves as an additional example of a manipulation that may be useful
+when dealing with very large datasets. Companion functions are defined to
+explore the embedded `data` object.
+
+## Inspection of themes
+
+Functions are provided to compare themes and to inspect them. In 'ggplot2'
+(>= 4.0.0) themes have adquired additional fields. These functions can be
+used both to debug newly created or modified themes and to learn how themes
+work. The functions are quite general, and should work across 'ggplot2'
+versions.
 
 ## Examples
 
@@ -185,6 +194,7 @@ p <-
   p
   move_layers(p, "GeomPoint", position = "top")
 ```
+
 
 ## Installation
 

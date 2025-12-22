@@ -126,6 +126,14 @@ A function to drop unused variables from the data object embedded in
 may be useful when dealing with very large datasets. Companion functions
 are defined to explore the embedded `data` object.
 
+## Inspection of themes
+
+Functions are provided to compare themes and to inspect them. In
+‘ggplot2’ (\>= 4.0.0) themes have adquired additional fields. These
+functions can be used both to debug newly created or modified themes and
+to learn how themes work. The functions are quite general, and should
+work across ‘ggplot2’ versions.
+
 ## Examples
 
 ``` r
@@ -150,8 +158,7 @@ ggplot(mtcars, aes(cyl, mpg, color = mpg)) +
     #> 2 6 21.0 #30648F     1    -1
     #> 3 4 22.8 #356E9D     1    -1
     #> 4 6 21.4 #316692     1    -1
-    #> 5 8 18.7 #29577E     1    -1
-    #> 6 6 18.1 #275379     1    -1
+    #>  [ reached 'max' / getOption("max.print") -- omitted 2 rows ]
     #> [1] "PANEL 1; group(s) -1; 'draw_panel()' input 'params' (summary):"
     #>         Length Class     Mode       
     #> x       11     ViewScale environment
@@ -160,8 +167,7 @@ ggplot(mtcars, aes(cyl, mpg, color = mpg)) +
     #> y       11     ViewScale environment
     #> y.sec   11     ViewScale environment
     #> y.range  2     -none-    numeric    
-    #> reverse  1     -none-    character  
-    #> guides   4     Guides    environment
+    #>  [ reached 'max' / getOption("max.print") -- omitted 2 rows ]
 
 We print to the R console `colnames(data)`.
 
@@ -189,9 +195,9 @@ ggplot(mtcars, aes(cyl, mpg, colour = factor(cyl))) +
 
     #> [1] "PANEL 1; group(s) 1, 2, 3; 'draw_function()' input 'data' (head):"
     #>   x group        y     ymin     ymax  colour PANEL flipped_aes orientation
-    #> 1 4     1 26.66364 24.16364 29.29159 #F8766D     1       FALSE          NA
-    #> 2 6     2 19.74286 18.80000 20.74286 #00BA38     1       FALSE          NA
-    #> 3 8     3 15.10000 13.77839 16.42143 #619CFF     1       FALSE          NA
+    #> 1 4     1 26.66364 24.20000 29.20023 #F8766D     1       FALSE          NA
+    #> 2 6     2 19.74286 18.67143 20.72857 #00BA38     1       FALSE          NA
+    #>  [ reached 'max' / getOption("max.print") -- omitted 1 rows ]
 
 We print to the R console `data` as *seen* as input by statistics that
 use a *panel function*.
@@ -209,8 +215,7 @@ ggplot(mtcars, aes(cyl, mpg, colour = factor(cyl))) +
     #> 2 6 21.0      6     1     2
     #> 3 4 22.8      4     1     1
     #> 4 6 21.4      6     1     2
-    #> 5 8 18.7      8     1     3
-    #> 6 6 18.1      6     1     2
+    #>  [ reached 'max' / getOption("max.print") -- omitted 2 rows ]
 
 We build a *ggplot* object `p`. We query the number of layers and the
 position of layers by the class of the `ggproto` object.
@@ -292,7 +297,7 @@ citation("gginnards")
 #> To cite package 'gginnards' in publications use:
 #> 
 #>   Aphalo P (2025). _gginnards: Explore the Innards of 'ggplot2'
-#>   Objects_. R package version 0.2.0-2,
+#>   Objects_. R package version 0.2.0-2.9000,
 #>   <https://docs.r4photobiology.info/gginnards/>.
 #> 
 #> A BibTeX entry for LaTeX users is
@@ -301,7 +306,7 @@ citation("gginnards")
 #>     title = {gginnards: Explore the Innards of 'ggplot2' Objects},
 #>     author = {Pedro J. Aphalo},
 #>     year = {2025},
-#>     note = {R package version 0.2.0-2},
+#>     note = {R package version 0.2.0-2.9000},
 #>     url = {https://docs.r4photobiology.info/gginnards/},
 #>   }
 ```

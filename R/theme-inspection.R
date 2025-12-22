@@ -88,7 +88,7 @@ theme_diff <- function(theme1,
 
 #' Theme member classes
 #'
-#' Extract the class of the members of a 'ggplot2'
+#' Extract the class of the members of a 'ggplot2' theme.
 #'
 #' @export
 #'
@@ -114,4 +114,29 @@ theme_classes <- function(theme1,
     field.classes[[field]] <- class(theme1[[field]])[1]
   }
   unlist(field.classes)
+}
+
+#' Theme member classes
+#'
+#' Extract members of a 'ggplot2' theme.
+#'
+#' @export
+#'
+#' @rdname theme_diff
+#'
+#' @examples
+#'
+#' theme_extract(theme_bw(), pattern = "border")
+#'
+theme_extract <- function(theme1,
+                          pattern = NULL) {
+  if (!length(names(theme1))) {
+    stop("Only objects with named fields can be compared with 'theme_diff()'!")
+  }
+
+  if (!is.null(pattern) && is.character(pattern)) {
+    theme1 <- theme1[grep(pattern, names(theme1), value = TRUE)]
+  }
+
+  theme1
 }

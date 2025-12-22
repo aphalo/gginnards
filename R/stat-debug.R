@@ -143,7 +143,7 @@ stat_debug_group <-
   function(mapping = NULL,
            data = NULL,
            geom = "null",
-           fun.data = "I",
+           fun.data = function(x){x},
            fun.data.args = list(),
            dbgfun.data = "head",
            dbgfun.data.args = list(),
