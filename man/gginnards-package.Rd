@@ -8,7 +8,7 @@
 \description{
 \if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
 
-Extensions to 'ggplot2' providing low-level debug tools: statistics and geometries echoing their data argument. Layer manipulation: deletion, insertion, extraction and reordering of layers. Deletion of unused variables from the data object embedded in "ggplot" objects.
+Extensions to 'ggplot2' providing low-level debug tools: statistics, and geometries echoing their data argument, and functions to inspect theme objects. Layer manipulation: deletion, insertion, extraction and reordering of layers. Deletion of unused variables from the data object embedded in "ggplot" objects.
 }
 \details{
 The new facilities for cleanly defining new stats and geoms added to
